@@ -1,5 +1,5 @@
 {
-  "name": "@leam/renovation-core",
+  "name": "@leam-tech/renovation-core",
   "version": "1.0.0",
   "description": "A document handling library for the front end",
   "main": "./dist/index.js",
@@ -14,8 +14,8 @@
     "test-dir": "mocha -r ts-node/register",
     "document": "typedoc --out ./documentation ./src --ignoreCompilerErrors --mode file",
     "pack-dist": "npm run build && shx cp -rf package.json dist && cd dist && npm pack && shx mv *.tgz ../",
-    "publish-dist": "npm run build && shx cp -rf package.json dist && cd dist && npm publish",
-    "publish-edge-dist": "npm run build && shx cp -rf package.json dist && cd dist && npm publish --tag edge",
+    "publish-dist": "npm run build && shx cp -rf package.json dist && cd dist && npm publish --access public",
+    "publish-edge-dist": "npm run build && shx cp -rf package.json dist && cd dist && npm publish --tag edge --access public",
     "beautify": "prettier ./src/**/*.ts --write",
     "lint": "tslint --project ."
   },
