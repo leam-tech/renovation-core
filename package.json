@@ -56,7 +56,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "date-fns": "^1.29.0",
     "nock": "^10.0.6",
     "nock-record": "^0.3.3",
