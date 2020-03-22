@@ -1,0 +1,51 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.tags.get_tags",
+            "doctype": "Item",
+            "txt": "",
+            "cat_tags": "[]"
+        },
+        "status": 200,
+        "response": {
+            "message": [
+                "Another-one",
+                "Tag-2",
+                "Tag-3"
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:51:58 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "43",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=ca1cdce7742fb783ddf931ffc2716a4f18014f1f17a74ce742cc716b; Expires=Sun, 19-May-2019 11:51:57 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c74c379e0d3db-JIB"
+        ]
+    }
+]

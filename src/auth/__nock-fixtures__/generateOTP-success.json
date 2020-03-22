@@ -1,0 +1,44 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/api/method/renovation/auth.sms.generate",
+        "body": "mobile=00971502760387&newPIN=1",
+        "status": 200,
+        "response": {
+            "status": "success",
+            "mobile": "00971502760387",
+            "_server_messages": "[\"{\\\"message\\\": \\\"Please Update SMS Settings\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sun, 12 May 2019 13:23:00 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "127",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=104639f284461f33c16236e0f6e191a2565aebea382a0f6a038239d6; Expires=Wed, 15-May-2019 15:23:00 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d5cb4643f40d3db-JIB"
+        ]
+    }
+]

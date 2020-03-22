@@ -1,0 +1,48 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.client.set_value",
+            "doctype": "Item",
+            "name": "non_existing",
+            "fieldname": "item_name",
+            "value": "Item A TEST"
+        },
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"Item non_existing not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 21:05:56 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "115",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=652896099d50658b79baa559df5e553f0173293434ca645e72d1d67f; Expires=Sat, 18-May-2019 23:05:56 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7812a5ae97d3c3-JIB"
+        ]
+    }
+]

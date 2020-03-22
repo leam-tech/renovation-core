@@ -1,0 +1,63 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/?cmd=renovation_core.db.query.get_list_with_child&doctype=ToDo&fields=date+as+dueDate,status,assigned_by+as+assignedBy,assigned_by_full_name+as+assignedByFullName,owner+as+assignedTo,priority,description&filters=%7B%22reference_name%22:%22Item+A%22,%22reference_type%22:%22Item%22%7D&order_by=modified+desc&limit_start=0&limit_page_length=99",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "status": "Open",
+                    "description": "Assignment",
+                    "assignedBy": "test@test.com",
+                    "assignedByFullName": "Test User",
+                    "priority": "Medium",
+                    "assignedTo": "Administrator",
+                    "dueDate": "2019-06-19"
+                },
+                {
+                    "status": "Open",
+                    "description": "Assignment",
+                    "assignedBy": "test@test.com",
+                    "assignedByFullName": "Test User",
+                    "priority": "Medium",
+                    "assignedTo": "test@test.com",
+                    "dueDate": "2019-06-19"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:50 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:50 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e95092e094730fa-SIN"
+        ]
+    }
+]

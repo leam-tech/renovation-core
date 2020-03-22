@@ -1,0 +1,43 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/api/method/renovation/auth.sms.generate",
+        "body": "mobile=%2B971502760387&newPIN=0",
+        "status": 200,
+        "response": {
+            "status": "success",
+            "mobile": "+971502760387"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 19:03:57 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "45",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=d34256ac3c412ae4853c5fd70bd9cc9340d40d102bc7d34944277e49; Expires=Sun, 19-May-2019 21:03:57 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7f9d560c249bd9-AMS"
+        ]
+    }
+]

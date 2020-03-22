@@ -1,0 +1,45 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.utils.meta.get_bundle",
+            "doctype": "NON-EXISTING DOCTYPE"
+        },
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"DocType NON-EXISTING DOCTYPE not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 12:33:32 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "126",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=c84b144f9ae8538fcb0add116340dfeff3c2c109c5d4e0f15fae15cc; Expires=Thu, 16-May-2019 14:33:32 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d64a9513ec7d3db-JIB"
+        ]
+    }
+]

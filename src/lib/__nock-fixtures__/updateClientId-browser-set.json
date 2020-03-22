@@ -1,0 +1,42 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_bench.get_client_id"
+        },
+        "status": 200,
+        "response": {
+            "message": "test-erp"
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 20 May 2019 19:49:40 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "22",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "__cfduid=d1e672bad103b7879659d912c9a7e08331558381780; expires=Tue, 19-May-20 19:49:40 GMT; path=/; domain=.leam.ae; HttpOnly",
+            "Set-Cookie",
+            "renovation_origin=; Expires=Thu, 30-May-2019 21:49:40 GMT; Path=/",
+            "Set-Cookie",
+            "client_id=test-erp; Expires=Thu, 30-May-2019 21:49:40 GMT; Path=/",
+            "Set-Cookie",
+            "renovation_host=v11-test-erp.leam.ae; Expires=Thu, 30-May-2019 21:49:40 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4da0d5d08e1ad3d3-JIB"
+        ]
+    }
+]

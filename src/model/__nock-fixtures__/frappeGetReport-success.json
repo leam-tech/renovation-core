@@ -1,0 +1,85 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/api/method/renovation/report",
+        "body": {
+            "report": "Items Valuation Rate",
+            "filters": {},
+            "user": null
+        },
+        "status": 200,
+        "response": {
+            "status": null,
+            "execution_time": 0,
+            "chart": null,
+            "result": [
+                [
+                    "TEST ITEM",
+                    "TEST ITEM",
+                    null
+                ],
+                [
+                    "Item A",
+                    "Item A TEST",
+                    20
+                ]
+            ],
+            "add_total_row": 0,
+            "message": null,
+            "data_to_be_printed": null,
+            "columns": [
+                {
+                    "width": "150",
+                    "type": "Link",
+                    "options": "Item",
+                    "label": "Item Code"
+                },
+                {
+                    "width": "250",
+                    "type": "Data",
+                    "options": null,
+                    "label": "Item Name"
+                },
+                {
+                    "width": "100",
+                    "type": "Currency",
+                    "options": null,
+                    "label": "Valuation Rate"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 20:56:43 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=652896099d50658b79baa559df5e553f0173293434ca645e72d1d67f; Expires=Sat, 18-May-2019 22:56:43 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d780526fd32d3d3-JIB"
+        ]
+    }
+]

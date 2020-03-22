@@ -1,0 +1,46 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "doctype": "Sales Invoice",
+            "name": "New Sales Invoice 1",
+            "cmd": "frappe.client.cancel"
+        },
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"Sales Invoice New Sales Invoice 1 not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 08:53:04 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "131",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=b6ed40971c89ee6e0f9a08748d2e3845e7539184d8f91c549bb11ca7; Expires=Sun, 19-May-2019 10:53:03 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c1e7af97fd3db-JIB"
+        ]
+    }
+]

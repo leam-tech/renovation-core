@@ -1,0 +1,33 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/api/method/login",
+        "body": "usr=random-email&pwd=some%20random%20wrong%20password",
+        "status": 401,
+        "response": {
+            "message": "User disabled or missing",
+            "exc": "[\"Traceback (most recent call last):\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 58, in application\\n    init_request(request)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 120, in init_request\\n    frappe.local.http_request = frappe.auth.HTTPRequest()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/auth.py\\\", line 51, in __init__\\n    frappe.local.login_manager = LoginManager()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/auth.py\\\", line 105, in __init__\\n    if self.login()==False: return\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/auth.py\\\", line 126, in login\\n    self.authenticate(user=user, pwd=pwd)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/auth.py\\\", line 209, in authenticate\\n    self.check_if_enabled(user)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/auth.py\\\", line 220, in check_if_enabled\\n    self.fail('User disabled or missing', user=user)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/auth.py\\\", line 237, in fail\\n    raise frappe.AuthenticationError\\nAuthenticationError\\n\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 22 Jun 2019 07:22:08 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "1211",
+            "Connection",
+            "close",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4eac7827defad3cb-JIB"
+        ]
+    }
+]

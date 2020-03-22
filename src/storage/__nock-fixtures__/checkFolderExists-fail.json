@@ -1,0 +1,40 @@
+[
+  {
+    "scope": "http://v11-test-erp.leam.ae:80",
+    "method": "post",
+    "path": "/?cmd=renovation_core.db.query.get_list_with_child&doctype=File&fields=name&filters=%7B%22is_folder%22:1,%22name%22:%22%22%7D&order_by=modified+desc&limit_start=0&limit_page_length=99",
+    "body": "",
+    "status": 400,
+    "response": {},
+    "rawHeaders": [
+      "Date",
+      "Sat, 18 May 2019 10:34:38 GMT",
+      "Content-Type",
+      "application/json",
+      "Content-Length",
+      "14",
+      "Connection",
+      "close",
+      "Set-Cookie",
+      "user_image=; Path=/",
+      "Set-Cookie",
+      "user_id=test%40test.com; Path=/",
+      "Set-Cookie",
+      "system_user=yes; Path=/",
+      "Set-Cookie",
+      "full_name=Test%20User; Path=/",
+      "Set-Cookie",
+      "sid=f5d04d94a6b971dc1462c42bcf630370903468371970698008dfae5d; Expires=Tue, 21-May-2019 12:34:38 GMT; Path=/",
+      "Access-Control-Allow-Credentials",
+      "true",
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "4d8d2e077b77d3cf-JIB"
+    ]
+  }
+]

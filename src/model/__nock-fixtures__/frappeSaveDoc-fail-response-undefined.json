@@ -1,0 +1,52 @@
+[
+  {
+    "scope": "http://v11-test-erp.leam.ae:80",
+    "method": "post",
+    "path": "/api/method/renovation/doc/Item/",
+    "body": {
+      "doc": {
+        "doctype": "Item",
+        "name": "New Item 1",
+        "docstatus": 0,
+        "__islocal": 1,
+        "__unsaved": 1,
+        "item_code": "Item B",
+        "item_group": "Products"
+      }
+    },
+    "status": 200,
+    "response": null,
+    "rawHeaders": [
+      "Date",
+      "Wed, 15 May 2019 21:23:45 GMT",
+      "Content-Type",
+      "application/json",
+      "Transfer-Encoding",
+      "chunked",
+      "Connection",
+      "close",
+      "Vary",
+      "Accept-Encoding",
+      "Set-Cookie",
+      "user_image=; Path=/",
+      "Set-Cookie",
+      "user_id=test%40test.com; Path=/",
+      "Set-Cookie",
+      "system_user=yes; Path=/",
+      "Set-Cookie",
+      "full_name=Test%20User; Path=/",
+      "Set-Cookie",
+      "sid=1d9a11af6464f0659f0848cabbf1b31467712ccbb3955e217c93072c; Expires=Sat, 18-May-2019 23:23:43 GMT; Path=/",
+      "Access-Control-Allow-Credentials",
+      "true",
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+      "Server",
+      "cloudflare",
+      "CF-RAY",
+      "4d782cb52dd9d3df-JIB"
+    ]
+  }
+]

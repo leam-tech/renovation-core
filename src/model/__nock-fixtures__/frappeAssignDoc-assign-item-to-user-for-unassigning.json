@@ -1,0 +1,47 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.utils.assign_doc.unAssignDocFromUser",
+            "doctype": "Item",
+            "docname": "Item A",
+            "user": "test@test.com"
+        },
+        "status": 200,
+        "response": {
+            "message": "OK"
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:44 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "16",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:42 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e9508fff960d9a8-SIN"
+        ]
+    }
+]

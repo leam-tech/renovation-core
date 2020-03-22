@@ -1,0 +1,47 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.tags.get_tags",
+            "doctype": "Sales Invoice",
+            "txt": "",
+            "cat_tags": "[]"
+        },
+        "status": 200,
+        "response": {
+            "message": []
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:55:20 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "14",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=5e234da5fb4f7a7016c6b0ac0470a847a9b21f9608370a5d69fcf162; Expires=Sun, 19-May-2019 11:55:20 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c79b54813d3cb-JIB"
+        ]
+    }
+]

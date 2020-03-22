@@ -1,0 +1,295 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.form.assign_to.add_multiple",
+            "doctype": "Customer",
+            "name": "[\"Test Customer\",\"Customer A\"]",
+            "assign_to": "test@test.com",
+            "myself": 0,
+            "bulk_assign": 1,
+            "notify": 0
+        },
+        "status": 200,
+        "response": {
+            "docinfo": {
+                "communications": [],
+                "assignments": [
+                    {
+                        "owner": "test@test.com",
+                        "name": "5a6723d8d8",
+                        "description": "Assignment"
+                    }
+                ],
+                "rating": 0,
+                "attachments": [],
+                "versions": [
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 15:06:47.663713",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "f4e0c6353a"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:28.297376",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "2665b60893"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:28.177922",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "8252c04010"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:24.269879",
+                        "data": "{\n \"comment\": \"Test User assigned Administrator: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "529f86faa0"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:23.479736",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "8dd7f4cdc0"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:42:00.099587",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "8309e71133"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:42:00.099494",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "dde04a221a"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:41:55.213404",
+                        "data": "{\n \"comment\": \"Test User assigned Administrator: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "29b98a4c94"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:41:54.276855",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "845ec12c5a"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:22:44.230076",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "d10761eec2"
+                    }
+                ],
+                "shared": [],
+                "views": [],
+                "permissions": {
+                    "recursive_delete": 0,
+                    "read": 1,
+                    "create": 1,
+                    "share": 1,
+                    "submit": 0,
+                    "if_owner": {},
+                    "write": 1,
+                    "amend": 0,
+                    "report": 1,
+                    "export": 1,
+                    "set_user_permissions": 1,
+                    "print": 1,
+                    "import": 1,
+                    "email": 1,
+                    "cancel": 0,
+                    "delete": 1
+                },
+                "total_comments": 0
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:47 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:47 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e95091d1e2ed9e0-SIN"
+        ]
+    },
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.form.assign_to.add_multiple",
+            "doctype": "Customer",
+            "name": "[\"Test Customer\",\"Customer A\"]",
+            "assign_to": "Administrator",
+            "myself": 0,
+            "bulk_assign": 1,
+            "notify": 0
+        },
+        "status": 200,
+        "response": {
+            "docinfo": {
+                "communications": [],
+                "assignments": [
+                    {
+                        "owner": "Administrator",
+                        "name": "22f1b442a6",
+                        "description": "Assignment"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "name": "5a6723d8d8",
+                        "description": "Assignment"
+                    }
+                ],
+                "rating": 0,
+                "attachments": [],
+                "versions": [
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 15:06:48.470419",
+                        "data": "{\n \"comment\": \"Test User assigned Administrator: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "9fdbfcc222"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 15:06:47.663713",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "f4e0c6353a"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:28.297376",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "2665b60893"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:28.177922",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "8252c04010"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:24.269879",
+                        "data": "{\n \"comment\": \"Test User assigned Administrator: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "529f86faa0"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:57:23.479736",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "8dd7f4cdc0"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:42:00.099587",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "8309e71133"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:42:00.099494",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "dde04a221a"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:41:55.213404",
+                        "data": "{\n \"comment\": \"Test User assigned Administrator: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "29b98a4c94"
+                    },
+                    {
+                        "owner": "test@test.com",
+                        "creation": "2019-06-19 14:41:54.276855",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "845ec12c5a"
+                    }
+                ],
+                "shared": [],
+                "views": [],
+                "permissions": {
+                    "recursive_delete": 0,
+                    "read": 1,
+                    "create": 1,
+                    "share": 1,
+                    "submit": 0,
+                    "if_owner": {},
+                    "write": 1,
+                    "amend": 0,
+                    "report": 1,
+                    "export": 1,
+                    "set_user_permissions": 1,
+                    "print": 1,
+                    "import": 1,
+                    "email": 1,
+                    "cancel": 0,
+                    "delete": 1
+                },
+                "total_comments": 0
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:48 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:48 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e950921dfdb707e-SIN"
+        ]
+    }
+]

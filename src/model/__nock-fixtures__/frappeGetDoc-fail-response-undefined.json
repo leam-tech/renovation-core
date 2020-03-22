@@ -1,0 +1,42 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "get",
+        "path": "/api/method/renovation/doc/Item/NON-EXISTING",
+        "body": "",
+        "status": 200,
+        "response": null,
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 17:51:39 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=9a707bddaa0de2f963001b9874c75d5164c29cd5ab58a4ff3d4148dc; Expires=Sat, 18-May-2019 19:51:39 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d76f60c9a3ed3c3-JIB"
+        ]
+    }
+]

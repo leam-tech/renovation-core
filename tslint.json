@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "rules": {
+    "prettier": true,
+    "only-arrow-functions": false,
+    "object-literal-sort-keys": false,
+    "trailing-comma": false,
+    "no-console": false,
+    "quotemark": [true, "double"],
+    "interface-name": false,
+    "indent": [true, "spaces", 2],
+    "switch-final-break": true,
+    "no-duplicate-switch-case": true,
+    "switch-default": true,
+    "no-unused-expression": false,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "arrow-parens": false,
+    "max-line-length": [true, 140],
+    "promise-function-async": true,
+    "completed-docs": [true],
+    "variable-name": {
+      "options": ["allow-leading-underscore", "check-format"]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "get",
+        "path": "/api/method/renovation_core.utils.client.get_current_user_roles",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": [
+                "Guest"
+            ],
+            "session_expired": 1
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 23 May 2019 19:15:25 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "41",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=Guest; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Guest; Path=/",
+            "Set-Cookie",
+            "sid=Guest; Expires=Sun, 26-May-2019 21:15:25 GMT; Path=/",
+            "Set-Cookie",
+            "user_image=; Expires=Wed, 22-May-2019 21:15:25 GMT; Path=/",
+            "Set-Cookie",
+            "user_id=; Expires=Wed, 22-May-2019 21:15:25 GMT; Path=/",
+            "Set-Cookie",
+            "system_user=; Expires=Wed, 22-May-2019 21:15:25 GMT; Path=/",
+            "Set-Cookie",
+            "full_name=; Expires=Wed, 22-May-2019 21:15:25 GMT; Path=/",
+            "Set-Cookie",
+            "sid=; Expires=Wed, 22-May-2019 21:15:25 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4db95bc14ca3ce73-LHR"
+        ]
+    }
+]

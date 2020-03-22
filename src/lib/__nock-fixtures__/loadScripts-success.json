@@ -1,0 +1,47 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/?cmd=renovation_core.db.query.get_list_with_child&doctype=Renovation+Script&fields=name,code&filters=%7B%22target_dt%22:%22Item+Group%22%7D&order_by=modified+desc&limit_start=0&limit_page_length=99",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "code": "// ITEM _ TEST SCRIPT _ DO NOT DELETE\n(core) => {\n\ncore.disableSubmission = true;\n\n}",
+                    "name": "ITEM - TEST SCRIPT"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 19:58:38 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "142",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=9442f5bebd41f61d2034993288a31086bb39a17dc25252b458e4d2c9; Expires=Sun, 19-May-2019 21:58:38 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7fed70dcba9bf7-AMS"
+        ]
+    }
+]

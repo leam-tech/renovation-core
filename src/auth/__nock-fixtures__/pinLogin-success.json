@@ -1,0 +1,51 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.utils.auth.pin_login",
+            "user": "00971509999999@example.com",
+            "pin": "123456"
+        },
+        "status": 200,
+        "response": {
+            "customer": "Test Customer",
+            "home_page": "/me",
+            "user": "00971509999999@example.com",
+            "full_name": "Test Customer",
+            "message": "00971509999999@example.com",
+            "has_quick_login_pin": true
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 18 May 2019 17:12:02 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "176",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=00971509999999%40example.com; Path=/",
+            "Set-Cookie",
+            "system_user=no; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20Customer; Path=/",
+            "Set-Cookie",
+            "sid=d385a9f253ecfec407e85d9235e0d70b4d827d0f261cd112fcb13b4a; Expires=Tue, 21-May-2019 19:12:02 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d8f7423eabbd3db-JIB"
+        ]
+    }
+]

@@ -1,0 +1,46 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "get",
+        "path": "/api/method/frappe.auth.get_logged_user",
+        "body": "",
+        "status": 200,
+        "response": {
+            "home_page": "/desk",
+            "message": "Logged In",
+            "user": "test@test.com",
+            "full_name": "Test User",
+            "has_quick_login_pin": false
+        },
+        "rawHeaders": [
+            "Date",
+            "Sun, 12 May 2019 12:30:14 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "118",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=3df5ee57fb424d784030bb09cd30dd5a998bed6b7cf7f1b08831f8bc; Expires=Wed, 15-May-2019 14:30:14 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d5c670d7b92d3d3-JIB"
+        ]
+    }
+]

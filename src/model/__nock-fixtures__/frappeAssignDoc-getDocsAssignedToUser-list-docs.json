@@ -1,0 +1,97 @@
+[
+    {
+        "scope": "http://v11-test-erp.leam.ae:80",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.utils.assign_doc.getDocsAssignedToUser",
+            "user": "test@test.com",
+            "status": "Open"
+        },
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "status": "Open",
+                    "description": "Assignment",
+                    "assignedToFullName": "Test User",
+                    "assignedBy": "test@test.com",
+                    "assignedByFullName": "Test User",
+                    "priority": "Medium",
+                    "assignedTo": "test@test.com",
+                    "doctype": "Customer",
+                    "docname": "Customer A",
+                    "dueDate": "2019-06-19"
+                },
+                {
+                    "status": "Open",
+                    "description": "Assignment",
+                    "assignedToFullName": "Test User",
+                    "assignedBy": "test@test.com",
+                    "assignedByFullName": "Test User",
+                    "priority": "Medium",
+                    "assignedTo": "test@test.com",
+                    "doctype": "Customer",
+                    "docname": "Test Customer",
+                    "dueDate": "2019-06-19"
+                },
+                {
+                    "status": "Open",
+                    "description": "Assignment",
+                    "assignedToFullName": "Test User",
+                    "assignedBy": "test@test.com",
+                    "assignedByFullName": "Test User",
+                    "priority": "Medium",
+                    "assignedTo": "test@test.com",
+                    "doctype": "Item",
+                    "docname": "Item B",
+                    "dueDate": "2019-06-19"
+                },
+                {
+                    "status": "Open",
+                    "description": "Assignment",
+                    "assignedToFullName": "Test User",
+                    "assignedBy": "test@test.com",
+                    "assignedByFullName": "Test User",
+                    "priority": "Medium",
+                    "assignedTo": "test@test.com",
+                    "doctype": "Item",
+                    "docname": "Item A",
+                    "dueDate": "2019-06-19"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:49 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=test%40test.com; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:48 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e950927399ea8fe-SIN"
+        ]
+    }
+]
