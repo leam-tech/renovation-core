@@ -1,0 +1,57 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/api/method/renovation/doc/Item/",
+        "body": {
+            "doc": {
+                "doctype": "Item",
+                "name": "New Item 1",
+                "docstatus": 0,
+                "__islocal": 1,
+                "__unsaved": 1,
+                "item_code": "Item B",
+                "item_group": "Products"
+            }
+        },
+        "status": 200,
+        "response": {
+            "status": "failed",
+            "exception": "DuplicateEntryError(u'Item', u'Item B', IntegrityError(1062, u\"Duplicate entry 'Item B' for key 'PRIMARY'\"))",
+            "traceback": "Traceback (most recent call last):\n  File \"/home/frappe/frappe-bench/apps/renovation_core/renovation_core/utils/doc.py\", line 42, in post_doc\n    doc.insert()\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\", line 237, in insert\n    raise e\nDuplicateEntryError: (u'Item', u'Item B', IntegrityError(1062, u\"Duplicate entry 'Item B' for key 'PRIMARY'\"))\n",
+            "data": "failed"
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 21:26:03 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=0457e82ec53cd6346301017fbea1ba3d27f510fcf4afaf347c9255fa; Expires=Sat, 18-May-2019 23:26:03 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d78301c0e64d3c3-JIB"
+        ]
+    }
+]

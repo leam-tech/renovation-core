@@ -1,0 +1,46 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/?cmd=renovation_core.db.query.get_list_with_child&doctype=File&fields=name&filters=%7B%22is_folder%22:1,%22name%22:%22Home%2Ftest_folder%22%7D&order_by=modified+desc&limit_start=0&limit_page_length=99",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "name": "Home/test_folder"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 18 May 2019 10:31:07 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "41",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=6caa8631e91aa916109df0745fa8bdff585810bbce672c79d7631797; Expires=Tue, 21-May-2019 12:31:07 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d8d28deeb80d3db-JIB"
+        ]
+    }
+]

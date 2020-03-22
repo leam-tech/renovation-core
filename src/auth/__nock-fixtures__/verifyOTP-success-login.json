@@ -1,0 +1,49 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/api/method/renovation/auth.sms.verify",
+        "body": "mobile=<mobile_number>&pin=<OTP>&loginToUser=1",
+        "status": 200,
+        "response": {
+            "customer": "TEST REGISTER CUSTOMER",
+            "status": "verified",
+            "home_page": "/me",
+            "mobile": "<mobile_number>",
+            "user": "<mobile_number>@example.com",
+            "full_name": "TEST REGISTER CUSTOMER",
+            "message": "No App",
+            "has_quick_login_pin": false
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 18 May 2019 17:38:42 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "221",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<mobile_number>%40example.com; Path=/",
+            "Set-Cookie",
+            "system_user=no; Path=/",
+            "Set-Cookie",
+            "full_name=TEST%20REGISTER%20CUSTOMER; Path=/",
+            "Set-Cookie",
+            "sid=91b9cdb17e568747d843f0e323141e038c8d67c898513282d6448117; Expires=Tue, 21-May-2019 19:38:42 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d8f9b33ce2ed3cf-JIB"
+        ]
+    }
+]

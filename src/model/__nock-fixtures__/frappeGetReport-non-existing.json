@@ -1,0 +1,45 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/api/method/renovation/report",
+        "body": {
+            "report": "NON EXISTING REPORT",
+            "filters": {}
+        },
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"Report NON EXISTING REPORT not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sun, 23 Jun 2019 08:27:58 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "124",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e1f192780f466a0ce78891fe0d09b86d4859991e6a16464cc19f9f90; Expires=Wed, 26-Jun-2019 10:27:57 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4eb515f5cc25d3d3-JIB"
+        ]
+    }
+]

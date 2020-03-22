@@ -1,0 +1,47 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.tags.add_tag",
+            "dt": "Item",
+            "dn": "non_existing",
+            "tag": "tag-1"
+        },
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"Item non_existing not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:17:18 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "115",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=ca1b25fc934f0e663ff5380d0006796545fb2a05638aceabfee16769; Expires=Sun, 19-May-2019 11:17:18 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c41ffff16d3df-JIB"
+        ]
+    }
+]

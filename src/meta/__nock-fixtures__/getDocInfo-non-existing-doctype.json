@@ -1,0 +1,42 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/?cmd=frappe.desk.form.load.get_docinfo&doctype=NON+EXISTING&name=NON+EXISTING",
+        "body": "",
+        "status": 500,
+        "response": {
+            "exc": "[\"Traceback (most recent call last):\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 61, in application\\n    response = frappe.handler.handle()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 21, in handle\\n    data = execute_cmd(cmd)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 56, in execute_cmd\\n    return frappe.call(method, **frappe.form_dict)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 1027, in call\\n    return fn(*args, **newargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/desk/form/load.py\\\", line 90, in get_docinfo\\n    doc = frappe.get_doc(doctype, name)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 725, in get_doc\\n    doc = frappe.model.document.get_doc(*args, **kwargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 67, in get_doc\\n    controller = get_controller(doctype)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/base_document.py\\\", line 36, in get_controller\\n    module = load_doctype_module(doctype, module_name)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/modules/utils.py\\\", line 192, in load_doctype_module\\n    raise ImportError('Module import failed for {0} ({1})'.format(doctype, module_name + ' Error: ' + str(e)))\\nImportError: Module import failed for NON EXISTING (frappe.core.doctype.non_existing.non_existing Error: No module named non_existing.non_existing)\\n\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 21:06:18 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "1582",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=4181269c8d8497970664533db66c07f36a4c652e775b2c7aeb8ac93d; Expires=Thu, 16-May-2019 23:06:18 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d679871ba37d3d3-JIB"
+        ]
+    }
+]

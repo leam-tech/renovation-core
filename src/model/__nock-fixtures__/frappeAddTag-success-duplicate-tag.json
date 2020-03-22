@@ -1,0 +1,47 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.tags.add_tag",
+            "dt": "Item",
+            "dn": "Item A",
+            "tag": "tag-1"
+        },
+        "status": 200,
+        "response": {
+            "message": "tag-1"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:19:55 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "19",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=f3aad24f4347be4d8ee2c35c7cfc20b0c7dbdd175b6aa3fd24e43c91; Expires=Sun, 19-May-2019 11:19:55 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c45d46a30d3d3-JIB"
+        ]
+    }
+]

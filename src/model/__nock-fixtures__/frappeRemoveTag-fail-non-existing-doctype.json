@@ -1,0 +1,47 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.tags.remove_tag",
+            "dt": "non-existing",
+            "dn": "Item A",
+            "tag": "tag-1"
+        },
+        "status": 500,
+        "response": {
+            "exc": "[\"Traceback (most recent call last):\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 61, in application\\n    response = frappe.handler.handle()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 21, in handle\\n    data = execute_cmd(cmd)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 56, in execute_cmd\\n    return frappe.call(method, **frappe.form_dict)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 1027, in call\\n    return fn(*args, **newargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/desk/tags.py\\\", line 49, in remove_tag\\n    DocTags(dt).remove(dn, tag)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/desk/tags.py\\\", line 95, in remove\\n    self.update(dn, filter(lambda x:x.lower()!=tag.lower(), tl))\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/desk/tags.py\\\", line 111, in update\\n    (self.dt,'%s','%s'), (tags , dn))\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/database.py\\\", line 199, in sql\\n    self._cursor.execute(query, values)\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/cursors.py\\\", line 170, in execute\\n    result = self._query(query)\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/cursors.py\\\", line 328, in _query\\n    conn.query(q)\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/connections.py\\\", line 517, in query\\n    self._affected_rows = self._read_query_result(unbuffered=unbuffered)\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/connections.py\\\", line 732, in _read_query_result\\n    result.read()\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/connections.py\\\", line 1075, in read\\n    first_packet = self.connection._read_packet()\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/connections.py\\\", line 684, in _read_packet\\n    packet.check_error()\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/protocol.py\\\", line 220, in check_error\\n    err.raise_mysql_exception(self._data)\\n  File \\\"/home/frappe/frappe-bench/env/local/lib/python2.7/site-packages/pymysql/err.py\\\", line 109, in raise_mysql_exception\\n    raise errorclass(errno, errval)\\nProgrammingError: (1146, u\\\"Table 'eac0efe0e5198d93.tabnon-existing' doesn't exist\\\")\\n\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:27:47 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "2575",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=a07e9c023296a2c6d12adec564955336b84cce8362674bb5e6129c6a; Expires=Sun, 19-May-2019 11:27:47 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c515669aed3cb-JIB"
+        ]
+    }
+]

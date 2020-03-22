@@ -1,0 +1,48 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/api/method/renovation/doc/Item/NON-EXISTING",
+        "body": "",
+        "status": 200,
+        "response": {
+            "status": "failed",
+            "exception": "DoesNotExistError(u'Item NON-EXISTING not found',)",
+            "traceback": "Traceback (most recent call last):\n  File \"/home/frappe/frappe-bench/apps/renovation_core/renovation_core/utils/doc.py\", line 25, in get_doc\n    doc = frappe.get_doc(doctype, name)\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\", line 725, in get_doc\n    doc = frappe.model.document.get_doc(*args, **kwargs)\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\", line 69, in get_doc\n    return controller(*args, **kwargs)\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/website/website_generator.py\", line 16, in __init__\n    super(WebsiteGenerator, self).__init__(*args, **kwargs)\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\", line 104, in __init__\n    self.load_from_db()\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\", line 141, in load_from_db\n    frappe.throw(_(\"{0} {1} not found\").format(_(self.doctype), self.name), frappe.DoesNotExistError)\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\", line 352, in throw\n    msgprint(msg, raise_exception=exc, title=title, indicator='red')\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\", line 338, in msgprint\n    _raise_exception()\n  File \"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\", line 311, in _raise_exception\n    raise raise_exception(msg)\nDoesNotExistError: Item NON-EXISTING not found\n",
+            "data": "failed",
+            "_server_messages": "[\"{\\\"message\\\": \\\"Item NON-EXISTING not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 17:51:39 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=9a707bddaa0de2f963001b9874c75d5164c29cd5ab58a4ff3d4148dc; Expires=Sat, 18-May-2019 19:51:39 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d76f60c9a3ed3c3-JIB"
+        ]
+    }
+]

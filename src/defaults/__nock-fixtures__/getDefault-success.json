@@ -1,0 +1,42 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/api/method/renovation_core.utils.client.get_default",
+        "body": "key=MyNumber&parent=__default",
+        "status": 200,
+        "response": {
+            "message": "23"
+        },
+        "rawHeaders": [
+            "Date",
+            "Fri, 28 Jun 2019 17:13:18 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "16",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=d79f507c0fc0606b0bfba68542127eab869314c2787c3b1d7556fa60; Expires=Mon, 01-Jul-2019 19:13:18 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ee14a5ede5da934-SIN"
+        ]
+    }
+]

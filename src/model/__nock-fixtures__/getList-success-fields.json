@@ -1,0 +1,109 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/api/method/frappe.auth.get_logged_user",
+        "body": "",
+        "status": 200,
+        "response": {
+            "home_page": "/desk",
+            "message": "Logged In",
+            "user": "<username>",
+            "full_name": "Test User",
+            "has_quick_login_pin": false
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 19:10:35 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "118",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=eb112837206763d6e7e86d45a4f5ad912b54febe8a2eaeefcfa6c5ff; Expires=Sat, 18-May-2019 21:10:35 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7769aea91ed3d3-JIB"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/?cmd=renovation_core.db.query.get_list_with_child&doctype=Sales+Invoice&fields=name,grand_total&order_by=modified+desc&limit_start=0&limit_page_length=99",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "grand_total": 800,
+                    "name": "ACC-SINV-2019-00005"
+                },
+                {
+                    "grand_total": 500,
+                    "name": "ACC-SINV-2019-00004"
+                },
+                {
+                    "grand_total": 20,
+                    "name": "ACC-SINV-2019-00003"
+                },
+                {
+                    "grand_total": 40,
+                    "name": "ACC-SINV-2019-00002"
+                },
+                {
+                    "grand_total": 50,
+                    "name": "ACC-SINV-2019-00001"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 19:10:35 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=2f394aed2eeb37cd9f916d0503713dc8b2253141cfb13fb690088596; Expires=Sat, 18-May-2019 21:10:35 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7769aeb939d3d3-JIB"
+        ]
+    }
+]

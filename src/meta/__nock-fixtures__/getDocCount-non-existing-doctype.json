@@ -1,0 +1,42 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/api/method/frappe.desk.reportview.get?doctype=NON+EXISTING&fields=[%22count(%60tabNON+EXISTING%60.name)+as+total_count%22]&cmd=frappe.desk.reportview.get",
+        "body": "",
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"DocType NON EXISTING not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 20:45:43 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "118",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e2b031e64ec8d55a2f7ea7332a451acd7f187c364252ad200b4929e2; Expires=Thu, 16-May-2019 22:45:43 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d677a47c8b8d3d3-JIB"
+        ]
+    }
+]

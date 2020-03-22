@@ -1,0 +1,40 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": "cmd=frappe.core.doctype.file.file.create_new_folder&file_name=test_folder&folder=Home%2Ftest_folder",
+        "status": 200,
+        "response": {},
+        "rawHeaders": [
+            "Date",
+            "Sat, 18 May 2019 10:28:06 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "2",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=4d02bb68478ef9b305875b89df9540622e2d08c43b88dec1089c4f50; Expires=Tue, 21-May-2019 12:28:06 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d8d2474fefed3d3-JIB"
+        ]
+    }
+]

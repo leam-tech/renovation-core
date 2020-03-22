@@ -1,0 +1,40 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/api/method/frappe.client.set_default",
+        "body": "key=objectData&value=%7B%22name%22%3A%22test%22%7D",
+        "status": 200,
+        "response": {},
+        "rawHeaders": [
+            "Date",
+            "Thu, 20 Jun 2019 13:38:14 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "2",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=ed1a566c1f17089fac242afdd9a505c7aee214ec2518ac59333a0fde; Expires=Sun, 23-Jun-2019 15:38:14 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e9e2458db637e85-JIB"
+        ]
+    }
+]

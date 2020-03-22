@@ -1,0 +1,43 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/api/method/renovation/auth.sms.verify",
+        "body": "mobile=<mobile_number>&pin=<OTP>&loginToUser=1",
+        "status": 200,
+        "response": {
+            "status": "no_linked_user",
+            "mobile": "<mobile_number>"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 18 May 2019 17:32:22 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "52",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=136903a0f636c71f662a5291e7d362a7781c42cb7a5d0cfcb6a48bb5; Expires=Tue, 21-May-2019 19:32:22 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d8f91f1dda8d3c3-JIB"
+        ]
+    }
+]

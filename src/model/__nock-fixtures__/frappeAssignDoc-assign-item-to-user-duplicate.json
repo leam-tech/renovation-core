@@ -1,0 +1,54 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.form.assign_to.add",
+            "doctype": "Item",
+            "name": "A",
+            "description": "Test Assign",
+            "assign_to": "<username>",
+            "myself": 0,
+            "priority": "High",
+            "date": "2050-12-31",
+            "bulk_assign": 0,
+            "notify": 0
+        },
+        "status": 417,
+        "response": {
+            "exc": "[\"Traceback (most recent call last):\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 61, in application\\n    response = frappe.handler.handle()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 21, in handle\\n    data = execute_cmd(cmd)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 56, in execute_cmd\\n    return frappe.call(method, **frappe.form_dict)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 1027, in call\\n    return fn(*args, **newargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/desk/form/assign_to.py\\\", line 64, in add\\n    }).insert(ignore_permissions=True)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 216, in insert\\n    self._validate_links()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 741, in _validate_links\\n    frappe.LinkValidationError)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 352, in throw\\n    msgprint(msg, raise_exception=exc, title=title, indicator='red')\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 338, in msgprint\\n    _raise_exception()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 311, in _raise_exception\\n    raise raise_exception(msg)\\nLinkValidationError: Could not find Reference Name: A\\n\"]",
+            "_server_messages": "[\"{\\\"message\\\": \\\"Could not find Reference Name: A\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:42 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "1607",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:42 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e9508fb39d8d9fc-SIN"
+        ]
+    }
+]

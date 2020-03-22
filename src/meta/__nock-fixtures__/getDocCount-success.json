@@ -1,0 +1,51 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/api/method/frappe.desk.reportview.get?doctype=Item&fields=[%22count(%60tabItem%60.name)+as+total_count%22]&cmd=frappe.desk.reportview.get",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": {
+                "keys": [
+                    "total_count"
+                ],
+                "values": [
+                    [
+                        2
+                    ]
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 20:42:39 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "51",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=08060f6f7bdc4271c454e22bc73126a372a38185eb754e4c3b14a990; Expires=Thu, 16-May-2019 22:42:39 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d6775cc7c6fd3d7-JIB"
+        ]
+    }
+]

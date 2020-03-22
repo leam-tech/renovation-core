@@ -1,0 +1,51 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/api/method/frappe.desk.reportview.get?doctype=Item&fields=[%22count(%60tabItem%60.name)+as+total_count%22]&filters=%7B%22name%22:[%22%3D%22,%22Item+A%22]%7D&cmd=frappe.desk.reportview.get",
+        "body": "",
+        "status": 200,
+        "response": {
+            "message": {
+                "keys": [
+                    "total_count"
+                ],
+                "values": [
+                    [
+                        1
+                    ]
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 20:44:20 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "51",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=cf31ade19214ef5de1300771d04125cb908fa5d27decb3631f1f83ee; Expires=Thu, 16-May-2019 22:44:20 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d6778428a67d3df-JIB"
+        ]
+    }
+]

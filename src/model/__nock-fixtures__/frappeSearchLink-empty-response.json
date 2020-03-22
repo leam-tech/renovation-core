@@ -1,0 +1,40 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/?cmd=frappe.desk.search.search_link&txt=non-existing&doctype=Item",
+        "body": "",
+        "status": 200,
+        "response": null,
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:04:05 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "14",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=cc4b07b3ca77b25a17fe90046b6ce59d920b27e848299f88935b2209; Expires=Sun, 19-May-2019 11:04:04 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c2e9e9c61d3db-JIB"
+        ]
+    }
+]

@@ -1,0 +1,52 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "doc": {
+                "doctype": "Sales Invoice",
+                "name": "New Sales Invoice 1",
+                "docstatus": 0,
+                "__islocal": 1,
+                "__unsaved": 1
+            },
+            "cmd": "frappe.client.submit"
+        },
+        "status": 417,
+        "response": {
+            "exc": "[\"Traceback (most recent call last):\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 61, in application\\n    response = frappe.handler.handle()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 21, in handle\\n    data = execute_cmd(cmd)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 56, in execute_cmd\\n    return frappe.call(method, **frappe.form_dict)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 1027, in call\\n    return fn(*args, **newargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/client.py\\\", line 216, in submit\\n    doc.submit()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 848, in submit\\n    self._submit()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 837, in _submit\\n    self.save()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 260, in save\\n    return self._save(*args, **kwargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 283, in _save\\n    self.insert()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 222, in insert\\n    self.run_before_save_methods()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 879, in run_before_save_methods\\n    self.run_method(\\\"validate\\\")\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 772, in run_method\\n    out = Document.hook(fn)(self, *args, **kwargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 1048, in composer\\n    return composed(self, method, *args, **kwargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 1031, in runner\\n    add_to_return_value(self, fn(self, *args, **kwargs))\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 766, in <lambda>\\n    fn = lambda self, *args, **kwargs: getattr(self, method)(*args, **kwargs)\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/accounts/doctype/sales_invoice/sales_invoice.py\\\", line 74, in validate\\n    super(SalesInvoice, self).validate()\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/controllers/selling_controller.py\\\", line 39, in validate\\n    super(SellingController, self).validate()\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/controllers/stock_controller.py\\\", line 21, in validate\\n    super(StockController, self).validate()\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/controllers/accounts_controller.py\\\", line 78, in validate\\n    self.validate_all_documents_schedule()\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/controllers/accounts_controller.py\\\", line 114, in validate_all_documents_schedule\\n    self.validate_invoice_documents_schedule()\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/controllers/accounts_controller.py\\\", line 104, in validate_invoice_documents_schedule\\n    self.validate_due_date()\\n  File \\\"/home/frappe/frappe-bench/apps/erpnext/erpnext/controllers/accounts_controller.py\\\", line 181, in validate_due_date\\n    frappe.throw(_(\\\"Due Date is mandatory\\\"))\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 352, in throw\\n    msgprint(msg, raise_exception=exc, title=title, indicator='red')\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 338, in msgprint\\n    _raise_exception()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 311, in _raise_exception\\n    raise raise_exception(msg)\\nValidationError: Due Date is mandatory\\n\"]",
+            "_server_messages": "[\"{\\\"message\\\": \\\"Due Date is mandatory\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 08:05:10 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "3966",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=235440125311e58bfcccd3128247b4b2dc82e13ff88a878688608c55; Expires=Sun, 19-May-2019 10:05:09 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7bd84e7a7ed3d7-JIB"
+        ]
+    }
+]

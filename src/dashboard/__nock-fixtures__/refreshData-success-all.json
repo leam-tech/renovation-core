@@ -1,0 +1,559 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_all_dashboard_meta"
+        },
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "subtitle": "A Pie Chart Example",
+                    "name": "Invoice Status",
+                    "title": "Invoice Status",
+                    "cmd": null,
+                    "enabled": 1,
+                    "is_standard": "Yes",
+                    "params": [],
+                    "type": "pie",
+                    "exc_type": "cmd"
+                },
+                {
+                    "subtitle": "",
+                    "name": "Lead by Source",
+                    "title": "Lead by Source",
+                    "cmd": null,
+                    "enabled": 1,
+                    "is_standard": "Yes",
+                    "params": [],
+                    "type": "pie",
+                    "exc_type": "cmd"
+                },
+                {
+                    "subtitle": "Change Example",
+                    "name": "Sales Balance",
+                    "title": "Sales Balance",
+                    "cmd": null,
+                    "enabled": 1,
+                    "is_standard": "Yes",
+                    "params": [],
+                    "type": "change",
+                    "exc_type": "cmd"
+                },
+                {
+                    "subtitle": "Sample of Percent Type",
+                    "name": "Sales Return",
+                    "title": "Sales Return",
+                    "cmd": null,
+                    "enabled": 1,
+                    "is_standard": "Yes",
+                    "params": [],
+                    "type": "percent",
+                    "exc_type": "cmd"
+                },
+                {
+                    "subtitle": "Your sales vs expense details in the given period",
+                    "name": "Sales vs Expenses",
+                    "title": "Sales vs Expenses",
+                    "cmd": null,
+                    "enabled": 1,
+                    "is_standard": "Yes",
+                    "params": [
+                        {
+                            "default_value": "",
+                            "param": "from_date",
+                            "label": "From Date",
+                            "reqd": 0,
+                            "type": "Date",
+                            "options": null
+                        },
+                        {
+                            "default_value": "",
+                            "param": "to_date",
+                            "label": "To Date",
+                            "reqd": 0,
+                            "type": "Date",
+                            "options": null
+                        }
+                    ],
+                    "type": "pie",
+                    "exc_type": "cmd"
+                },
+                {
+                    "subtitle": "Total Sales Report",
+                    "name": "Sales Statics",
+                    "title": "Sales Statics",
+                    "cmd": null,
+                    "enabled": 1,
+                    "is_standard": "Yes",
+                    "params": [],
+                    "type": "bar",
+                    "exc_type": "cmd"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:19 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:19 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c2f7814d5dc-BOM"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_data",
+            "dashboard": "Sales Return",
+            "params": {}
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "value": 0
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "25",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c3c1855d5b3-BOM"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_data",
+            "dashboard": "Invoice Status",
+            "params": {}
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "data": [
+                    {
+                        "color": "red",
+                        "value": 8,
+                        "label": "Overdue"
+                    },
+                    {
+                        "color": "green",
+                        "value": 1,
+                        "label": "Paid"
+                    },
+                    {
+                        "color": "orange",
+                        "value": 1,
+                        "label": "Unpaid"
+                    }
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "155",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c3c1a13d5e4-BOM"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_data",
+            "dashboard": "Sales Statics",
+            "params": {}
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "grouped": true,
+                "ylabel": "Amount",
+                "xlabel": "Month",
+                "group_labels": [
+                    "Delivery Note",
+                    "Sales Order",
+                    "Sales Invoice"
+                ],
+                "data": [
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Jan 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Feb 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Mar 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Apr 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            1380
+                        ],
+                        "label": "May 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            160
+                        ],
+                        "label": "Jun 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            21
+                        ],
+                        "label": "Jul 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Aug 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Sep 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Oct 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Nov 2019"
+                    },
+                    {
+                        "values": [
+                            0,
+                            0,
+                            0
+                        ],
+                        "label": "Dec 2019"
+                    }
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c3c1e26d5a7-BOM"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_data",
+            "dashboard": "Sales vs Expenses",
+            "params": {
+                "from_date": "",
+                "to_date": ""
+            }
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "data": [
+                    {
+                        "value": 21,
+                        "label": "Sales"
+                    },
+                    {
+                        "value": 0,
+                        "label": "Expenses"
+                    }
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "84",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c3c190bd5c8-BOM"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_data",
+            "dashboard": "Sales Balance",
+            "params": {}
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "positive": true,
+                "now": {
+                    "value": 160,
+                    "label": "Jul"
+                },
+                "change": 100,
+                "before": {
+                    "value": 0,
+                    "label": "Jun"
+                }
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "113",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c3c1ed1d5f0-BOM"
+        ]
+    },
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_data",
+            "dashboard": "Lead by Source",
+            "params": {}
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "data": [
+                    {
+                        "value": 2,
+                        "label": "Supplier Reference"
+                    },
+                    {
+                        "value": 1,
+                        "label": "Walk In"
+                    }
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "93",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c3c190ad5c8-BOM"
+        ]
+    }
+]

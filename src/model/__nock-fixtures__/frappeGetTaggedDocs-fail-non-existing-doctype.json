@@ -1,0 +1,46 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.tags.get_tagged_docs",
+            "doctype": "non-existing",
+            "tag": "tag-2"
+        },
+        "status": 404,
+        "response": {
+            "_server_messages": "[\"{\\\"message\\\": \\\"DocType non-existing not found\\\", \\\"indicator\\\": \\\"red\\\"}\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Thu, 16 May 2019 09:43:35 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "118",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=41f1e58d998355fba8edf75ed1bf6e26ba1e987f2d78c320537ead12; Expires=Sun, 19-May-2019 11:43:35 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d7c687e9adcd3df-JIB"
+        ]
+    }
+]

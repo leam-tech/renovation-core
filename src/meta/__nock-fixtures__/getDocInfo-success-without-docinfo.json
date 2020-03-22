@@ -1,0 +1,43 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/?cmd=frappe.desk.form.load.get_docinfo&doctype=Item&name=Item+A",
+        "body": "",
+        "status": 200,
+        "response": {
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 21:04:32 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=4181269c8d8497970664533db66c07f36a4c652e775b2c7aeb8ac93d; Expires=Thu, 16-May-2019 23:04:32 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d6795d94d4bd3d7-JIB"
+        ]
+    }
+]

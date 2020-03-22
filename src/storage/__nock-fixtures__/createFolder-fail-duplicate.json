@@ -1,0 +1,42 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": "cmd=frappe.core.doctype.file.file.create_new_folder&file_name=test_folder&folder=Home",
+        "status": 409,
+        "response": {
+            "exc": "[\"Traceback (most recent call last):\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/app.py\\\", line 61, in application\\n    response = frappe.handler.handle()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 21, in handle\\n    data = execute_cmd(cmd)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/handler.py\\\", line 56, in execute_cmd\\n    return frappe.call(method, **frappe.form_dict)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/__init__.py\\\", line 1027, in call\\n    return fn(*args, **newargs)\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/core/doctype/file/file.py\\\", line 333, in create_new_folder\\n    file.insert()\\n  File \\\"/home/frappe/frappe-bench/apps/frappe/frappe/model/document.py\\\", line 237, in insert\\n    raise e\\nDuplicateEntryError: (u'File', u'Home/test_folder', IntegrityError(1062, u\\\"Duplicate entry 'Home/test_folder' for key 'PRIMARY'\\\"))\\n\"]"
+        },
+        "rawHeaders": [
+            "Date",
+            "Sat, 18 May 2019 10:21:38 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "984",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=60f181044fdfdcee22b8264344d8fb5dc5ec6d1441fefea5ba862244; Expires=Tue, 21-May-2019 12:21:37 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d8d1af73d5cd3df-JIB"
+        ]
+    }
+]

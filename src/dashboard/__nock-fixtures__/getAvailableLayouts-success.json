@@ -1,0 +1,53 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_user_dashboard_layouts"
+        },
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "name": "All Dashboards",
+                    "title": "All Dashboards"
+                },
+                {
+                    "name": "Sales Dashboard",
+                    "title": "Sales Dashboard"
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:22 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "117",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:22 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c43ca60d5d0-BOM"
+        ]
+    }
+]

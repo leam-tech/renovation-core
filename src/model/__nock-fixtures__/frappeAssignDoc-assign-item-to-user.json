@@ -1,0 +1,558 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "frappe.desk.form.assign_to.add",
+            "doctype": "Item",
+            "name": "Item A",
+            "description": "Test Assign",
+            "assign_to": "<username>",
+            "myself": 0,
+            "priority": "High",
+            "date": "2050-12-31",
+            "bulk_assign": 0,
+            "notify": 0
+        },
+        "status": 200,
+        "response": {
+            "message": [
+                {
+                    "owner": "<username>",
+                    "description": "Test Assign"
+                }
+            ],
+            "docinfo": {
+                "communications": [],
+                "assignments": [
+                    {
+                        "owner": "<username>",
+                        "name": "207a32a756",
+                        "description": "Test Assign"
+                    }
+                ],
+                "rating": 0,
+                "attachments": [
+                    {
+                        "file_name": "sample 2019-06-19 14:59:19.txt",
+                        "file_url": "/files/sample 2019-06-19 14:59:19.txt",
+                        "name": "e5f10eea5a",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-19 14:59:18.txt",
+                        "file_url": "/files/sample 2019-06-19 14:59:18.txt",
+                        "name": "fa928b218d",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-19 12:07:03.txt",
+                        "file_url": "/files/sample 2019-06-19 12:07:03.txt",
+                        "name": "25efd1a70f",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-19 12:07:02.txt",
+                        "file_url": "/files/sample 2019-06-19 12:07:02.txt",
+                        "name": "1b09f07adf",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-19 12:05:43.txt",
+                        "file_url": "/files/sample 2019-06-19 12:05:43.txt",
+                        "name": "f0fc52a87f",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-19 12:05:42.txt",
+                        "file_url": "/files/sample 2019-06-19 12:05:42.txt",
+                        "name": "dc69db2ae7",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 15:10:16.txt",
+                        "file_url": "/files/sample 2019-06-03 15:10:16.txt",
+                        "name": "0d2652baf0",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:45:07.txt",
+                        "file_url": "/files/sample 2019-05-30 09:45:07.txt",
+                        "name": "12d9408b96",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:42:09.txt",
+                        "file_url": "/files/sample 2019-05-29 14:42:09.txt",
+                        "name": "138ffca3b6",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 23:52:20.txt",
+                        "file_url": "/files/sample 2019-06-03 23:52:20.txt",
+                        "name": "1e5f9b2fde",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:48:10.txt",
+                        "file_url": "/files/sample 2019-05-29 14:48:10.txt",
+                        "name": "203e84e0b3",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:49:07.txt",
+                        "file_url": "/files/sample 2019-05-30 09:49:07.txt",
+                        "name": "245f7ccc44",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 22:21:31.txt",
+                        "file_url": "/files/sample 2019-06-03 22:21:31.txt",
+                        "name": "2a7fd90d0f",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 09:50:03.txt",
+                        "file_url": "/files/sample 2019-06-03 09:50:03.txt",
+                        "name": "2c043d1bc8",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 23:53:18.txt",
+                        "file_url": "/files/sample 2019-06-03 23:53:18.txt",
+                        "name": "2c72865919",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 09:50:02.txt",
+                        "file_url": "/files/sample 2019-06-03 09:50:02.txt",
+                        "name": "30d42dd38c",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 09:51:47.txt",
+                        "file_url": "/files/sample 2019-06-03 09:51:47.txt",
+                        "name": "37882f6a89",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:48:11.txt",
+                        "file_url": "/files/sample 2019-05-29 14:48:11.txt",
+                        "name": "5550a065b1",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 23:52:21.txt",
+                        "file_url": "/files/sample 2019-06-03 23:52:21.txt",
+                        "name": "575946e3d0",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:40:13.txt",
+                        "file_url": "/files/sample 2019-05-29 14:40:13.txt",
+                        "name": "583d48d2f0",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:43:04.txt",
+                        "file_url": "/files/sample 2019-05-29 14:43:04.txt",
+                        "name": "692fdd76f4",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 23:53:16.txt",
+                        "file_url": "/files/sample 2019-06-03 23:53:16.txt",
+                        "name": "6d416b8391",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:36:50.txt",
+                        "file_url": "/files/sample 2019-05-29 14:36:50.txt",
+                        "name": "71f6e1ba15",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:03:20.txt",
+                        "file_url": "/files/sample 2019-06-03 10:03:20.txt",
+                        "name": "77218899da",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:54:51.txt",
+                        "file_url": "/files/sample 2019-05-29 14:54:51.txt",
+                        "name": "777a64236b",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:14:09.txt",
+                        "file_url": "/files/sample 2019-06-03 10:14:09.txt",
+                        "name": "78413a7e07",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:54:52.txt",
+                        "file_url": "/files/sample 2019-05-29 14:54:52.txt",
+                        "name": "7b77376b45",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:35:11.txt",
+                        "file_url": "/files/sample 2019-05-29 14:35:11.txt",
+                        "name": "7c2821471c",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 15:15:10.txt",
+                        "file_url": "/files/sample 2019-05-29 15:15:10.txt",
+                        "name": "824efa7b97",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 13:51:03.txt",
+                        "file_url": "/files/sample 2019-06-03 13:51:03.txt",
+                        "name": "8b0ec72d1e",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:08:51.txt",
+                        "file_url": "/files/sample 2019-06-03 10:08:51.txt",
+                        "name": "937b3206a9",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:14:08.txt",
+                        "file_url": "/files/sample 2019-06-03 10:14:08.txt",
+                        "name": "97d277964e",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-01 23:13:15.txt",
+                        "file_url": "/files/sample 2019-06-01 23:13:15.txt",
+                        "name": "9e021e2157",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-01 23:12:17.txt",
+                        "file_url": "/files/sample 2019-06-01 23:12:17.txt",
+                        "name": "9e2081ed94",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 09:57:21.txt",
+                        "file_url": "/files/sample 2019-06-03 09:57:21.txt",
+                        "name": "a24edeeab3",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:03:21.txt",
+                        "file_url": "/files/sample 2019-06-03 10:03:21.txt",
+                        "name": "a78b7a110a",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:45:08.txt",
+                        "file_url": "/files/sample 2019-05-30 09:45:08.txt",
+                        "name": "a85b65c0b8",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 09:57:20.txt",
+                        "file_url": "/files/sample 2019-06-03 09:57:20.txt",
+                        "name": "aa4d6f2334",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 11:18:48.txt",
+                        "file_url": "/files/sample 2019-05-30 11:18:48.txt",
+                        "name": "ac1cb3b6e0",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:41:13.txt",
+                        "file_url": "/files/sample 2019-05-29 14:41:13.txt",
+                        "name": "ac69654644",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:17:32.txt",
+                        "file_url": "/files/sample 2019-06-03 10:17:32.txt",
+                        "name": "aef94272d0",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:40:12.txt",
+                        "file_url": "/files/sample 2019-05-29 14:40:12.txt",
+                        "name": "b928f18bb7",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 22:21:30.txt",
+                        "file_url": "/files/sample 2019-06-03 22:21:30.txt",
+                        "name": "bdb0ece098",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:17:33.txt",
+                        "file_url": "/files/sample 2019-06-03 10:17:33.txt",
+                        "name": "becc816350",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:43:03.txt",
+                        "file_url": "/files/sample 2019-05-29 14:43:03.txt",
+                        "name": "c3af8eb689",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 11:18:49.txt",
+                        "file_url": "/files/sample 2019-05-30 11:18:49.txt",
+                        "name": "c43d4049e2",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:41:12.txt",
+                        "file_url": "/files/sample 2019-05-29 14:41:12.txt",
+                        "name": "d0bbc40500",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-01 23:13:14.txt",
+                        "file_url": "/files/sample 2019-06-01 23:13:14.txt",
+                        "name": "d539ac1ec8",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-29 14:42:08.txt",
+                        "file_url": "/files/sample 2019-05-29 14:42:08.txt",
+                        "name": "d94203b32d",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:46:31.txt",
+                        "file_url": "/files/sample 2019-05-30 09:46:31.txt",
+                        "name": "dd147958cb",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:49:07.txt",
+                        "file_url": "/files/sample 2019-05-30 09:49:07.txt",
+                        "name": "e527d28efd",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:49:57.txt",
+                        "file_url": "/files/sample 2019-05-30 09:49:57.txt",
+                        "name": "e964a06599",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:46:32.txt",
+                        "file_url": "/files/sample 2019-05-30 09:46:32.txt",
+                        "name": "f60319eb6b",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 13:51:04.txt",
+                        "file_url": "/files/sample 2019-06-03 13:51:04.txt",
+                        "name": "f8953a7f90",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 10:08:53.txt",
+                        "file_url": "/files/sample 2019-06-03 10:08:53.txt",
+                        "name": "f980361e8c",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-05-30 09:49:57.txt",
+                        "file_url": "/files/sample 2019-05-30 09:49:57.txt",
+                        "name": "facfeffdab",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 15:10:15.txt",
+                        "file_url": "/files/sample 2019-06-03 15:10:15.txt",
+                        "name": "fc6ee9dfab",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-01 23:12:18.txt",
+                        "file_url": "/files/sample 2019-06-01 23:12:18.txt",
+                        "name": "fedbc27a12",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "sample 2019-06-03 09:51:48.txt",
+                        "file_url": "/files/sample 2019-06-03 09:51:48.txt",
+                        "name": "ffdbb2b21e",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "samplef18a44.txt",
+                        "file_url": "/files/samplef18a44.txt",
+                        "name": "c32f4cb04f",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "vintage_bicycle_26_wallpaper_hd1 2019-05-16 02:17:53.jpg",
+                        "file_url": "/files/vintage_bicycle_26_wallpaper_hd1 2019-05-16 02:17:53.jpg",
+                        "name": "f1fc37d090",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "morning-nature-red-leaves-wallpaper 2019-05-16 02:17:40.jpeg",
+                        "file_url": "/files/morning-nature-red-leaves-wallpaper 2019-05-16 02:17:40.jpeg",
+                        "name": "99cb87f225",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "jxUVIOj 2019-05-16 02:17:24.jpg",
+                        "file_url": "/files/jxUVIOj 2019-05-16 02:17:24.jpg",
+                        "name": "a68930fed2",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "carpixel.net-2015-nissan-gt-r-nismo-us-14649-hd 2019-05-16 02:17:10.jpg",
+                        "file_url": "/files/carpixel.net-2015-nissan-gt-r-nismo-us-14649-hd 2019-05-16 02:17:10.jpg",
+                        "name": "d72db6daa7",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "black-cat-blue-eyes-wallpapers-hd 2019-05-16 02:16:59.jpg",
+                        "file_url": "/files/black-cat-blue-eyes-wallpapers-hd 2019-05-16 02:16:59.jpg",
+                        "name": "399ad146d3",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "4k-wallpaper-12 2019-05-16 02:15:55.jpg",
+                        "file_url": "/files/4k-wallpaper-12 2019-05-16 02:15:55.jpg",
+                        "name": "2dc856dea1",
+                        "is_private": 0
+                    },
+                    {
+                        "file_name": "2d76742d1fa4fb9638ae0693a3934701-1920x1080 2019-05-16 02:15:46.jpg",
+                        "file_url": "/files/2d76742d1fa4fb9638ae0693a3934701-1920x1080 2019-05-16 02:15:46.jpg",
+                        "name": "4d59345883",
+                        "is_private": 0
+                    }
+                ],
+                "versions": [
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 15:06:41.244886",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Test Assign\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "bf693db24c"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:59:20.670929",
+                        "data": "{\n \"comment\": \"added <a href='/files/sample 2019-06-19 14:59:19.txt' target='_blank'>sample 2019-06-19 14:59:19.txt</a>\", \n \"comment_type\": \"Attachment\"\n}",
+                        "name": "27d429d18f"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:59:19.380010",
+                        "data": "{\n \"comment\": \"added <a href='/files/sample 2019-06-19 14:59:18.txt' target='_blank'>sample 2019-06-19 14:59:18.txt</a>\", \n \"comment_type\": \"Attachment\"\n}",
+                        "name": "b283c62180"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:57:27.379548",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "e4fcc23869"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:57:27.255794",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "d23663f02b"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:57:22.345173",
+                        "data": "{\n \"comment\": \"Test User assigned Administrator: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "7aa647e294"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:57:21.506577",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Assignment\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "8676b62807"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:57:16.953578",
+                        "data": "{\n \"comment\": \"Test User self assigned this task: Test Assign\", \n \"comment_type\": \"Assigned\"\n}",
+                        "name": "ad83e1584a"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:41:58.614079",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "91ac94e96b"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-06-19 14:41:58.612369",
+                        "data": "{\n \"comment\": \"Assignment closed by Test User\", \n \"comment_type\": \"Assignment Completed\"\n}",
+                        "name": "25d4e88509"
+                    }
+                ],
+                "shared": [],
+                "views": [],
+                "permissions": {
+                    "recursive_delete": 0,
+                    "read": 1,
+                    "create": 1,
+                    "share": 1,
+                    "submit": 0,
+                    "if_owner": {},
+                    "write": 1,
+                    "amend": 0,
+                    "report": 1,
+                    "export": 1,
+                    "set_user_permissions": 0,
+                    "print": 1,
+                    "import": 1,
+                    "email": 1,
+                    "cancel": 0,
+                    "delete": 1
+                },
+                "total_comments": 0
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Wed, 19 Jun 2019 11:06:41 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=e8f365baa58f965e181e648c72cbfc38cab78c0d5a2fac6514cd35d6; Expires=Sat, 22-Jun-2019 13:06:41 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4e9508f53ab0d9ec-SIN"
+        ]
+    }
+]

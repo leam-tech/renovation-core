@@ -1,0 +1,148 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "post",
+        "path": "/",
+        "body": {
+            "cmd": "renovation_core.renovation_dashboard_def.get_dashboard_layout"
+        },
+        "status": 200,
+        "response": {
+            "message": {
+                "priority": "1",
+                "enabled": 1,
+                "name": "All Dashboards",
+                "dashboards": [
+                    {
+                        "subtitle": "Your sales vs expense details in the given period",
+                        "name": "Sales vs Expenses",
+                        "title": "Sales vs Expenses",
+                        "cmd": null,
+                        "enabled": 1,
+                        "height": 2,
+                        "width": 3,
+                        "is_standard": "Yes",
+                        "params": [
+                            {
+                                "default_value": "",
+                                "param": "from_date",
+                                "label": "From Date",
+                                "reqd": 0,
+                                "type": "Date",
+                                "options": null
+                            },
+                            {
+                                "default_value": "",
+                                "param": "to_date",
+                                "label": "To Date",
+                                "reqd": 0,
+                                "type": "Date",
+                                "options": null
+                            }
+                        ],
+                        "type": "pie",
+                        "exc_type": "cmd"
+                    },
+                    {
+                        "subtitle": "A Pie Chart Example",
+                        "name": "Invoice Status",
+                        "title": "Invoice Status",
+                        "cmd": null,
+                        "enabled": 1,
+                        "height": 2,
+                        "width": 3,
+                        "is_standard": "Yes",
+                        "params": [],
+                        "type": "pie",
+                        "exc_type": "cmd"
+                    },
+                    {
+                        "subtitle": "Change Example",
+                        "name": "Sales Balance",
+                        "title": "Sales Balance",
+                        "cmd": null,
+                        "enabled": 1,
+                        "height": 2,
+                        "width": 3,
+                        "is_standard": "Yes",
+                        "params": [],
+                        "type": "change",
+                        "exc_type": "cmd"
+                    },
+                    {
+                        "subtitle": "Sample of Percent Type",
+                        "name": "Sales Return",
+                        "title": "Sales Return",
+                        "cmd": null,
+                        "enabled": 1,
+                        "height": 2,
+                        "width": 3,
+                        "is_standard": "Yes",
+                        "params": [],
+                        "type": "percent",
+                        "exc_type": "cmd"
+                    },
+                    {
+                        "subtitle": "Total Sales Report",
+                        "name": "Sales Statics",
+                        "title": "Sales Statics",
+                        "cmd": null,
+                        "enabled": 1,
+                        "height": 2,
+                        "width": 3,
+                        "is_standard": "Yes",
+                        "params": [],
+                        "type": "bar",
+                        "exc_type": "cmd"
+                    },
+                    {
+                        "subtitle": "",
+                        "name": "Lead by Source",
+                        "title": "Lead by Source",
+                        "cmd": null,
+                        "enabled": 1,
+                        "height": 2,
+                        "width": 3,
+                        "is_standard": "Yes",
+                        "params": [],
+                        "type": "pie",
+                        "exc_type": "cmd"
+                    }
+                ],
+                "title": "All Dashboards"
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 01 Jul 2019 09:19:21 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=1447334e642e873914748eccc114388b75aa9ef2672978777c5ae1a9; Expires=Thu, 04-Jul-2019 11:19:21 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4ef74c408c63d5af-BOM"
+        ]
+    }
+]

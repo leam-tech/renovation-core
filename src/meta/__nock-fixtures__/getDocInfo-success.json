@@ -1,0 +1,139 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/?cmd=frappe.desk.form.load.get_docinfo&doctype=Item&name=Item+A",
+        "body": "",
+        "status": 200,
+        "response": {
+            "docinfo": {
+                "communications": [],
+                "assignments": [],
+                "rating": 0,
+                "attachments": [
+                    {
+                        "file_name": "empty.jpeg",
+                        "file_url": "/private/files/empty.jpeg",
+                        "name": "8e291854f4",
+                        "is_private": 1
+                    }
+                ],
+                "versions": [
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-05-14 01:03:57.421594",
+                        "data": "{\n \"comment\": \"added <a href='/private/files/empty.jpeg' target='_blank'>empty.jpeg</a> <i class=\\\"fa fa-lock text-warning\\\"></i>\", \n \"comment_type\": \"Attachment\"\n}",
+                        "name": "294e84239e"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-12 13:18:18.307191",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div><br></div>\", \n   \"<div>ASDASD</div><div>ASDASDASDASD</div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "137fdd2859"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-11 13:02:40.584428",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div>&lt;h1 class=\\\"page-title\\\"&gt;</div><div>            Al Janoub Overview</div><div>          &lt;/h1&gt;</div><div>          &lt;hr class=\\\"border\\\" style=\\\"margin: 0; width: 10%\\\" /&gt;</div><div>          &lt;p class=\\\"description mt-3\\\"&gt;</div><div>            (Al JANOUB FOR ELECTRIC LIGHT ) .. A long experience of excellence</div><div>            and leadership in the electricity and lighting sector in the Kingdom</div><div>            (Al JANOUB FOR ELECTRIC LIGHT) is one of the oldest and oldest</div><div>            institutions in the field of lighting and internal and external</div><div>            electrical tools in the Kingdom of Saudi Arabia, and we were able to</div><div>            get our products known efficiency and high quality to the top of</div><div>            excellence and we A major reference for all those who wanted to</div><div>            build and establish or finishing and restoration. Thanks to God, the</div><div>            Electricity of the South was established in 1410H, which is more</div><div>            than 29 years old</div><div>          &lt;/p&gt;</div><div>          &lt;v-layout class=\\\"mt-5\\\"&gt;</div><div>            &lt;v-flex xs8&gt;</div><div>              &lt;h1 class=\\\"page-title\\\"&gt;</div><div>                Our Mission</div><div>              &lt;/h1&gt;</div><div>              &lt;hr class=\\\"border\\\" style=\\\"margin: 0; width: 10%\\\" /&gt;</div><div>              &lt;p class=\\\"description mt-3\\\"&gt;</div><div>                We provide the highest levels of quality and guarantee, taking</div><div>                into account the competitive prices, energy saving and</div><div>                environmental protection, in order to achieve the highest level</div><div>                of satisfaction with our products and service.</div><div>              &lt;/p&gt;</div><div>              &lt;h1 class=\\\"page-title mt-5\\\"&gt;</div><div>                Our Vision</div><div>              &lt;/h1&gt;</div><div>              &lt;hr class=\\\"border\\\" style=\\\"margin: 0; width: 10%\\\" /&gt;</div><div>              &lt;p class=\\\"description mt-3\\\"&gt;</div><div>                To become the leading facility in the field of electricity and</div><div>                lighting in Saudi Arabia to provide the best products at</div><div>                competitive prices</div><div>              &lt;/p&gt;</div><div>            &lt;/v-flex&gt;</div><div>            &lt;v-flex xs3&gt;</div><div>              &lt;img class=\\\"cover\\\" alt=\\\"test\\\" src=\\\"../assets/img/aboutus.png\\\" /&gt;</div><div>            &lt;/v-flex&gt;</div><div>          &lt;/v-layout&gt;</div>\", \n   \"<div><br></div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "9464c977e8"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-05 10:37:45.244006",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div class=\\\"ql-indent-5\\\"><strong class=\\\"ql-size-huge\\\">Hello hhhhhhh</strong></div><div><span class=\\\"ql-size-huge\\\">Hi</span></div><div><span class=\\\"ql-size-huge\\\">How are you</span></div>\", \n   \"<div>&lt;h1 class=\\\"page-title\\\"&gt;</div><div>            Al Janoub Overview</div><div>          &lt;/h1&gt;</div><div>          &lt;hr class=\\\"border\\\" style=\\\"margin: 0; width: 10%\\\" /&gt;</div><div>          &lt;p class=\\\"description mt-3\\\"&gt;</div><div>            (Al JANOUB FOR ELECTRIC LIGHT ) .. A long experience of excellence</div><div>            and leadership in the electricity and lighting sector in the Kingdom</div><div>            (Al JANOUB FOR ELECTRIC LIGHT) is one of the oldest and oldest</div><div>            institutions in the field of lighting and internal and external</div><div>            electrical tools in the Kingdom of Saudi Arabia, and we were able to</div><div>            get our products known efficiency and high quality to the top of</div><div>            excellence and we A major reference for all those who wanted to</div><div>            build and establish or finishing and restoration. Thanks to God, the</div><div>            Electricity of the South was established in 1410H, which is more</div><div>            than 29 years old</div><div>          &lt;/p&gt;</div><div>          &lt;v-layout class=\\\"mt-5\\\"&gt;</div><div>            &lt;v-flex xs8&gt;</div><div>              &lt;h1 class=\\\"page-title\\\"&gt;</div><div>                Our Mission</div><div>              &lt;/h1&gt;</div><div>              &lt;hr class=\\\"border\\\" style=\\\"margin: 0; width: 10%\\\" /&gt;</div><div>              &lt;p class=\\\"description mt-3\\\"&gt;</div><div>                We provide the highest levels of quality and guarantee, taking</div><div>                into account the competitive prices, energy saving and</div><div>                environmental protection, in order to achieve the highest level</div><div>                of satisfaction with our products and service.</div><div>              &lt;/p&gt;</div><div>              &lt;h1 class=\\\"page-title mt-5\\\"&gt;</div><div>                Our Vision</div><div>              &lt;/h1&gt;</div><div>              &lt;hr class=\\\"border\\\" style=\\\"margin: 0; width: 10%\\\" /&gt;</div><div>              &lt;p class=\\\"description mt-3\\\"&gt;</div><div>                To become the leading facility in the field of electricity and</div><div>                lighting in Saudi Arabia to provide the best products at</div><div>                competitive prices</div><div>              &lt;/p&gt;</div><div>            &lt;/v-flex&gt;</div><div>            &lt;v-flex xs3&gt;</div><div>              &lt;img class=\\\"cover\\\" alt=\\\"test\\\" src=\\\"../assets/img/aboutus.png\\\" /&gt;</div><div>            &lt;/v-flex&gt;</div><div>          &lt;/v-layout&gt;</div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "6442f86a00"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-04 21:32:00.271186",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div class=\\\"ql-indent-5\\\"><strong class=\\\"ql-size-huge\\\">Hello</strong></div><div><span class=\\\"ql-size-huge\\\">Hi</span></div><div><span class=\\\"ql-size-huge\\\">How are you</span></div>\", \n   \"<div class=\\\"ql-indent-5\\\"><strong class=\\\"ql-size-huge\\\">Hello hhhhhhh</strong></div><div><span class=\\\"ql-size-huge\\\">Hi</span></div><div><span class=\\\"ql-size-huge\\\">How are you</span></div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "43e29c393a"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-04 21:04:52.584506",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div class=\\\"ql-indent-5\\\"><strong class=\\\"ql-size-huge\\\">Hello</strong></div><div>Hi</div><div>How are you</div>\", \n   \"<div class=\\\"ql-indent-5\\\"><strong class=\\\"ql-size-huge\\\">Hello</strong></div><div><span class=\\\"ql-size-huge\\\">Hi</span></div><div><span class=\\\"ql-size-huge\\\">How are you</span></div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "55d539d651"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-04 21:04:44.483244",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div class=\\\"ql-indent-5\\\"><strong>Hello</strong></div><div>Hi</div><div>How are you</div>\", \n   \"<div class=\\\"ql-indent-5\\\"><strong class=\\\"ql-size-huge\\\">Hello</strong></div><div>Hi</div><div>How are you</div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "d64f6c3cc6"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-04 21:04:40.270337",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div class=\\\"ql-indent-5\\\">Hello</div><div>Hi</div><div>How are you</div>\", \n   \"<div class=\\\"ql-indent-5\\\"><strong>Hello</strong></div><div>Hi</div><div>How are you</div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "3847d21fea"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-04 21:04:34.776900",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div>&lt;table&gt;</div><div>&lt;thead&gt;</div><div>\\t&lt;tr&gt;</div><div>\\t\\t&lt;td&gt;T1,&lt;/td&gt;</div><div>\\t&lt;/tr&gt;</div><div>&lt;/thead&gt;</div><div>&lt;tbody&gt;</div><div>\\t&lt;tr&gt;&lt;/tr&gt;</div><div>&lt;/tbody&gt;</div><div>&lt;/table&gt;</div>\", \n   \"<div class=\\\"ql-indent-5\\\">Hello</div><div>Hi</div><div>How are you</div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "bee5d6ef3a"
+                    },
+                    {
+                        "owner": "Administrator",
+                        "creation": "2019-05-04 20:20:53.763355",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"description\", \n   \"<div>Item A</div><h2><strong><em>ASDASDASDASD</em></strong></h2><div><br></div><div><br></div><div><strong>AAAAAACCCCC</strong></div>\", \n   \"<div>&lt;table&gt;</div><div>&lt;thead&gt;</div><div>\\t&lt;tr&gt;</div><div>\\t\\t&lt;td&gt;T1,&lt;/td&gt;</div><div>\\t&lt;/tr&gt;</div><div>&lt;/thead&gt;</div><div>&lt;tbody&gt;</div><div>\\t&lt;tr&gt;&lt;/tr&gt;</div><div>&lt;/tbody&gt;</div><div>&lt;/table&gt;</div>\"\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "d0b790343d"
+                    }
+                ],
+                "shared": [],
+                "views": [],
+                "permissions": {
+                    "recursive_delete": 0,
+                    "read": 1,
+                    "create": 1,
+                    "share": 1,
+                    "submit": 0,
+                    "if_owner": {},
+                    "write": 1,
+                    "amend": 0,
+                    "report": 1,
+                    "export": 1,
+                    "set_user_permissions": 0,
+                    "print": 1,
+                    "import": 1,
+                    "email": 1,
+                    "cancel": 0,
+                    "delete": 1
+                },
+                "total_comments": 0
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 13 May 2019 21:04:32 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=4181269c8d8497970664533db66c07f36a4c652e775b2c7aeb8ac93d; Expires=Thu, 16-May-2019 23:04:32 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d6795d94d4bd3d7-JIB"
+        ]
+    }
+]

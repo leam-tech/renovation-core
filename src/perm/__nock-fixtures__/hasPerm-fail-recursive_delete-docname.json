@@ -1,0 +1,84 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "get",
+        "path": "/?cmd=frappe.desk.form.load.get_docinfo&doctype=Sales+Invoice&name=ACC-SINV-2019-00006",
+        "body": "",
+        "status": 200,
+        "response": {
+            "docinfo": {
+                "communications": [],
+                "assignments": [],
+                "rating": 0,
+                "attachments": [],
+                "versions": [
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-05-16 11:56:31.868825",
+                        "data": "{\n \"added\": [], \n \"changed\": [\n  [\n   \"posting_time\", \n   \"11:44:02 AM\", \n   \"11:56:31 AM\"\n  ], \n  [\n   \"status\", \n   \"Draft\", \n   \"Unpaid\"\n  ], \n  [\n   \"docstatus\", \n   0, \n   1\n  ]\n ], \n \"removed\": [], \n \"row_changed\": []\n}",
+                        "name": "6bc7f7370e"
+                    },
+                    {
+                        "owner": "<username>",
+                        "creation": "2019-05-16 11:56:31.303261",
+                        "data": "{\n \"comment\": \"Unpaid\", \n \"comment_type\": \"Label\"\n}",
+                        "name": "d145529104"
+                    }
+                ],
+                "shared": [],
+                "views": [],
+                "permissions": {
+                    "recursive_delete": 0,
+                    "read": 1,
+                    "create": 1,
+                    "share": 1,
+                    "submit": 1,
+                    "if_owner": {},
+                    "write": 1,
+                    "amend": 1,
+                    "report": 1,
+                    "export": 0,
+                    "set_user_permissions": 0,
+                    "print": 1,
+                    "import": 0,
+                    "email": 1,
+                    "cancel": 1,
+                    "delete": 1
+                },
+                "total_comments": 0
+            }
+        },
+        "rawHeaders": [
+            "Date",
+            "Mon, 20 May 2019 10:14:13 GMT",
+            "Content-Type",
+            "application/json",
+            "Transfer-Encoding",
+            "chunked",
+            "Connection",
+            "close",
+            "Vary",
+            "Accept-Encoding",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=6d53a2ce59b695fedbfc7b23936ede896cb4b0972cdd390743109898; Expires=Thu, 23-May-2019 12:14:13 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d9d8adad947d3d7-JIB"
+        ]
+    }
+]

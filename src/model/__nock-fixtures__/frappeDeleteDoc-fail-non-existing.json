@@ -1,0 +1,40 @@
+[
+    {
+        "scope": "<host_url>",
+        "method": "delete",
+        "path": "/api/resource/Item/non_existing",
+        "body": "",
+        "status": 404,
+        "response": {},
+        "rawHeaders": [
+            "Date",
+            "Wed, 15 May 2019 20:05:07 GMT",
+            "Content-Type",
+            "application/json",
+            "Content-Length",
+            "2",
+            "Connection",
+            "close",
+            "Set-Cookie",
+            "user_image=; Path=/",
+            "Set-Cookie",
+            "user_id=<username>; Path=/",
+            "Set-Cookie",
+            "system_user=yes; Path=/",
+            "Set-Cookie",
+            "full_name=Test%20User; Path=/",
+            "Set-Cookie",
+            "sid=77dd6a5b1415db347df0e2ef8d5537bd381fadf1aee291817ae8ab31; Expires=Sat, 18-May-2019 22:05:07 GMT; Path=/",
+            "Access-Control-Allow-Credentials",
+            "true",
+            "Access-Control-Allow-Methods",
+            "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept, x-client-site",
+            "Server",
+            "cloudflare",
+            "CF-RAY",
+            "4d77b9906a69d3cb-JIB"
+        ]
+    }
+]
