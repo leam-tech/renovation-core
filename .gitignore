@@ -76,3 +76,5 @@ coverage
 mochawesome-report
 
 .DS_Store
+
+package-lock.json
