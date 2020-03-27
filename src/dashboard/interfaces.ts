@@ -4,6 +4,8 @@ export interface FrappeDashboard {
   title: string;
   subtitle: string;
   is_standard: "Yes" | "No";
+  can_resize_items: boolean;
+  can_rearrange_items: boolean;
   type: "lines" | "bar" | "pie" | "percent" | "change" | "simple";
   exc_type: "eval" | "cmd";
   cmd?: string;
