@@ -6,11 +6,14 @@ export type DashboardDataTypes =
   | BarGraph
   | PieChart
   | PercentDashboard
+  | ListDashboard
   | ChangeDashboard;
 
 export interface DashboardLayout {
   title: string;
   name: string;
+  can_resize_items: boolean;
+  can_rearrange_items: boolean;
   enabled: boolean;
   priority: "1" | "2" | "3" | "4" | "5";
   dashboards: Array<FrappeDashboard & { width: number; height: number }>;
@@ -80,4 +83,14 @@ export interface ChangeDashboard extends DashboardData {
   };
   change: string;
   positive: boolean; // use this to indicate positive change
+}
+
+export interface ListDashboard extends DashboardData {
+  items: any[];
+  columns: Array<{
+    fieldname: string;
+    label: string;
+    fieldtype: string;
+    options?: string;
+  }>;
 }
