@@ -90,6 +90,7 @@ export interface ListDashboard extends DashboardData {
   columns: Array<{
     fieldname: string;
     label: string;
+    width?: string;
     fieldtype: string;
     options?: string;
   }>;
