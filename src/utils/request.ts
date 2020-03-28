@@ -451,3 +451,6 @@ export const FrappeRequestOptions = {
   jar: true,
   withCredentials: true
 };
+
+/** the localStorage key used for session storage */
+export const renovationSessionKey = "renovation_core_session_info";
