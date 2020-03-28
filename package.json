@@ -23,7 +23,9 @@
     "type": "git",
     "url": "git+https://github.com/leam-tech/renovation-core.git"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "author": "Leam Technology Systems",
   "license": "MIT",
   "bugs": {
@@ -64,6 +66,8 @@
     "qs": "^6.5.2",
     "rxjs": "^6.3.2",
     "rxjs-compat": "^6.3.2",
+    "js-cookie": "^2.2.1",
+    "@types/js-cookie": "^2.2.5",
     "socket.io-client": "^2.2.0"
   },
   "nyc": {
