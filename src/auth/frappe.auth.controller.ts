@@ -414,12 +414,10 @@ export default class FrappeAuthController extends AuthController {
   }: {
     sessionStatusInfo: SessionStatusInfo;
   }) {
-    if (isNodeJS()) {
-      await this.updateSession({
-        loggedIn: sessionStatusInfo.loggedIn,
-        data: sessionStatusInfo
-      });
-    }
+    await this.updateSession({
+      loggedIn: sessionStatusInfo.loggedIn,
+      data: sessionStatusInfo
+    });
   }
 
   /**
