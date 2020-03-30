@@ -11,7 +11,8 @@ import {
   Request,
   RequestResponse,
   SessionStatus,
-  SessionStatusInfo
+  SessionStatusInfo,
+  isNodeJS
 } from "../utils/request";
 import AuthController from "./auth.controller";
 import {
@@ -406,6 +407,17 @@ export default class FrappeAuthController extends AuthController {
     return r.success
       ? r
       : RequestResponse.fail(this.handleError("logout", r.error));
+  }
+
+  public async setSessionStatusInfo({
+    sessionStatusInfo
+  }: {
+    sessionStatusInfo: SessionStatusInfo;
+  }) {
+    await this.updateSession({
+      loggedIn: sessionStatusInfo.loggedIn,
+      data: sessionStatusInfo
+    });
   }
 
   /**

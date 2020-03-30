@@ -1,9 +1,11 @@
+import Cookies from "js-cookie";
 import { deepCloneObject, deepCompare } from "..";
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
 import {
   FrappeRequestOptions,
   isBrowser,
+  renovationSessionKey,
   RequestResponse,
   SessionStatus,
   SessionStatusInfo
@@ -54,9 +56,6 @@ export default abstract class AuthController extends RenovationController {
    *
    */
   protected currentUserRoles: string[] = [];
-
-  /** the localStorage key used for session storage */
-  private renovationSessionKey = "renovation_core_session_info";
 
   protected constructor(config: RenovationConfig) {
     super(config);
@@ -234,6 +233,16 @@ export default abstract class AuthController extends RenovationController {
   public abstract async logout(): Promise<RequestResponse<{}>>;
 
   /**
+   * Useful if environment is server
+   * @param sessionStatusInfo
+   */
+  public abstract async setSessionStatusInfo({
+    sessionStatusInfo
+  }: {
+    sessionStatusInfo: SessionStatusInfo;
+  });
+
+  /**
    * Clears the current user's roles
    */
   public clearCache() {
@@ -294,6 +303,7 @@ export default abstract class AuthController extends RenovationController {
       }
 
       this.saveSessionToLocalStorage(session);
+      this.saveCookieToLocalStorage(session);
       if (newStatus.loggedIn) {
         if (token) {
           // when simply checking auth status, token isnt returned
@@ -326,7 +336,7 @@ export default abstract class AuthController extends RenovationController {
     // Set to null instead of empty string
     let info: any = null;
     if (isBrowser()) {
-      info = localStorage.getItem(this.renovationSessionKey);
+      info = localStorage.getItem(renovationSessionKey);
     }
     return info ? JSON.parse(info) : null;
   }
@@ -366,7 +376,22 @@ export default abstract class AuthController extends RenovationController {
    */
   private saveSessionToLocalStorage(info: SessionStatusInfo) {
     if (isBrowser()) {
-      localStorage.setItem(this.renovationSessionKey, JSON.stringify(info));
+      localStorage.setItem(renovationSessionKey, JSON.stringify(info));
+    }
+  }
+
+  /*
+   * @param info The session status to be saved
+   */
+  private saveCookieToLocalStorage(info: SessionStatusInfo) {
+    if (isBrowser()) {
+      const lc = window.location;
+      const url = `${lc.protocol}//${lc.host}`;
+      const isSecure = url.split("/")[0] === "https:";
+      Cookies.set(renovationSessionKey, info, {
+        sameSite: isSecure ? "lax" : "none",
+        secure: isSecure
+      });
     }
   }
 
