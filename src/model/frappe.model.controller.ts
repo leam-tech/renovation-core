@@ -284,9 +284,13 @@ export default class FrappeModelController extends ModelController {
         const responseObj = getJSON(response.data);
         if (responseObj && responseObj.hasOwnProperty("data")) {
           if (responseObj.data !== "failed") {
-            const doc = new RenovationDocument(
-              Object.assign({ doctype: args.doctype }, responseObj.data)
-            );
+            const doc = JSON.parse(
+              JSON.stringify(
+                new RenovationDocument(
+                  Object.assign({ doctype: args.doctype }, responseObj.data)
+                )
+              )
+            ) as RenovationDocument;
             this.addToLocals({ doc });
             return RequestResponse.success(doc);
           }
@@ -433,9 +437,9 @@ export default class FrappeModelController extends ModelController {
             )
           );
         }
-        return RequestResponse.success(docs as [
-          { [x: string]: DBBasicValues }
-        ]);
+        return RequestResponse.success(
+          JSON.parse(JSON.stringify(docs)) as [{ [x: string]: DBBasicValues }]
+        );
       }
       return RequestResponse.success(responseObj.message || []);
     } else {

@@ -284,9 +284,7 @@ export default abstract class ModelController extends RenovationController {
           return args.field;
         } else {
           throw new Error(
-            `${fieldname} is not a child field of DocType ${
-              dtResponse.data.doctype
-            }`
+            `${fieldname} is not a child field of DocType ${dtResponse.data.doctype}`
           );
         }
       }
@@ -387,7 +385,11 @@ export default abstract class ModelController extends RenovationController {
         return RequestResponse.success(this.locals[args.doctype][args.docname]);
       }
     } else {
-      return RequestResponse.success(new RenovationDocument(args));
+      return RequestResponse.success(
+        JSON.parse(
+          JSON.stringify(new RenovationDocument(args))
+        ) as RenovationDocument
+      );
     }
 
     return Promise.resolve(
