@@ -7,7 +7,7 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha -r ts-node/register ./src/**/*.spec.ts ./src/*.spec.ts --timeout 10000 --reporter mochawesome",
+    "test": "mocha -r ts-node/register ./src/**/*.spec.ts ./src/*.spec.ts --timeout 30000 --exit --reporter mochawesome",
     "test:dev": "mocha -r ts-node/register ./src/lib/log.manager.spec.ts --timeout 10000 --reporter mochawesome",
     "test:coverage": "tsc && nyc --harmony-async-await --reporter=text-summary --reporter=lcov mocha --reporter mochawesome ./src/**/**.spec.ts ./src/*.spec.ts",
     "test:coverage:dev": "tsc && nyc --harmony-async-await --reporter=text-summary --reporter=lcov mocha --reporter mochawesome ./src/utils/request.spec.ts",

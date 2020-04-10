@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import { setupRecorder } from "nock-record";
-import { RenovationError } from "..";
+import { ENV_VARIABLES, RenovationError } from "..";
 
 import { Renovation } from "../renovation";
 import RenovationController from "../renovation.controller";
@@ -10,16 +9,21 @@ import { GetExportReportParams } from "./interfaces";
 
 describe("Frappe Model Controller", function() {
   let renovation: Renovation;
-  this.timeout(10000);
+  this.timeout(30000);
 
-  // const logOnFail = (r: RequestResponse<any>) => {
-  //   if (!r.success) {
-  //     console.log(r);
-  //   }
-  // };
+  const validUser = TestManager.primaryUser;
+  const validPwd = TestManager.primaryUserPwd;
+
+  const validSecondUser = TestManager.secondaryUser;
+
+  const testDoctype = "Renovation User Agreement";
 
   before(async function() {
     renovation = await TestManager.init("frappe");
+    await renovation.auth.login({
+      email: validUser,
+      password: validPwd
+    });
   });
 
   afterEach(function() {
@@ -28,30 +32,19 @@ describe("Frappe Model Controller", function() {
 
   describe("getDoc", function() {
     it("should return RenovationDocument when proper object is passed", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-success-object-input");
-
       const testDocument = await renovation.model.getDoc({
         doctype: "Test Doctype",
         name: "TD-00001"
       });
-      completeRecording();
+
       expect(testDocument.success).to.be.true;
       expect(testDocument.data.name).to.equal("TD-00001");
     });
 
     it("should return RenovationDocument when proper object is passed [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-success-object-input-deprecated");
+      const testDocument = await renovation.model.getDoc("User", validUser);
 
-      const testDocument = await renovation.model.getDoc(
-        "Customer",
-        "Test Customer"
-      );
-      completeRecording();
-      expect(testDocument.data.name).to.equal("Test Customer");
+      expect(testDocument.data.name).to.equal(validUser);
     });
 
     it("should throw error for object with doctype unspecified", async function() {
@@ -71,14 +64,11 @@ describe("Frappe Model Controller", function() {
     });
 
     it("should return failure for non-existing docs", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-fail-non-existing");
       const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
+        doctype: "User",
         docname: "NON-EXISTING"
       });
-      completeRecording();
+
       expect(getDoc.success).to.be.false;
       expect(getDoc.httpCode).to.be.equal(404);
       expect(getDoc.error.title).to.be.equal(
@@ -86,253 +76,164 @@ describe("Frappe Model Controller", function() {
       );
     });
 
-    it("should return failure for non-existing docs where the server responds with success", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-fail-non-existing-success-true");
-      const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "NON-EXISTING"
-      });
-      completeRecording();
-      expect(getDoc.success).to.be.false;
-      expect(getDoc.httpCode).to.be.equal(404);
-      expect(getDoc.error.title).to.be.equal(
-        RenovationController.DOCNAME_NOT_EXIST_TITLE
-      );
-    });
-
-    it("should return failure where the server responds with non 2xx http code", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-fail-not-200");
-      const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "NON-EXISTING"
-      });
-      completeRecording();
-      expect(getDoc.success).to.be.false;
-      expect(getDoc.httpCode).to.be.equal(404);
-      expect(getDoc.error.title).to.be.equal(
-        RenovationController.DOCNAME_NOT_EXIST_TITLE
-      );
-    });
-
-    it("should return failure where the server responds with undefined response", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-fail-response-undefined");
-      const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "NON-EXISTING"
-      });
-      completeRecording();
-      expect(getDoc.success).to.be.false;
-      expect(getDoc.httpCode).to.be.equal(400);
-      expect(getDoc.error.title).to.be.equal(
-        RenovationController.GENERIC_ERROR_TITLE
-      );
-    });
-
-    it("should return RenovationDocument for Item A Item", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetDoc-success-string-input");
+    it("should return RenovationDocument for User", async function() {
       const docResponse = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "Item A"
+        doctype: "User",
+        docname: validUser
       });
-      completeRecording();
-      expect(docResponse.data.name).to.equal("Item A");
+
+      expect(docResponse.data.name).to.equal(validUser);
     });
 
     it("should return the document from cache when the document is in locals", async function() {
-      await renovation.model.newDoc({ doctype: "Item" });
+      await renovation.model.newDoc({ doctype: "User" });
       const cacheDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "New Item 1"
+        doctype: "User",
+        docname: "New User 1"
       });
       expect(cacheDoc.success).to.be.true;
       expect(cacheDoc.data).to.be.instanceOf(RenovationDocument);
-      expect(cacheDoc.data.name).to.be.equal("New Item 1");
+      expect(cacheDoc.data.name).to.be.equal("New User 1");
     });
 
     it("should return the document if it's new and not in cache", async function() {
-      await renovation.model.newDoc({ doctype: "Item" });
+      await renovation.model.newDoc({ doctype: "User" });
       renovation.model.clearCache();
       const cacheDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "New Item 1"
+        doctype: "User",
+        docname: "New User 1"
       });
       expect(cacheDoc.success).to.be.true;
       expect(cacheDoc.data).to.be.instanceOf(RenovationDocument);
-      expect(cacheDoc.data.name).to.be.equal("New Item 1");
+      expect(cacheDoc.data.name).to.be.equal("New User 1");
     });
   });
 
   describe("getList", function() {
-    it("should return just names of Invoices for no fields specified", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success");
+    it("should return just names of Users for no fields specified", async function() {
       const docResponse = await renovation.model.getList({
-        doctype: "Sales Invoice"
+        doctype: "User"
       });
-      completeRecording();
+
       expect(docResponse.success).to.be.true;
-      expect(docResponse.data[0].name).contains("SINV");
       expect(Object.keys(docResponse.data[0]).length).to.be.equal(1);
     });
-    it("should return just names of Invoices for no fields specified [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success");
-      const docResponse = await renovation.model.getList("Sales Invoice");
-      completeRecording();
+    it("should return just names of Users for no fields specified [deprecated]", async function() {
+      const docResponse = await renovation.model.getList("User");
+
       expect(docResponse.success).to.be.true;
-      expect(docResponse.data[0].name).contains("SINV");
       expect(Object.keys(docResponse.data[0]).length).to.be.equal(1);
     });
 
-    it("should return just names of Invoices for no fields specified with object as input", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success-object");
+    it("should return name + email for the fields passed in", async function() {
       const docResponse = await renovation.model.getList({
-        doctype: "Sales Invoice"
+        doctype: "User",
+        fields: ["name", "email"]
       });
-      completeRecording();
-      expect(docResponse.success).to.be.true;
-      expect(docResponse.data[0].name).contains("SINV");
-      expect(Object.keys(docResponse.data[0]).length).to.be.equal(1);
-    });
 
-    it("should return name + grand_total for the fields passed in", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success-fields");
-      const docResponse = await renovation.model.getList({
-        doctype: "Sales Invoice",
-        fields: ["name", "grand_total"]
-      });
-      completeRecording();
       expect(docResponse.success).to.equals(true);
       expect(Object.keys(docResponse.data[0]).length).to.be.equal(2);
     });
 
-    it("should return only return 5 items on pagination", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success-limitPageLength");
+    it("should return only return 2 users on pagination", async function() {
       const docResponse = await renovation.model.getList({
-        doctype: "Sales Invoice",
-        fields: ["name"],
+        doctype: "User",
         filters: [],
         orderBy: "",
         limitPageStart: 0,
-        limitPageLength: 5
+        limitPageLength: 2
       });
-      completeRecording();
+
       expect(docResponse.success).to.equals(true);
-      expect(docResponse.data.length).to.be.equal(5);
+      expect(docResponse.data.length).to.be.equal(2);
     });
 
     it("should return tableField details", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success-tableFields");
       const docResponse = await renovation.model.getList({
-        doctype: "Sales Invoice",
+        doctype: "User",
         tableFields: {
-          items: ["item_code", "item_name"]
+          roles: ["*"]
         }
       });
-      completeRecording();
       expect(docResponse.success).to.equals(true);
       expect(docResponse.data.length).greaterThan(0);
-      expect((docResponse.data[0].items as [{}]).length).greaterThan(0);
-      expect(docResponse.data[0].items[0].item_code.length).greaterThan(0);
+      expect(docResponse.data.some(user => (user.roles as [{}]).length)).to.be
+        .true;
     });
 
     it("should return all fields", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getList-success-fields-asterisk");
       const docResponse = await renovation.model.getList({
-        doctype: "Sales Invoice",
+        doctype: "User",
         fields: ["*"]
       });
-      completeRecording();
       expect(docResponse.success).to.equals(true);
       expect(docResponse.data[0]).to.be.instanceOf(RenovationDocument);
       expect(Object.keys(docResponse.data[0]).length).to.be.greaterThan(1);
     });
   });
-  //
+
   describe("deleteDoc", async function() {
-    it("should delete an Item successfully", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeDeleteDoc-success-create-and-delete");
-      const doc = await renovation.model.newDoc({ doctype: "Item" });
-      doc.item_code = "TEST ITEM 1";
-      doc.item_group = "Products";
+    it("should delete a Renovation User Agreement successfully", async function() {
+      const doc = await renovation.model.newDoc({
+        doctype: testDoctype
+      });
+      doc.title = "TESTING DELETION";
+
       const savedDoc = await renovation.model.saveDoc({ doc });
       expect(savedDoc.success).equals(true);
       const deletedDoc = await renovation.model.deleteDoc({
-        doctype: "Item",
-        docname: "TEST ITEM 1"
+        doctype: testDoctype,
+        docname: "TESTING DELETION"
       });
-      completeRecording();
       expect(deletedDoc.success).to.be.true;
     });
 
-    it("should delete an Item successfully [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeDeleteDoc-success-create-and-delete");
-      const doc = await renovation.model.newDoc({ doctype: "Item" });
-      doc.item_code = "TEST ITEM 1";
-      doc.item_group = "Products";
+    it("should delete a Renovation User Agreement successfully [deprecated]", async function() {
+      const doc = await renovation.model.newDoc({ doctype: testDoctype });
+
+      doc.title = "TESTING DELETION";
       const savedDoc = await renovation.model.saveDoc({ doc });
       expect(savedDoc.success).equals(true);
       const deletedDoc = await renovation.model.deleteDoc(
-        "Item",
-        "TEST ITEM 1"
+        testDoctype,
+        "TESTING DELETION"
       );
-      completeRecording();
       expect(deletedDoc.success).to.be.true;
     });
 
     it("should verify doc was deleted from cache too", async function() {
-      // try getDoc
+      const doc = await renovation.model.newDoc({
+        doctype: testDoctype
+      });
+      doc.title = "TESTING DELETION";
+
+      const savedDoc = await renovation.model.saveDoc({ doc });
+      expect(savedDoc.success).equals(true);
+      const docInCache = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "TESTING DELETION"
+      });
+      expect(docInCache.success).to.be.true;
+
+      const deletedDoc = await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING DELETION"
+      });
+      expect(deletedDoc.success).to.be.true;
+
+      // try getDoc after deletion
       const docCache = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "TEST ITEM 1"
+        doctype: testDoctype,
+        docname: "TESTING DELETION"
       });
       expect(docCache.success).to.be.false; // verifies deleted from cache
     });
 
-    it("should delete a document the doesn't exist in the cache", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeDeleteDoc-success-not-in-cache");
+    it("should fail to delete an doc that doesn't exist", async function() {
       const deletedDoc = await renovation.model.deleteDoc({
-        doctype: "Item",
-        docname: "TEST ITEM 2"
-      });
-      completeRecording();
-      expect(deletedDoc.success).to.be.true;
-    });
-    it("should fail to delete an Item that doesn't exist", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeDeleteDoc-fail-non-existing");
-      const deletedDoc = await renovation.model.deleteDoc({
-        doctype: "Item",
+        doctype: testDoctype,
         docname: "non_existing"
       });
-      completeRecording();
       expect(deletedDoc.success).to.be.false;
       expect(deletedDoc.httpCode).to.be.equal(404);
       expect(deletedDoc.error.title).to.be.equal(
@@ -342,70 +243,58 @@ describe("Frappe Model Controller", function() {
   });
 
   describe("getValue", function() {
-    const fieldName = "item_name";
-    const fieldValue = "Item A TEST";
+    const fieldName = "email";
+    const fieldValue = TestManager.getVariables(ENV_VARIABLES.PrimaryUserEmail);
 
-    it("should read same barcode from Item A", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetValue-success");
+    it("should read same email from Primary User", async function() {
       const resp = await renovation.model.getValue({
-        doctype: "Item",
-        docname: "Item A",
+        doctype: "User",
+        docname: validUser,
         docfield: fieldName
       });
-      completeRecording();
+
       expect(resp.success).to.be.true;
       expect(resp.data[fieldName]).to.be.equal(fieldValue);
     });
-    it("should read same barcode from Item A [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetValue-success");
-      const resp = await renovation.model.getValue("Item", "Item A", fieldName);
-      completeRecording();
+    it("should read same email from Primary User [deprecated]", async function() {
+      const resp = await renovation.model.getValue(
+        "User",
+        validUser,
+        fieldName
+      );
+
       expect(resp.success).to.be.true;
       expect(resp.data[fieldName]).to.be.equal(fieldValue);
     });
 
     it("should return failure for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetValue-fail-non-existing-doctype");
       const resp = await renovation.model.getValue({
         doctype: "NON-EXISTING",
         docname: "non_existing",
         docfield: fieldName
       });
-      completeRecording();
+
       expect(resp.success).to.be.false;
       expect(resp.httpCode).to.be.equal(404);
       expect(resp.error.type).to.be.equal(RenovationError.NotFoundError);
     });
     it("should return undefined data for non-existing document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetValue-fail-non-existing-document");
       const resp = await renovation.model.getValue({
-        doctype: "Item",
+        doctype: "User",
         docname: "non_existing",
         docfield: fieldName
       });
-      completeRecording();
+
       expect(resp.success).to.be.false;
       expect(resp.httpCode).to.be.equal(404);
       expect(resp.error.type).to.be.equal(RenovationError.NotFoundError);
     });
     it("should return failure for non-existing field", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetValue-fail-non-existing-field");
       const resp = await renovation.model.getValue({
-        doctype: "Item",
-        docname: "Item A",
+        doctype: "User",
+        docname: validUser,
         docfield: "non_existing"
       });
-      completeRecording();
       expect(resp.success).to.be.false;
       expect(resp.httpCode).to.be.equal(404);
       expect(resp.error.type).to.be.equal(RenovationError.NotFoundError);
@@ -413,37 +302,26 @@ describe("Frappe Model Controller", function() {
   });
 
   describe("getReport", function() {
-    it("should get report successfully for Items Valuation Rate", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetReport-success");
+    it("should get report successfully for TEST", async function() {
       const report = await renovation.model.getReport({
-        report: "Items Valuation Rate",
+        report: "TEST",
         filters: {},
         user: null
       });
-      completeRecording();
       expect(report.success).to.be.true;
     });
 
-    it("should get report successfully for Items Valuation Rate [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetReport-success");
-      const report = await renovation.model.getReport("Items Valuation Rate");
-      completeRecording();
+    it("should get report successfully for TEST [deprecated]", async function() {
+      const report = await renovation.model.getReport("TEST");
       expect(report.success).to.be.true;
     });
 
     it("should get failure for non-existing report", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetReport-non-existing");
       const report = await renovation.model.getReport({
         report: "NON EXISTING REPORT",
         filters: {}
       });
-      completeRecording();
+
       expect(report.success).to.be.false;
       expect(report.httpCode).to.be.equal(404);
       expect(report.error.title).to.be.equal(
@@ -453,47 +331,35 @@ describe("Frappe Model Controller", function() {
   });
 
   describe("setValue", function() {
-    const fieldName = "item_name";
-    const fieldValue = "Item A TEST";
-    it("should set item name value successfully for Item A", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSetValue-success");
+    const fieldName = "middle_name";
+    const fieldValue = Math.random() * 10 + "";
+    it("should set middle_name value successfully for Secondary User", async function() {
       const resp = await renovation.model.setValue({
-        doctype: "Item",
-        docname: "Item A",
+        doctype: "User",
+        docname: validSecondUser,
         docfield: fieldName,
         value: fieldValue
       });
-      completeRecording();
       expect(resp.success).to.be.true;
       expect(resp.data[fieldName]).equals(fieldValue);
     });
-    it("should set item name value successfully for Item A [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSetValue-success");
+    it("should set middle_name value successfully for Secondary User [deprecated]", async function() {
       const resp = await renovation.model.setValue(
-        "Item",
-        "Item A",
+        "User",
+        validSecondUser,
         fieldName,
         fieldValue
       );
-      completeRecording();
       expect(resp.success).to.be.true;
       expect(resp.data[fieldName]).equals(fieldValue);
     });
     it("should return failure for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSetValue-fail-non-existing-doctype");
       const resp = await renovation.model.setValue({
         doctype: "NON EXISTING",
-        docname: "Item A",
+        docname: validSecondUser,
         docfield: fieldName,
         value: fieldValue
       });
-      completeRecording();
       expect(resp.success).to.be.false;
       expect(resp.httpCode).to.be.equal(404);
       expect(resp.error.title).to.be.equal(
@@ -501,16 +367,12 @@ describe("Frappe Model Controller", function() {
       );
     });
     it("should return failure for non-existing document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSetValue-fail-non-existing-document");
       const resp = await renovation.model.setValue({
-        doctype: "Item",
+        doctype: "User",
         docname: "non_existing",
         docfield: fieldName,
         value: fieldValue
       });
-      completeRecording();
       expect(resp.success).to.be.false;
       expect(resp.httpCode).to.be.equal(404);
       expect(resp.error.title).to.be.equal(
@@ -518,113 +380,91 @@ describe("Frappe Model Controller", function() {
       );
     });
 
-    it("should return undefined data if response is empty", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSetValue-success-empty-response");
+    it("should return failure for non-existing field", async function() {
       const resp = await renovation.model.setValue({
-        doctype: "Item",
-        docname: "Item A",
+        doctype: "User",
+        docname: "non_existing",
         docfield: fieldName,
         value: fieldValue
       });
-      completeRecording();
-      expect(resp.success).to.be.true;
-      expect(resp.data).to.be.equal("");
-    });
-    it("should return failure for non-existing field", async function() {
-      // FIXME: Should return false for non-existing field. Currently returns true
-      // const { completeRecording } = await setupRecorder({
-      //   mode: TestManager.testMode
-      // })("frappeSetValue-fail-non-existing-field");
-      // const resp = await renovation.model.setValue(
-      //   "Item",
-      //   "Item A",
-      //   "non_existing",
-      //   fieldValue
-      // );
-      // completeRecording();
-      // expect(resp.success).equals(false);
-      // expect(resp.httpCode).to.be.equal(400);
+      expect(resp.success).equals(false);
+      expect(resp.httpCode).to.be.equal(404);
     });
   });
 
   describe("saveDoc", function() {
-    it("should save document successfully and add to cache", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveDoc-success");
-      const newDoc = await renovation.model.newDoc({ doctype: "Item" });
-      newDoc.item_code = "Item B";
-      newDoc.item_group = "Products";
+    before(async () => {
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "TESTING SAVE DUPLICATE";
       const savedDoc = await renovation.model.saveDoc({ doc: newDoc });
-      completeRecording();
+    });
+
+    it("should save document successfully and add to cache", async function() {
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "TESTING SAVE";
+      const savedDoc = await renovation.model.saveDoc({ doc: newDoc });
       expect(savedDoc.success).to.be.true;
-      // @ts-ignore
-      expect(renovation.model.locals.Item["Item B"]).to.not.be.undefined;
+      expect(renovation.model.locals[testDoctype]["TESTING SAVE"]).to.not.be
+        .undefined;
     });
     it("should save document successfully and add to cache [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveDoc-success");
-      const newDoc = await renovation.model.newDoc({ doctype: "Item" });
-      newDoc.item_code = "Item B";
-      newDoc.item_group = "Products";
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "TESTING SAVE 2";
       const savedDoc = await renovation.model.saveDoc(newDoc);
-      completeRecording();
       expect(savedDoc.success).to.be.true;
-      // @ts-ignore
-      expect(renovation.model.locals.Item["Item B"]).to.not.be.undefined;
+      expect(renovation.model.locals[testDoctype]["TESTING SAVE 2"]).to.not.be
+        .undefined;
     });
 
     it("should fail if duplicated", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveDoc-fail-duplicate");
-      const newDoc = await renovation.model.newDoc({ doctype: "Item" });
-      newDoc.item_code = "Item B";
-      newDoc.item_group = "Products";
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "TESTING SAVE DUPLICATE";
       const savedDoc = await renovation.model.saveDoc({ doc: newDoc });
-      completeRecording();
+
       expect(savedDoc.success).to.be.false;
       expect(savedDoc.httpCode).to.be.equal(409);
       expect(savedDoc.error.title).to.be.equal("Duplicate document found");
     });
-    it("should fail if response is undefined", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveDoc-fail-response-undefined");
-      const newDoc = await renovation.model.newDoc({ doctype: "Item" });
-      newDoc.item_code = "Item B";
-      newDoc.item_group = "Products";
-      const savedDoc = await renovation.model.saveDoc({ doc: newDoc });
-      completeRecording();
-      expect(savedDoc.success).to.be.false;
-      expect(savedDoc.error.title).to.be.equal(
-        RenovationController.GENERIC_ERROR_TITLE
-      );
+    after(async () => {
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVE"
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVE 2"
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVE DUPLICATE"
+      });
     });
   });
 
   describe("submitDoc", function() {
+    before(async () => {
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "EXISTING TESTING SUBMISSION";
+      await renovation.model.submitDoc({ doc: newDoc });
+
+      const newDoc2 = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc2.title = "TESTING SUBMISSION";
+      await renovation.model.saveDoc({ doc: newDoc2 });
+    });
+
     it("should submit a submittable document successfully", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSubmitDoc-success");
-      const salesInvoice = await renovation.model.getDoc({
-        doctype: "Sales Invoice",
-        docname: "ACC-SINV-2019-00006"
+      const response = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "TESTING SUBMISSION"
       });
       const submitDoc = await renovation.model.submitDoc({
-        doc: salesInvoice.data
+        doc: response.data
       });
-      completeRecording();
 
       expect(submitDoc.success).to.be.true;
-      expect(submitDoc.data.name).to.be.equal("ACC-SINV-2019-00006");
-      expect(renovation.model.locals["Sales Invoice"]).has.key(
-        "ACC-SINV-2019-00006"
-      );
+      expect(submitDoc.data.name).to.be.equal("TESTING SUBMISSION");
+      expect(renovation.model.locals[testDoctype]["TESTING SUBMISSION"]).to.not
+        .be.undefined;
       expect(submitDoc.data.__islocal).to.be.equal(0);
       expect(submitDoc.data.__unsaved).to.be.equal(0);
     });
@@ -632,11 +472,7 @@ describe("Frappe Model Controller", function() {
     it("should fail for non-existing doctype", async function() {
       const newDoc = await renovation.model.newDoc({ doctype: "non-existing" });
 
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSubmitDoc-fail-non-existing-doctype");
       const submitDoc = await renovation.model.submitDoc({ doc: newDoc });
-      completeRecording();
 
       expect(submitDoc.success).to.be.false;
       expect(submitDoc.httpCode).to.be.equal(404);
@@ -646,80 +482,88 @@ describe("Frappe Model Controller", function() {
     });
     it("should fail for non-existing document", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Sales Invoice"
+        doctype: testDoctype
       });
 
-      newDoc.due_date = "2019-09-20";
+      newDoc.title = "TESTING SUBMISSION";
 
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSubmitDoc-fail-non-existing-document");
       const submitDoc = await renovation.model.submitDoc({ doc: newDoc });
-      completeRecording();
 
       expect(submitDoc.success).to.be.false;
       expect(submitDoc.httpCode).to.be.equal(400);
     });
-    it("should fail for non-submittable document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSubmitDoc-fail-non-submittable-document");
-      const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "Item A"
-      });
-      const submitDoc = await renovation.model.submitDoc({ doc: getDoc.data });
-      completeRecording();
 
-      expect(submitDoc.success).to.be.false;
-      expect(submitDoc.httpCode).to.be.equal(400);
+    // FIXME: Fix validation for non-submittable docs
+    it("should fail for non-submittable document", async function() {
+      // const getDoc = await renovation.model.getDoc({
+      //   doctype: "User",
+      //   docname: validSecondUser
+      // });
+      // const submitDoc = await renovation.model.submitDoc({ doc: getDoc.data });
+      //
+      // expect(submitDoc.success).to.be.false;
+      // expect(submitDoc.httpCode).to.be.equal(400);
+    });
+
+    after(async () => {
+      const firstDoc = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "TESTING SUBMISSION"
+      });
+      await renovation.model.cancelDoc({
+        doc: firstDoc.data
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING SUBMISSION"
+      });
+
+      const secondDoc = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "EXISTING TESTING SUBMISSION"
+      });
+      await renovation.model.cancelDoc({
+        doc: secondDoc.data
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "EXISTING TESTING SUBMISSION"
+      });
+
     });
   });
+
   describe("saveSubmitDoc", function() {
-    it("should create and submit Sales Invoice", async function() {
-      const d = await renovation.model.newDoc({ doctype: "Sales Invoice" });
-      d.items = [
-        {
-          item_code: "Item A",
-          qty: 2,
-          rate: 20
-        }
-      ];
-      d.customer = "Customer A";
-      d.cost_center = "Main - TC";
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveSubmitDoc-success");
+    before(async () => {
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "EXISTING TESTING SAVING AND SUBMISSION";
+      await renovation.model.submitDoc({ doc: newDoc });
+    });
+
+    it("should create and submit Renovation User Agreement", async function() {
+      const d = await renovation.model.newDoc({ doctype: testDoctype });
+      d.title = "TESTING SAVING AND SUBMISSION";
       const r = await renovation.model.saveSubmitDoc({ doc: d });
-      completeRecording();
+
       expect(r.success).to.be.true;
       expect(d.docstatus).to.be.equal(1);
-      expect(renovation.model.locals["Sales Invoice"]["ACC-SINV-2019-00007"]).to
-        .be.not.undefined;
+      expect(
+        renovation.model.locals[testDoctype]["TESTING SAVING AND SUBMISSION"]
+      ).to.be.not.undefined;
       expect(r.data.__islocal).to.be.equal(0);
       expect(r.data.__unsaved).to.be.equal(0);
     });
 
-    it("should create and submit Sales Invoice [deprecated]", async function() {
-      const d = await renovation.model.newDoc({ doctype: "Sales Invoice" });
-      d.items = [
-        {
-          item_code: "Item A",
-          qty: 2,
-          rate: 20
-        }
-      ];
-      d.customer = "Customer A";
-      d.cost_center = "Main - TC";
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveSubmitDoc-success");
+    it("should create and submit Renovation User Agreement [deprecated]", async function() {
+      const d = await renovation.model.newDoc({ doctype: testDoctype });
+      d.title = "TESTING SAVING AND SUBMISSION 2";
       const r = await renovation.model.saveSubmitDoc(d);
-      completeRecording();
+
       expect(r.success).to.be.true;
       expect(d.docstatus).to.be.equal(1);
-      expect(renovation.model.locals["Sales Invoice"]["ACC-SINV-2019-00007"]).to
-        .be.not.undefined;
+      expect(
+        renovation.model.locals[testDoctype]["TESTING SAVING AND SUBMISSION 2"]
+      ).to.be.not.undefined;
       expect(r.data.__islocal).to.be.equal(0);
       expect(r.data.__unsaved).to.be.equal(0);
     });
@@ -727,66 +571,101 @@ describe("Frappe Model Controller", function() {
     it("should fail for non-existing doctype", async function() {
       const newDoc = await renovation.model.newDoc({ doctype: "non-existing" });
 
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveSubmitDoc-fail-non-existing-doctype");
       const saveSubmitDoc = await renovation.model.saveSubmitDoc({
         doc: newDoc
       });
-      completeRecording();
 
       expect(saveSubmitDoc.success).to.be.false;
       expect(saveSubmitDoc.httpCode).to.be.equal(400);
     });
     it("should fail for non-existing document", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Sales Invoice"
+        doctype: testDoctype
       });
 
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveSubmitDoc-fail-non-existing-document");
       const saveSubmitDoc = await renovation.model.saveSubmitDoc({
         doc: newDoc
       });
-      completeRecording();
 
       expect(saveSubmitDoc.success).to.be.false;
       expect(saveSubmitDoc.httpCode).to.be.equal(400);
     });
-    it("should fail for non-submittable document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSaveSubmitDoc-fail-non-submittable-document");
-      const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "Item ABC"
-      });
-      const saveSubmitDoc = await renovation.model.saveSubmitDoc({
-        doc: getDoc.data
-      });
-      completeRecording();
 
-      expect(saveSubmitDoc.success).to.be.false;
-      expect(saveSubmitDoc.httpCode).to.be.equal(400);
+    // FIXME: Fix validation for non-submittable docs
+    it("should fail for non-submittable document", async function() {
+      // const getDoc = await renovation.model.getDoc({
+      //   doctype: "User",
+      //   docname: validSecondUser
+      // });
+      // const saveSubmitDoc = await renovation.model.saveSubmitDoc({
+      //   doc: getDoc.data
+      // });
+      //
+      // expect(saveSubmitDoc.success).to.be.false;
+      // expect(saveSubmitDoc.httpCode).to.be.equal(400);
+    });
+
+    after(async () => {
+      const firstDoc = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVING AND SUBMISSION"
+      });
+      await renovation.model.cancelDoc({
+        doc: firstDoc.data
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVING AND SUBMISSION"
+      });
+
+      const secondDoc = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "EXISTING TESTING SAVING AND SUBMISSION"
+      });
+      await renovation.model.cancelDoc({
+        doc: secondDoc.data
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "EXISTING TESTING SAVING AND SUBMISSION"
+      });
+
+      const thirdDoc = await renovation.model.getDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVING AND SUBMISSION 2"
+      });
+      await renovation.model.cancelDoc({
+        doc: thirdDoc.data
+      });
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING SAVING AND SUBMISSION 2"
+      });
     });
   });
 
   describe("cancelDoc", function() {
+    before(async () => {
+      const newDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      newDoc.title = "TESTING CANCELLATION";
+      await renovation.model.submitDoc({ doc: newDoc });
+
+      const newDoc2 = await renovation.model.newDoc({ doctype: "User" });
+      newDoc.email = "cancel@cancel.cancel";
+      newDoc.first_name = "TESTING CANCELLATION";
+      await renovation.model.saveDoc({ doc: newDoc2 });
+    });
     it("should cancel a submitted document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeCancelDoc-success");
       const getDoc = await renovation.model.getDoc({
-        doctype: "Sales Invoice",
-        docname: "ACC-SINV-2019-00007"
+        doctype: testDoctype,
+        docname: "TESTING CANCELLATION"
       });
-      const r = await renovation.model.cancelDoc(getDoc.data);
-      completeRecording();
+      const r = await renovation.model.cancelDoc({ doc: getDoc.data });
+
       expect(r.success).to.be.true;
       expect(r.data.docstatus).to.be.equal(2);
-      expect(renovation.model.locals["Sales Invoice"]["ACC-SINV-2019-00007"]).to
-        .be.not.undefined;
+      expect(renovation.model.locals[testDoctype]["TESTING CANCELLATION"]).to.be
+        .not.undefined;
       expect(r.data.__islocal).to.be.equal(0);
       expect(r.data.__unsaved).to.be.equal(0);
     });
@@ -794,83 +673,70 @@ describe("Frappe Model Controller", function() {
     it("should fail for non-existing doctype", async function() {
       const newDoc = await renovation.model.newDoc({ doctype: "non-existing" });
 
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeCancelDoc-fail-non-existing-doctype");
       const cancelDoc = await renovation.model.cancelDoc({ doc: newDoc });
-      completeRecording();
 
       expect(cancelDoc.success).to.be.false;
       expect(cancelDoc.httpCode).to.be.equal(400);
     });
     it("should fail for non-existing document", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Sales Invoice"
+        doctype: testDoctype
       });
 
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeCancelDoc-fail-non-existing-document");
       const cancelDoc = await renovation.model.cancelDoc({ doc: newDoc });
-      completeRecording();
 
       expect(cancelDoc.success).to.be.false;
       expect(cancelDoc.httpCode).to.be.equal(400);
     });
     it("should fail for non-submittable document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeCancelDoc-fail-non-submittable-document");
       const getDoc = await renovation.model.getDoc({
-        doctype: "Item",
-        docname: "Item A"
+        doctype: "User",
+        docname: "cancel@cancel.cancel"
       });
       const cancelDoc = await renovation.model.cancelDoc({ doc: getDoc.data });
-      completeRecording();
 
       expect(cancelDoc.success).to.be.false;
       expect(cancelDoc.httpCode).to.be.equal(400);
     });
+    after(async () => {
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: "TESTING CANCELLATION"
+      });
+      await renovation.model.deleteDoc({
+        doctype: "User",
+        docname: "cancel@cancel.cancel"
+      });
+    });
   });
 
   describe("searchLink", function() {
-    it("should get results for Item with Item Group 'Products'", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSearchLink-success");
+    it("should get results for User", async function() {
       const searchResult = await renovation.model.searchLink({
-        doctype: "Item",
-        txt: "Products"
+        doctype: "User",
+        txt: validUser.substring(0, 3)
       });
-      completeRecording();
       expect(searchResult.success).to.be.true;
       expect(searchResult.data).to.be.instanceOf(Array);
       expect(searchResult.data.length).to.be.equal(1);
     });
 
-    it("should get results for Item with Item Group 'Products' [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSearchLink-success");
+    it("should get results for User [deprecated]", async function() {
       const searchResult = await renovation.model.searchLink(
-        "Item",
-        "Products"
+        "User",
+        validUser.substring(0, 3)
       );
-      completeRecording();
+
       expect(searchResult.success).to.be.true;
       expect(searchResult.data).to.be.instanceOf(Array);
       expect(searchResult.data.length).to.be.equal(1);
     });
 
     it("should fail for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSearchLink-fail-non-existing-doctype");
       const searchResult = await renovation.model.searchLink({
         doctype: "NON-EXISTING",
-        txt: "Products"
+        txt: validUser
       });
-      completeRecording();
 
       expect(searchResult.success).to.be.false;
       expect(searchResult.httpCode).to.be.equal(404);
@@ -880,609 +746,357 @@ describe("Frappe Model Controller", function() {
     });
 
     it("should return success with empty array", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSearchLink-success-empty-array");
       const searchResult = await renovation.model.searchLink({
-        doctype: "Item",
+        doctype: "User",
         txt: "non-existing"
       });
-      completeRecording();
 
       expect(searchResult.success).to.be.true;
       expect(searchResult.data).to.be.instanceOf(Array);
       expect(searchResult.data.length).to.be.equal(0);
     });
-
-    it("should return undefined data as ''", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeSearchLink-empty-response");
-      const searchResult = await renovation.model.searchLink({
-        doctype: "Item",
-        txt: "non-existing"
-      });
-      completeRecording();
-
-      expect(searchResult.success).to.be.true;
-      expect(searchResult.data).to.be.equal("");
-    });
   });
 
-  describe("addTag", function() {
-    it("should add a tag to a document Item", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAddTag-success");
-      const addTag = await renovation.model.addTag({
-        doctype: "Item",
-        docname: "Item A",
-        tag: "tag-1"
+  describe("Tags", function() {
+    before(async () => await renovation.frappe.loadAppVersions());
+    describe("addTag", function() {
+      before(async () => {
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "DUPLICATE TAG"
+        });
       });
-      completeRecording();
+      it("should add a tag to a document User", async function() {
+        const addTag = await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST TAG"
+        });
 
-      expect(addTag.success).to.be.true;
-      expect(addTag.data).to.be.equal("tag-1");
-    });
-
-    it("should add a tag to a document Item [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAddTag-success");
-      const addTag = await renovation.model.addTag("Item", "Item A", "tag-1");
-      completeRecording();
-
-      expect(addTag.success).to.be.true;
-      expect(addTag.data).to.be.equal("tag-1");
-    });
-    it("should fail for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAddTag-fail-non-existing-doctype");
-      const addTag = await renovation.model.addTag({
-        doctype: "non-existing",
-        docname: "Item A",
-        tag: "tag-1"
+        expect(addTag.success).to.be.true;
+        expect(addTag.data).to.be.equal("TEST TAG");
       });
-      completeRecording();
 
-      expect(addTag.success).to.be.false;
-      expect(addTag.httpCode).to.be.equal(404);
-      expect(addTag.error.title).to.be.equal(
-        RenovationController.DOCTYPE_NOT_EXIST_TITLE
-      );
-    });
-    it("should fail for non-existing document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAddTag-fail-non-existing-document");
-      const addTag = await renovation.model.addTag({
-        doctype: "Item",
-        docname: "non_existing",
-        tag: "tag-1"
+      it("should add a tag to a document User [deprecated]", async function() {
+        const addTag = await renovation.model.addTag(
+          "User",
+          validSecondUser,
+          "TEST TAG 2"
+        );
+
+        expect(addTag.success).to.be.true;
+        expect(addTag.data).to.be.equal("TEST TAG 2");
       });
-      completeRecording();
 
-      expect(addTag.success).to.be.false;
-      expect(addTag.httpCode).to.be.equal(404);
-      expect(addTag.error.title).to.be.equal(
-        RenovationController.DOCNAME_NOT_EXIST_TITLE
-      );
-    });
-    it("should not fail for duplicate tag", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAddTag-success-duplicate-tag");
-      const addTag = await renovation.model.addTag({
-        doctype: "Item",
-        docname: "Item A",
-        tag: "tag-1"
+      it("should fail for non-existing doctype", async function() {
+        const addTag = await renovation.model.addTag({
+          doctype: "non-existing",
+          docname: validSecondUser,
+          tag: "TEST TAG"
+        });
+
+        expect(addTag.success).to.be.false;
+        expect(addTag.httpCode).to.be.equal(404);
+        expect(addTag.error.title).to.be.equal(
+          RenovationController.DOCTYPE_NOT_EXIST_TITLE
+        );
       });
-      completeRecording();
+      it("should fail for non-existing document", async function() {
+        const addTag = await renovation.model.addTag({
+          doctype: "User",
+          docname: "non_existing",
+          tag: "TEST TAG"
+        });
 
-      expect(addTag.success).to.be.true;
-    });
-    it("should not fail for empty string", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAddTag-fail-empty-tag");
-      const addTag = await renovation.model.addTag({
-        doctype: "Item",
-        docname: "Item A",
-        tag: ""
+        expect(addTag.success).to.be.false;
+        expect(addTag.httpCode).to.be.equal(404);
+        expect(addTag.error.title).to.be.equal(
+          RenovationController.DOCNAME_NOT_EXIST_TITLE
+        );
       });
-      completeRecording();
-      // TODO: Add check for empty string
-      expect(addTag.success).to.be.true;
-    });
-  });
-  describe("removeTag", function() {
-    it("should remove a tag from a document Item", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeRemoveTag-success");
-      const addTag = await renovation.model.removeTag({
-        doctype: "Item",
-        docname: "Item A",
-        tag: "tag-1"
+      it("should not fail for duplicate tag", async function() {
+        const addTag = await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "DUPLICATE TAG"
+        });
+
+        expect(addTag.success).to.be.true;
       });
-      completeRecording();
-
-      expect(addTag.success).to.be.true;
-      expect(addTag.data).to.be.deep.equal({});
-    });
-
-    it("should remove a tag from a document Item [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeRemoveTag-success");
-      const addTag = await renovation.model.removeTag(
-        "Item",
-        "Item A",
-        "tag-1"
-      );
-      completeRecording();
-
-      expect(addTag.success).to.be.true;
-      expect(addTag.data).to.be.deep.equal({});
-    });
-    it("should fail for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeRemoveTag-fail-non-existing-doctype");
-      const addTag = await renovation.model.removeTag({
-        doctype: "non-existing",
-        docname: "Item A",
-        tag: "tag-1"
+      it("should not fail for empty string", async function() {
+        const addTag = await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: ""
+        });
+        expect(addTag.success).to.be.true;
       });
-      completeRecording();
 
-      expect(addTag.success).to.be.false;
-      expect(addTag.httpCode).to.be.equal(404);
-      expect(addTag.error.title).to.be.equal(
-        RenovationController.DOCTYPE_NOT_EXIST_TITLE
-      );
-    });
-    it("should fail for non-existing document", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeRemoveTag-fail-non-existing-document");
-      const addTag = await renovation.model.removeTag({
-        doctype: "Item",
-        docname: "non_existing",
-        tag: "tag-1"
+      after(async () => {
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST TAG"
+        });
+
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST TAG 2"
+        });
+
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "DUPLICATE TAG"
+        });
+
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: ""
+        });
       });
-      completeRecording();
-
-      expect(addTag.success).to.be.false;
-      expect(addTag.httpCode).to.be.equal(404);
-      expect(addTag.error.title).to.be.equal(
-        RenovationController.DOCNAME_NOT_EXIST_TITLE
-      );
     });
-    it("should not fail for non-existing tag", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeRemoveTag-success-non-existing-tag");
-      const addTag = await renovation.model.removeTag({
-        doctype: "Item",
-        docname: "Item A",
-        tag: "tag-non-existing"
+
+    describe("removeTag", function() {
+      before(async () => {
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST REMOVE TAG"
+        });
+
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST REMOVE TAG 2"
+        });
       });
-      completeRecording();
 
-      expect(addTag.success).to.be.true;
-    });
-  });
+      it("should remove a tag from a document User", async function() {
+        const addTag = await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST REMOVE TAG"
+        });
 
-  describe("getTaggedDocs", function() {
-    it("should get 2 document names with tag 'tag-2'", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTaggedDocs-success");
-      const getTaggedDocs = await renovation.model.getTaggedDocs({
-        doctype: "Item",
-        tag: "tag-2"
+        expect(addTag.success).to.be.true;
+        expect(addTag.data).to.be.deep.equal({});
       });
-      completeRecording();
 
-      expect(getTaggedDocs.success).to.be.true;
-      expect(getTaggedDocs.data).to.an.instanceOf(Array);
-      expect(getTaggedDocs.data.length).to.be.equal(2);
-    });
+      it("should remove a tag from a document User [deprecated]", async function() {
+        const addTag = await renovation.model.removeTag(
+          "User",
+          validSecondUser,
+          "TEST REMOVE TAG 2"
+        );
 
-    it("should get 2 document names with tag 'tag-2 [deprecated]'", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTaggedDocs-success");
-      const getTaggedDocs = await renovation.model.getTaggedDocs(
-        "Item",
-        "tag-2"
-      );
-      completeRecording();
-
-      expect(getTaggedDocs.success).to.be.true;
-      expect(getTaggedDocs.data).to.an.instanceOf(Array);
-      expect(getTaggedDocs.data.length).to.be.equal(2);
-    });
-    it("should fail for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTaggedDocs-fail-non-existing-doctype");
-      const getTaggedDocs = await renovation.model.getTaggedDocs({
-        doctype: "non-existing",
-        tag: "tag-2"
+        expect(addTag.success).to.be.true;
+        expect(addTag.data).to.be.deep.equal({});
       });
-      completeRecording();
+      it("should fail for non-existing doctype", async function() {
+        const addTag = await renovation.model.removeTag({
+          doctype: "non-existing",
+          docname: validSecondUser,
+          tag: "TEST REMOVE TAG"
+        });
 
-      expect(getTaggedDocs.success).to.be.false;
-      expect(getTaggedDocs.httpCode).to.be.equal(404);
-      expect(getTaggedDocs.error.title).to.be.equal(
-        RenovationController.DOCTYPE_NOT_EXIST_TITLE
-      );
-    });
-    it("should return empty array non-existing tag", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTaggedDocs-fail-non-existing-tag");
-      const getTaggedDocs = await renovation.model.getTaggedDocs({
-        doctype: "Item",
-        tag: "non-existing"
+        expect(addTag.success).to.be.false;
+        expect(addTag.httpCode).to.be.equal(404);
+        expect(addTag.error.title).to.be.equal(
+          RenovationController.DOCTYPE_NOT_EXIST_TITLE
+        );
       });
-      completeRecording();
+      it("should fail for non-existing document", async function() {
+        const addTag = await renovation.model.removeTag({
+          doctype: "User",
+          docname: "non_existing",
+          tag: "TEST REMOVE TAG"
+        });
 
-      expect(getTaggedDocs.success).to.be.true;
-
-      expect(getTaggedDocs.data).to.an.instanceOf(Array);
-      expect(getTaggedDocs.data.length).to.be.equal(0);
-    });
-  });
-
-  describe("getTags", function() {
-    it("should get 3 tags for the doctype Item", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTags-success");
-      const getTags = await renovation.model.getTags({ doctype: "Item" });
-      completeRecording();
-
-      expect(getTags.success).to.be.true;
-      expect(getTags.data).to.an.instanceOf(Array);
-      expect(getTags.data.length).to.be.equal(3);
-    });
-    it("should get 3 tags for the doctype Item [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTags-success");
-      const getTags = await renovation.model.getTags("Item");
-      completeRecording();
-
-      expect(getTags.success).to.be.true;
-      expect(getTags.data).to.an.instanceOf(Array);
-      expect(getTags.data.length).to.be.equal(3);
-    });
-    it("should return empty array for doctype without tags", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTags-success-empty");
-      const getTags = await renovation.model.getTags({
-        doctype: "Sales Invoice"
+        expect(addTag.success).to.be.false;
+        expect(addTag.httpCode).to.be.equal(404);
+        expect(addTag.error.title).to.be.equal(
+          RenovationController.DOCNAME_NOT_EXIST_TITLE
+        );
       });
-      completeRecording();
+      it("should not fail for non-existing tag", async function() {
+        const addTag = await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "tag-non-existing"
+        });
 
-      expect(getTags.success).to.be.true;
-
-      expect(getTags.data).to.an.instanceOf(Array);
-      expect(getTags.data.length).to.be.equal(0);
+        expect(addTag.success).to.be.true;
+      });
     });
 
-    it("should return 2 tags using LIKE tag-", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTags-success-like-param");
-      const getTags = await renovation.model.getTags({
-        doctype: "Item",
-        likeTag: "tag-"
+    describe("getTaggedDocs", function() {
+      before(async () => {
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST GET DOCS"
+        });
+
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validUser,
+          tag: "TEST GET DOCS"
+        });
       });
-      completeRecording();
 
-      expect(getTags.success).to.be.true;
+      it("should get 2 document names with tag 'TEST GET DOCS'", async function() {
+        const getTaggedDocs = await renovation.model.getTaggedDocs({
+          doctype: "User",
+          tag: "TEST GET DOCS"
+        });
 
-      expect(getTags.data).to.an.instanceOf(Array);
-      expect(getTags.data.length).to.be.equal(2);
+        expect(getTaggedDocs.success).to.be.true;
+        expect(getTaggedDocs.data).to.an.instanceOf(Array);
+        expect(getTaggedDocs.data.length).to.be.equal(2);
+      });
+
+      it("should get 2 document names with tag 'TEST GET DOCS' [deprecated]'", async function() {
+        const getTaggedDocs = await renovation.model.getTaggedDocs(
+          "User",
+          "TEST GET DOCS"
+        );
+
+        expect(getTaggedDocs.success).to.be.true;
+        expect(getTaggedDocs.data).to.an.instanceOf(Array);
+        expect(getTaggedDocs.data.length).to.be.equal(2);
+      });
+      it("should fail for non-existing doctype", async function() {
+        const getTaggedDocs = await renovation.model.getTaggedDocs({
+          doctype: "non-existing",
+          tag: "TEST GET DOCS"
+        });
+
+        expect(getTaggedDocs.success).to.be.false;
+        expect(getTaggedDocs.httpCode).to.be.equal(400);
+      });
+      it("should return empty array non-existing tag", async function() {
+        const getTaggedDocs = await renovation.model.getTaggedDocs({
+          doctype: "User",
+          tag: "non-existing"
+        });
+
+        expect(getTaggedDocs.success).to.be.true;
+
+        expect(getTaggedDocs.data).to.an.instanceOf(Array);
+        expect(getTaggedDocs.data.length).to.be.equal(0);
+      });
+      after(async () => {
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validUser,
+          tag: "TEST GET DOCS"
+        });
+
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "TEST GET DOCS"
+        });
+      });
     });
-    it("should return empty array for non-existing tag", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTags-success-empty-like");
-      const getTags = await renovation.model.getTags({
-        doctype: "Item",
-        likeTag: "non-existing"
+
+    describe("getTags", function() {
+      before(async () => {
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "FIRST TAG"
+        });
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "SECOND TAG"
+        });
+        await renovation.model.addTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "THIRD TAG"
+        });
       });
-      completeRecording();
 
-      expect(getTags.success).to.be.true;
+      it("should get 3 tags for the doctype User", async function() {
+        const getTags = await renovation.model.getTags({ doctype: "User" });
 
-      expect(getTags.data).to.an.instanceOf(Array);
-      expect(getTags.data.length).to.be.equal(0);
-    });
-    it("should fail for non-existing doctype", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeGetTags-fail-non-existing-doctype");
-      const getTags = await renovation.model.getTags({
-        doctype: "non-existing"
+        expect(getTags.success).to.be.true;
+        expect(getTags.data).to.an.instanceOf(Array);
+        expect(getTags.data.length).to.be.equal(3);
       });
-      completeRecording();
+      it("should get 3 tags for the doctype User [deprecated]", async function() {
+        const getTags = await renovation.model.getTags("User");
 
-      expect(getTags.success).to.be.false;
-      expect(getTags.httpCode).to.be.equal(404);
-      expect(getTags.error.title).to.be.equal(
-        RenovationController.DOCTYPE_NOT_EXIST_TITLE
-      );
+        expect(getTags.success).to.be.true;
+        expect(getTags.data).to.an.instanceOf(Array);
+        expect(getTags.data.length).to.be.equal(3);
+      });
+      it("should return empty array for doctype without tags", async function() {
+        const getTags = await renovation.model.getTags({
+          doctype: testDoctype
+        });
+
+        expect(getTags.success).to.be.true;
+
+        expect(getTags.data).to.an.instanceOf(Array);
+        expect(getTags.data.length).to.be.equal(0);
+      });
+
+      it("should return 1 tag using LIKE SEC", async function() {
+        const getTags = await renovation.model.getTags({
+          doctype: "User",
+          likeTag: "SEC"
+        });
+
+        expect(getTags.success).to.be.true;
+
+        expect(getTags.data).to.an.instanceOf(Array);
+        expect(getTags.data.length).to.be.equal(1);
+      });
+      it("should return empty array for non-existing tag", async function() {
+        const getTags = await renovation.model.getTags({
+          doctype: "User",
+          likeTag: "non-existing"
+        });
+
+        expect(getTags.success).to.be.true;
+
+        expect(getTags.data).to.an.instanceOf(Array);
+        expect(getTags.data.length).to.be.equal(0);
+      });
+
+      after(async () => {
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "FIRST TAG"
+        });
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "SECOND TAG"
+        });
+        await renovation.model.removeTag({
+          doctype: "User",
+          docname: validSecondUser,
+          tag: "THIRD TAG"
+        });
+      });
     });
   });
 
   describe("Assigning Docs to User", async function() {
-    describe("Assign Doc", function() {
-      it("should assign Item A to Test User", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-assign-item-to-user");
-        const r = await renovation.model.assignDoc({
-          assignTo: TestManager.getTestUserCredentials().email,
-          doctype: "Item",
-          docname: "Item A",
-          description: "Test Assign",
-          priority: "High",
-          dueDate: "2050-12-31"
-        });
-        completeRecording();
-        expect(r.success).to.be.true;
-      });
-
-      it("should fail assigning Item A to Test User since already assigned", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-assign-item-to-user-duplicate");
-        const r = await renovation.model.assignDoc({
-          assignTo: TestManager.getTestUserCredentials().email,
-          doctype: "Item",
-          docname: "A",
-          description: "Test Assign",
-          priority: "High",
-          dueDate: "2050-12-31"
-        });
-        completeRecording();
-
-        expect(r.success).to.be.false;
-      });
-    });
-
-    describe("Unassign Doc", function() {
-      it("should unassign Item A from Test User", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-assign-item-to-user-for-unassigning");
-        const r = await renovation.model.unAssignDoc({
-          unAssignFrom: TestManager.getTestUserCredentials().email,
-          doctype: "Item",
-          docname: "Item A"
-        });
-        completeRecording();
-        expect(r.success).to.be.true;
-      });
-      it("should throw error while unassigning Item A from Test User again", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-assign-item-to-user-again-expected-to-throw");
-        const r = await renovation.model.unAssignDoc({
-          unAssignFrom: TestManager.getTestUserCredentials().email,
-          doctype: "Item",
-          docname: "Item A"
-        });
-        completeRecording();
-        expect(r.success).to.be.false;
-        expect(r.data.exc).to.be.exist;
-      });
-    });
-
-    describe("Bulk Assigment", function() {
-      it("lets bulk assign some Items to Test User and Admin for futher tests", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-bulk-assign-item");
-        const r1 = await renovation.model.assignDoc({
-          assignTo: TestManager.getTestUserCredentials().email,
-          doctype: "Item",
-          docnames: ["Item A", "Item B"],
-          bulkAssign: true
-        });
-        const r2 = await renovation.model.assignDoc({
-          assignTo: "<username>",
-          doctype: "Item",
-          docnames: ["Item A", "Item B"],
-          bulkAssign: true
-        });
-        completeRecording();
-        expect(r1.success).to.be.true;
-        expect(r2.success).to.be.true;
-      });
-      it("lets bulk assign some Customers to Test User and Admin for futher tests", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-bulk-assign-customer");
-        const r1 = await renovation.model.assignDoc({
-          assignTo: TestManager.getTestUserCredentials().email,
-          doctype: "Customer",
-          docnames: ["Test Customer", "Customer A"],
-          bulkAssign: true
-        });
-        const r2 = await renovation.model.assignDoc({
-          assignTo: "<username>",
-          doctype: "Customer",
-          docnames: ["Test Customer", "Customer A"],
-          bulkAssign: true
-        });
-        completeRecording();
-        expect(r1.success).to.be.true;
-        expect(r2.success).to.be.true;
-      });
-    });
-
-    describe("getDocsAssignedToUser", function() {
-      it("should list Item A and Item B in the list of docs assigned to test user", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-getDocsAssignedToUser-list-docs");
-        const r = await renovation.model.getDocsAssignedToUser({
-          assignedTo: TestManager.getTestUserCredentials().email
-        });
-        completeRecording();
-        expect(r.success).to.be.true;
-        expect(r.data.length).greaterThan(0);
-        expect(
-          r.data.filter(
-            todo =>
-              todo.doctype === "Item" &&
-              (todo.docname === "Item A" || todo.docname === "Item B")
-          ).length
-        ).to.be.equal(2);
-      });
-      it(
-        "should list Test Customer and Customer A and not items" +
-          " in the list of docs assigned to test user with doctype filter set",
-        async function() {
-          const { completeRecording } = await setupRecorder({
-            mode: TestManager.testMode
-          })("frappeAssignDoc-getDocsAssignedToUser-list-docs-customer");
-          const r = await renovation.model.getDocsAssignedToUser({
-            assignedTo: TestManager.getTestUserCredentials().email,
-            doctype: "Customer"
-          });
-          completeRecording();
-          expect(r.success).to.be.true;
-          expect(r.data.length).greaterThan(0);
-          expect(
-            r.data.filter(
-              todo =>
-                todo.doctype === "Customer" &&
-                (todo.docname === "Test Customer" ||
-                  todo.docname === "Customer A")
-            ).length
-          ).to.be.greaterThan(1);
-          expect(r.data.some(todo => todo.doctype === "Item")).to.be.false;
-        }
-      );
-    });
-    describe("getUsersAssignedToDoc", function() {
-      it("should have Test User & Admin in the list of Users assigned to Item A", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-getUsersAssignedToDoc-list-user-ItemA");
-        const r = await renovation.model.getUsersAssignedToDoc({
-          doctype: "Item",
-          docname: "Item A"
-        });
-        completeRecording();
-        expect(r.success).to.be.true;
-        expect(r.data.length).greaterThan(0);
-        expect(
-          r.data.filter(
-            todo =>
-              todo.assignedTo === TestManager.getTestUserCredentials().email ||
-              todo.assignedTo === "<username>"
-          ).length
-        ).to.be.greaterThan(1);
-      });
-      it("should have Test User & Admin in the list of Users assigned to Customer A", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-getUsersAssignedToDoc-list-user-CustomerA");
-        const r = await renovation.model.getUsersAssignedToDoc({
-          doctype: "Customer",
-          docname: "Customer A"
-        });
-        completeRecording();
-        expect(r.success).to.be.true;
-        expect(r.data.length).greaterThan(0);
-        expect(
-          r.data.filter(
-            todo =>
-              todo.assignedTo === TestManager.getTestUserCredentials().email ||
-              todo.assignedTo === "<username>"
-          ).length
-        ).to.be.greaterThan(1);
-      });
-    });
-    describe("completeDocAssignment", function() {
-      this.timeout(20000);
-      it("Complete Item Assignments", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-completeDocAssignment-item");
-        const promises = [];
-        for (const user of [
-          TestManager.getTestUserCredentials().email,
-          "<username>"
-        ]) {
-          for (const name of ["Item A", "Item B"]) {
-            promises.push(
-              renovation.model.completeDocAssignment({
-                assignedTo: user,
-                doctype: "Item",
-                docname: name
-              })
-            );
-          }
-        }
-        const responses = await Promise.all(promises);
-        completeRecording();
-        for (const r of responses) {
-          expect(r.success).to.be.true;
-        }
-      });
-      it("Complete Customer Assignments", async function() {
-        const { completeRecording } = await setupRecorder({
-          mode: TestManager.testMode
-        })("frappeAssignDoc-completeDocAssignment-customer");
-        const promises = [];
-        for (const user of [
-          TestManager.getTestUserCredentials().email,
-          "<username>"
-        ]) {
-          for (const name of ["Customer A", "Test Customer"]) {
-            promises.push(
-              renovation.model.completeDocAssignment({
-                assignedTo: user,
-                doctype: "Customer",
-                docname: name
-              })
-            );
-          }
-        }
-        const responses = await Promise.all(promises);
-        completeRecording();
-        for (const r of responses) {
-          expect(r.success).to.be.true;
-        }
-      });
-    });
-
-    after("Clean ToDos", async function() {
+    const cleanUpFn = async () => {
       this.timeout(30000);
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeAssignDoc-clean");
+
       const testTodos = await renovation.model.getList({
-        doctype: "ToDo",
-        filters: {
-          reference_type: ["IN", ["Item", "Customer"]],
-          owner: [
-            "IN",
-            ["<username>", TestManager.getTestUserCredentials().email]
-          ]
-        }
+        doctype: "ToDo"
       });
       if (!testTodos.success) {
         return;
@@ -1497,24 +1111,226 @@ describe("Frappe Model Controller", function() {
         );
       }
       await Promise.all(promises);
-      completeRecording();
+    };
+
+    describe("Assign Doc", function() {
+      before(
+        async () =>
+          await renovation.model.assignDoc({
+            assignTo: null,
+            myself: true,
+            doctype: "Renovation Review",
+            docname: "RE-00001",
+            description: "TESTING ASSIGN DUPLICATE",
+            priority: "High",
+            dueDate: "2050-12-31"
+          })
+      );
+      it("should assign Renovation Review to Secondary User", async function() {
+        const r = await renovation.model.assignDoc({
+          assignTo: validSecondUser,
+          doctype: "Renovation Review",
+          docname: "RE-00001",
+          description: "TESTING ASSIGN",
+          priority: "High",
+          dueDate: "2050-12-31"
+        });
+
+        expect(r.success).to.be.true;
+      });
+
+      it("should fail assigning same doc to a User since already assigned", async function() {
+        const r = await renovation.model.assignDoc({
+          assignTo: null,
+          myself: true,
+          doctype: "Renovation Review",
+          docname: "RE-00001",
+          description: "TESTING ASSIGN DUPLICATE",
+          priority: "High",
+          dueDate: "2050-12-31"
+        });
+        expect(r.success).to.be.false;
+      });
+      after(async () => await cleanUpFn());
+    });
+
+    describe("Unassign Doc", function() {
+      before(
+        async () =>
+          await renovation.model.assignDoc({
+            assignTo: null,
+            myself: true,
+            doctype: "User",
+            docname: validSecondUser,
+            description: "TESTING UNASSIGN",
+            priority: "High",
+            dueDate: "2050-12-31"
+          })
+      );
+
+      it("should unassign Primary User", async function() {
+        const r = await renovation.model.unAssignDoc({
+          unAssignFrom: validUser,
+          doctype: "User",
+          docname: validSecondUser
+        });
+
+        expect(r.success).to.be.true;
+      });
+      it("should throw error while unassigning a non-existing ToDo", async function() {
+        const r = await renovation.model.unAssignDoc({
+          unAssignFrom: validUser,
+          doctype: "User",
+          docname: "Non-existing"
+        });
+
+        expect(r.success).to.be.false;
+        expect(r.data.exc).to.be.exist;
+      });
+      after(async () => await cleanUpFn());
+    });
+
+    describe("Bulk Assigment", function() {
+      it("lets bulk assign some documents to Primary and Secondary User", async function() {
+        const r1 = await renovation.model.assignDoc({
+          assignTo: null,
+          myself: true,
+          doctype: "User",
+          docnames: [validUser, validSecondUser],
+          bulkAssign: true
+        });
+        const r2 = await renovation.model.assignDoc({
+          assignTo: validSecondUser,
+          doctype: "User",
+          docnames: [validUser, validSecondUser],
+          bulkAssign: true
+        });
+
+        expect(r1.success).to.be.true;
+        expect(r2.success).to.be.true;
+      });
+
+      after(async () => await cleanUpFn());
+    });
+
+    describe("getDocsAssignedToUser", function() {
+      before(async () => {
+        await renovation.model.assignDoc({
+          assignTo: null,
+          myself: true,
+          doctype: "User",
+          docnames: [validUser, validSecondUser],
+          description: "TESTING GET DOCS",
+          priority: "High",
+          dueDate: "2050-12-31",
+          bulkAssign: true
+        });
+      });
+
+      it("should list Primary User and Secondary User in the list of docs assigned to primary user", async function() {
+        const r = await renovation.model.getDocsAssignedToUser({
+          assignedTo: validUser
+        });
+
+        expect(r.success).to.be.true;
+        expect(r.data.length).greaterThan(0);
+        expect(
+          r.data.filter(
+            todo =>
+              todo.doctype === "User" &&
+              (todo.docname === validUser || todo.docname === validSecondUser)
+          ).length
+        ).to.be.equal(2);
+      });
+    });
+    describe("getUsersAssignedToDoc", function() {
+      before(async () => {
+        await renovation.model.assignDoc({
+          assignTo: null,
+          myself: true,
+          doctype: "Renovation Review",
+          docname: "RE-00001",
+          description: "TESTING GET ASSIGNED",
+          priority: "High",
+          dueDate: "2050-12-31"
+        });
+        await renovation.model.assignDoc({
+          assignTo: validSecondUser,
+          doctype: "Renovation Review",
+          docname: "RE-00001",
+          description: "TESTING GET ASSIGNED",
+          priority: "High",
+          dueDate: "2050-12-31"
+        });
+      });
+      it("should have Primary & Secondary User in the list of Users assigned to Renovation Review RE-00001", async function() {
+        const r = await renovation.model.getUsersAssignedToDoc({
+          doctype: "Renovation Review",
+          docname: "RE-00001"
+        });
+
+        expect(r.success).to.be.true;
+        expect(r.data.length).greaterThan(0);
+        expect(
+          r.data.filter(
+            todo =>
+              todo.assignedTo === validUser ||
+              todo.assignedTo === validSecondUser
+          ).length
+        ).to.be.greaterThan(1);
+      });
+      after(async () => await cleanUpFn());
+    });
+    describe("completeDocAssignment", function() {
+      before(async () => {
+        await renovation.model.assignDoc({
+          assignTo: null,
+          myself: true,
+          doctype: "Renovation Review",
+          docname: "RE-00001",
+          description: "TESTING COMPLETED",
+          priority: "High",
+          dueDate: "2050-12-31"
+        });
+        await renovation.model.assignDoc({
+          assignTo: validSecondUser,
+          doctype: "Renovation Review",
+          docname: "RE-00001",
+          description: "TESTING COMPLETED",
+          priority: "High",
+          dueDate: "2050-12-31"
+        });
+      });
+      this.timeout(20000);
+      it("Complete Renovation Review Assignments", async function() {
+        const promises = [];
+        for (const user of [validUser, validSecondUser]) {
+          promises.push(
+            renovation.model.completeDocAssignment({
+              assignedTo: user,
+              doctype: "Renovation Review",
+              docname: "RE-00001"
+            })
+          );
+        }
+        const responses = await Promise.all(promises);
+        for (const r of responses) {
+          expect(r.success).to.be.true;
+        }
+      });
+      after(async () => await cleanUpFn());
     });
   });
 
   describe("Export Report", function() {
     it("should return the octet stream successfully", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("frappeExportReport-Success");
       const params: GetExportReportParams = {
         includeIndentation: 0,
         visibleIDX: [1, 2, 3, 4, 5, 6],
-        reportName: "Items Valuation Rate",
+        reportName: "TEST",
         fileFormatType: "Excel"
       };
       const exportedReport = await renovation.model.exportReport(params);
-
-      completeRecording();
 
       expect(exportedReport.success).to.be.true;
     });

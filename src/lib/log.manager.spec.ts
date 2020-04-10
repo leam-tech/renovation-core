@@ -1,12 +1,9 @@
 import { expect } from "chai";
-import { setupRecorder } from "nock-record";
+import { RequestResponse } from "..";
+
 import { Renovation } from "../renovation";
 import { TestManager } from "../tests";
-import { RequestResponse } from "../utils/request";
 import { LogResponse } from "./interfaces";
-
-// Tested on <host_url>
-// Updated both hostUrl and client-id in test manager
 
 describe("Log Manager", function() {
   let renovation!: Renovation;
@@ -18,14 +15,10 @@ describe("Log Manager", function() {
 
   describe("info", async function() {
     it("Basic Logging", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-info-basic");
       const r0 = await renovation.log.info("Test");
       const r1 = await renovation.log.info({
         content: "Test"
       });
-      completeRecording();
       for (const r of [r0, r1]) {
         expect(r.success).to.be.true;
         expect(r.data.content).equals("Test");
@@ -34,9 +27,6 @@ describe("Log Manager", function() {
     });
 
     it("title & tags should work in basic logging", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-info-basic-title-tags");
       const r0 = await renovation.log.info(
         "Test Info 2",
         ["TAG1", "TAG2"],
@@ -47,7 +37,6 @@ describe("Log Manager", function() {
         tags: ["TAG1", "TAG2"],
         title: "TitleA"
       });
-      completeRecording();
 
       for (const r of [r0, r1]) {
         expect(r.success).to.be.true;
@@ -62,14 +51,11 @@ describe("Log Manager", function() {
 
   describe("warning", async function() {
     it("Basic Logging", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-warning-basic");
       const r0 = await renovation.log.warning("Test");
       const r1 = await renovation.log.warning({
         content: "Test"
       });
-      completeRecording();
+
       for (const r of [r0, r1]) {
         expect(r.success).to.be.true;
         expect(r.data.type).equals("Warning");
@@ -78,9 +64,6 @@ describe("Log Manager", function() {
     });
 
     it("title & tags should work in basic logging", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-warning-basic-title-tags");
       const r0 = await renovation.log.warning(
         "Test warning 2",
         ["TAG1", "TAG2"],
@@ -91,7 +74,6 @@ describe("Log Manager", function() {
         tags: ["TAG1", "TAG2"],
         title: "TitleA"
       });
-      completeRecording();
 
       for (const r of [r0, r1]) {
         expect(r.success).to.be.true;
@@ -106,14 +88,11 @@ describe("Log Manager", function() {
 
   describe("error", async function() {
     it("Basic Logging", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-error-basic");
       const r0 = await renovation.log.error("Test");
       const r1 = await renovation.log.error({
         content: "Test"
       });
-      completeRecording();
+
       for (const r of [r0, r1]) {
         expect(r.success).to.be.true;
         expect(r.data.type).equals("Error");
@@ -122,9 +101,6 @@ describe("Log Manager", function() {
     });
 
     it("title & tags should work in basic logging", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-error-basic-title-tags");
       const r0 = await renovation.log.error(
         "Test error 2",
         ["TAG1", "TAG2"],
@@ -135,7 +111,6 @@ describe("Log Manager", function() {
         tags: ["TAG1", "TAG2"],
         title: "TitleA"
       });
-      completeRecording();
 
       for (const r of [r0, r1]) {
         expect(r.success).to.be.true;
@@ -151,17 +126,11 @@ describe("Log Manager", function() {
   describe("logRequest", async function() {
     let r: RequestResponse<LogResponse> = null;
     it("should be successfull", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-request-ping");
       const r0 = await renovation.call({
         cmd: "ping"
       });
-      // hack
-      // nock-record drops request header details...
       r0._.request._header = null;
       r = await renovation.log.logRequest(r0);
-      completeRecording();
       expect(r.success).to.be.true;
     });
     it("type should be 'Request'", function() {
@@ -177,13 +146,10 @@ describe("Log Manager", function() {
   describe("setDefaultTags", function() {
     it("should reflect in logs", async function() {
       renovation.log.setDefaultTags(["TEST-DEFAULT-TAG"]);
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("log-setDefaultTags");
+
       const r0 = await renovation.log.info("TEST1");
       const r1 = await renovation.log.warning("TEST1");
       const r2 = await renovation.log.error("TEST1");
-      completeRecording();
 
       for (const r of [r0, r1, r2]) {
         expect(r.success).to.be.true;

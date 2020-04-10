@@ -16,12 +16,12 @@ describe("RenovationDocument", function() {
     });
 
     it("should add properties for each original property", function() {
-      const document = { name: "Item A", doctype: "Item" };
+      const document = { name: "TEST DOCUMENT", doctype: "User" };
 
       const renovationDocument = new RenovationDocument(document);
 
-      expect(renovationDocument.doctype).to.be.equal("Item");
-      expect(renovationDocument.name).to.be.equal("Item A");
+      expect(renovationDocument.doctype).to.be.equal("User");
+      expect(renovationDocument.name).to.be.equal("TEST DOCUMENT");
     });
   });
 });
