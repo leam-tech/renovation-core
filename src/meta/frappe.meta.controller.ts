@@ -2,7 +2,7 @@ import { RenovationConfig } from "../config";
 import DocType from "../model/doctype";
 import { PermissionType } from "../perm/perm.model";
 import RenovationController from "../renovation.controller";
-import { asyncSleep, getJSON } from "../utils";
+import { asyncSleep, getJSON, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import { DBFilter } from "../utils/filters";
 import {
@@ -162,7 +162,7 @@ export default class FrappeMetaController extends MetaController {
   ): Promise<RequestResponse<number>> {
     let args: GetDocCountParams;
     if (typeof getDocCountParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getDocCount(getDocCountParams, filters) is deprecated, please use the interfaced approach instead"
       );
@@ -224,7 +224,7 @@ export default class FrappeMetaController extends MetaController {
     let doctype;
     if (typeof getDocMetaParams === "string") {
       doctype = getDocMetaParams;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "loadDocType(doctype) is deprecated, please use the interfaced approach instead"
       );
@@ -336,7 +336,7 @@ export default class FrappeMetaController extends MetaController {
         doctype: getDocInfoParams,
         docname
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getDocInfo(getDocInfoParams, docname) is deprecated, please use the interfaced method"
       );
@@ -415,7 +415,7 @@ export default class FrappeMetaController extends MetaController {
   ): Promise<RequestResponse<ReportMeta>> {
     let args: GetReportMetaParams;
     if (typeof getReportMetaParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getReportMeta(report) is deprecated, please use the interfaced approach"
       );

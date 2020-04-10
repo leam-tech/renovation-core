@@ -1,6 +1,12 @@
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
-import { deepCompare, getJSON } from "../utils";
+import {
+  deepCompare,
+  getJSON,
+  renovationError,
+  renovationLog,
+  renovationWarn
+} from "../utils";
 import { ErrorDetail } from "../utils/error";
 import { DBBasicValues, DBFilter } from "../utils/filters";
 import {
@@ -78,7 +84,7 @@ export default class FrappeModelController extends ModelController {
         break;
       case "delete_doc":
       case "get_report":
-        console.log(error);
+        renovationLog(error);
         if (error.info.httpCode === 404) {
           err = this.handleError("non_existing_doc", error);
         } else {
@@ -249,7 +255,7 @@ export default class FrappeModelController extends ModelController {
         doctype: getDocParams,
         docname
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getDoc(doctype, docname) is deprecated, Please use the interfaced method"
       );
@@ -376,7 +382,7 @@ export default class FrappeModelController extends ModelController {
     parent?: string
   ): Promise<RequestResponse<[{ [x: string]: DBBasicValues | [{}] }]>> {
     if (typeof getListParams === "string" || arguments.length > 1) {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getList(doctype, fields, filters..) is deprecated, Please use the interfaced method"
       );
@@ -473,7 +479,7 @@ export default class FrappeModelController extends ModelController {
   ): Promise<RequestResponse<{ [x: string]: DBBasicValues }>> {
     let args: GetValueParams;
     if (typeof getValueParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getValue(doctype, docname, docfield) is deprecated, Please use the interfaced method"
       );
@@ -559,7 +565,7 @@ export default class FrappeModelController extends ModelController {
   ): Promise<RequestResponse<string | null>> {
     let args: DeleteDocParams;
     if (typeof deleteDocParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "deleteDoc(doctype, docname) is deprecated, Please use the interfaced method"
       );
@@ -622,7 +628,7 @@ export default class FrappeModelController extends ModelController {
   ): Promise<RequestResponse<{ result; columns }>> {
     let args: GetReportParams;
     if (typeof getReportParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getReport(report, filters, user) is deprecated, Please use the interfaced method"
       );
@@ -742,7 +748,7 @@ export default class FrappeModelController extends ModelController {
   ): Promise<RequestResponse<RenovationDocument>> {
     let args: SetValueParams;
     if (typeof setValueParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "setValue(doctype, docname, df, value) is deprecated, Please use the interfaced method"
       );
@@ -816,7 +822,7 @@ export default class FrappeModelController extends ModelController {
     if (saveDocParams.doc && !saveDocParams.doctype) {
       doc = saveDocParams.doc;
     } else {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "saveDoc(doc) is deprecated, Please use the interfaced method"
       );
@@ -899,7 +905,7 @@ export default class FrappeModelController extends ModelController {
       doc = submitDocParams.doc;
     } else {
       doc = submitDocParams;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "submitDoc(doc) is deprecated, Please use the interfaced method"
       );
@@ -977,7 +983,7 @@ export default class FrappeModelController extends ModelController {
       doc = saveSubmitDocParams.doc;
     } else {
       doc = saveSubmitDocParams;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "saveSubmitDoc(doc) is deprecated, Please use the interfaced method"
       );
@@ -1049,7 +1055,7 @@ export default class FrappeModelController extends ModelController {
       doc = cancelDocParams.doc;
     } else {
       doc = cancelDocParams;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "cancelDoc(doc) is deprecated, Please use the interfaced method"
       );
@@ -1079,7 +1085,7 @@ export default class FrappeModelController extends ModelController {
         this.addToLocals({ doc });
         return RequestResponse.success(doc);
       } else {
-        console.error(responseObj || response);
+        renovationError(responseObj || response);
       }
     }
     response.success = false;
@@ -1122,7 +1128,7 @@ export default class FrappeModelController extends ModelController {
         txt,
         options
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "searchLink(doctype, txt, options) is deprecated, Please use the interfaced method"
       );
@@ -1348,7 +1354,7 @@ export default class FrappeModelController extends ModelController {
         docname,
         tag
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "addTag(doctype, name, tag) is deprecated, Please use the interfaced method"
       );
@@ -1410,7 +1416,7 @@ export default class FrappeModelController extends ModelController {
         docname,
         tag
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "removeTag(doctype, name, tag) is deprecated, Please use the interfaced method"
       );
@@ -1472,7 +1478,7 @@ export default class FrappeModelController extends ModelController {
         doctype: getTaggedDocsParams,
         tag
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getTaggedDoc(doctype, tag) is deprecated, Please use the interfaced method"
       );
@@ -1525,7 +1531,7 @@ export default class FrappeModelController extends ModelController {
   ): Promise<RequestResponse<string[]>> {
     let args: GetTagsParams;
     if (typeof getTagParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getTags(doctype, likeTag) is deprecated, Please use the interfaced method"
       );

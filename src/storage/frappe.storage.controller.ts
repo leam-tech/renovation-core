@@ -1,7 +1,7 @@
 import { BehaviorSubject } from "rxjs";
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
-import { getJSON } from "../utils";
+import { getJSON, renovationLog, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   contentType,
@@ -124,7 +124,7 @@ export default class FrappeStorageController extends StorageController {
     ...args1: any[]
   ): BehaviorSubject<UploadFileStatus> {
     if (args1.length > 0) {
-      console.warn("Deprecated uploadFile signature, please update");
+      renovationWarn("Deprecated uploadFile signature, please update");
       // compatibility
       const newArgs: UploadFileParams = {};
       if (typeof uploadFileParams === "string") {
@@ -158,7 +158,7 @@ export default class FrappeStorageController extends StorageController {
         case "ready":
           break;
         case "error":
-          console.warn(
+          renovationWarn(
             "LTS-Renovation-Core",
             "Frappe SocketIO Upload error",
             uploadStatus.error
@@ -178,7 +178,7 @@ export default class FrappeStorageController extends StorageController {
           });
           break;
         case "uploading":
-          console.log("Upload Progress", uploadStatus.progress);
+          renovationLog("Upload Progress", uploadStatus.progress);
           obs.next({
             fileName: uploadStatus.filename,
             status: "uploading",

@@ -1,4 +1,4 @@
-import { RequestResponse } from "..";
+import { renovationWarn, RequestResponse } from "..";
 import RenovationController from "../renovation.controller";
 import {
   ExtendDictParams,
@@ -67,7 +67,7 @@ export default abstract class TranslationController extends RenovationController
       typeof getMessageParams !== "object" ||
       !getMessageParams.txt
     ) {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getMessage(txt) is deprecated, please use the interfaced approach instead"
       );
@@ -111,7 +111,7 @@ export default abstract class TranslationController extends RenovationController
         dict: setMessagesDictParams as { [x: string]: string },
         lang: this.currentLanguage
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "setMessagesDict(msgs) is deprecated, please use the interfaced approach instead"
       );
@@ -147,7 +147,7 @@ export default abstract class TranslationController extends RenovationController
         dict: extendDictParams as { [x: string]: string },
         lang: this.currentLanguage
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "extendDictParams(dict) is deprecated, please use the interfaced approach instead"
       );

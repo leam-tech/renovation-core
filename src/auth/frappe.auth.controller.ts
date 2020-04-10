@@ -1,6 +1,6 @@
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
-import { asyncSleep, getJSON } from "../utils";
+import { asyncSleep, getJSON, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   contentType,
@@ -150,7 +150,7 @@ export default class FrappeAuthController extends AuthController {
         resolved = true;
         // if session status was updated in 3 seconds, dont request backend
         if (new Date().getTime() / 1000 - (info.timestamp || 0) < 3) {
-          console.warn(
+          renovationWarn(
             "Renovation Core: Last login status updated less than three seconds ago."
           );
         } else {
@@ -195,7 +195,7 @@ export default class FrappeAuthController extends AuthController {
     password?: string
   ): Promise<RequestResponse<SessionStatusInfo>> {
     if (typeof loginParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "login(loginParams, password) is deprecated, please use the interfaced approach instead"
       );
@@ -255,7 +255,7 @@ export default class FrappeAuthController extends AuthController {
     pin?: string
   ): Promise<RequestResponse<SessionStatusInfo>> {
     if (typeof user === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "pinLogin(user, pin) is deprecated, please use the interfaced approach instead"
       );
@@ -444,7 +444,7 @@ export default class FrappeAuthController extends AuthController {
         if (data.user !== (info as SessionStatusInfo).currentUser) {
           // login changed
           // notify SessionExpired
-          console.warn(
+          renovationWarn(
             "RenovationCore",
             "Wrong session assumption. I hope you are listening at SessionStatus"
           );
@@ -462,7 +462,7 @@ export default class FrappeAuthController extends AuthController {
     } else {
       if (resolved) {
         // we told system yes we are logged in
-        console.warn("Renovation Core", "INVALID SESSION");
+        renovationWarn("Renovation Core", "INVALID SESSION");
       } else {
         await this.updateSession({
           loggedIn: false

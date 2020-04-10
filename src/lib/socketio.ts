@@ -1,11 +1,12 @@
 import IO from "socket.io-client";
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
+import { renovationError, renovationLog, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   applyCookieHeader,
-  isBrowser,
-  FrappeRequestOptions
+  FrappeRequestOptions,
+  isBrowser
 } from "../utils/request";
 import {
   GetSocketParams,
@@ -70,7 +71,7 @@ export class SocketIOClient extends RenovationController {
         url: socketIOConnectParams,
         path
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "SocketIO.connect(url, path) is deprecated",
         "Please use the interfaced approach instead"
@@ -94,7 +95,7 @@ export class SocketIOClient extends RenovationController {
     if (this.socket) {
       this.socket.disconnect();
     }
-    console.log(
+    renovationLog(
       "LTS-Renovation-Core",
       `Connecting socket on ${args.url}${args.path}`
     );
@@ -129,7 +130,7 @@ export class SocketIOClient extends RenovationController {
       };
     }
     if (!this.socket && getSocketParams && getSocketParams.logError) {
-      console.error(
+      renovationError(
         "Socket isnt initialized, please call core.socket.connect()"
       );
     }
@@ -162,7 +163,7 @@ export class SocketIOClient extends RenovationController {
         event: socketIOEmitParams,
         data
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "SocketIO.emit(event, ...data) is deprecated",
         "Please use the interfaced approach instead"
@@ -172,7 +173,7 @@ export class SocketIOClient extends RenovationController {
     }
 
     if (!this.isConnected) {
-      console.error("Socket isn't connected to emit ", args.event, data);
+      renovationError("Socket isn't connected to emit ", args.event, data);
       return false;
     }
     args.data = args.data || [];
@@ -205,7 +206,7 @@ export class SocketIOClient extends RenovationController {
         event: socketIOOnParams,
         callback
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "SocketIO.on(event, callback) is deprecated",
         "Please use the interfaced approach instead"
@@ -239,7 +240,7 @@ export class SocketIOClient extends RenovationController {
         event: socketIOOffParams,
         callback
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "SocketIO.off(event, callback) is deprecated",
         "Please use the interfaced approach instead"

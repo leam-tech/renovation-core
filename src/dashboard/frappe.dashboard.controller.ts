@@ -1,4 +1,4 @@
-import { deepCompare, RenovationError, RequestResponse } from "..";
+import { deepCompare, renovationError, RenovationError, renovationLog, RequestResponse } from "..";
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
 import { ErrorDetail } from "../utils/error";
@@ -166,7 +166,7 @@ export default class FrappeDashboardController extends DashboardController {
       dashboardName: getDashboardDataParams.dashboardName
     });
     if (!dR.success) {
-      console.error(dR);
+      renovationError(dR);
       return RequestResponse.fail(
         this.handleError("get_dashboard_data", dR.error)
       );
@@ -357,7 +357,7 @@ export default class FrappeDashboardController extends DashboardController {
         ...dashboardParams
       });
     } else {
-      console.log("No cmd specified, getting using default");
+      renovationLog("No cmd specified, getting using default");
       dashboardData = await this.executeDefaultCMD(dashboard, params);
       if (!dashboardData.success) {
         const noCMD = RequestResponse.fail(

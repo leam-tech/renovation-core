@@ -4,6 +4,7 @@ import path from "path";
 import { RenovationConfig } from "../config";
 import { Renovation } from "../renovation";
 import { ENV_VARIABLES, TestManager } from "../tests";
+import { renovationError, renovationLog } from "../utils";
 import { onBrowser } from "../utils/request";
 
 describe("Frappe Storage Controller", function() {
@@ -63,7 +64,7 @@ describe("Frappe Storage Controller", function() {
                   default:
                 }
               },
-              err => console.error(err),
+              err => renovationError(err),
               () => done()
             );
         });
@@ -132,7 +133,7 @@ describe("Frappe Storage Controller", function() {
                 default:
               }
             },
-            err => console.log(err),
+            err => renovationLog(err),
             () => done()
           );
       });
@@ -187,7 +188,7 @@ describe("Frappe Storage Controller", function() {
                 default:
               }
             },
-            err => console.log(err),
+            err => renovationLog(err),
             () => done()
           );
       });
@@ -215,7 +216,7 @@ describe("Frappe Storage Controller", function() {
                 default:
               }
             },
-            err => console.log(err),
+            err => renovationLog(err),
             () => done()
           );
       });
@@ -286,7 +287,7 @@ describe("Frappe Storage Controller", function() {
               default:
             }
           },
-          err => console.error(err),
+          err => renovationError(err),
           () => done()
         );
       // Force upload via HTTP

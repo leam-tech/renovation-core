@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { deepCloneObject, deepCompare } from "..";
+import { deepCloneObject, deepCompare, renovationWarn } from "..";
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
 
@@ -65,7 +65,7 @@ export default abstract class AuthController extends RenovationController {
      * Will be called anytime the observables value is changed
      */
     SessionStatus.subscribe(v => {
-      console.warn("RenovationCore SessionUpdate", v);
+      renovationWarn("RenovationCore SessionUpdate", v);
       const localSession = this.getSessionFromLocalStorage();
       if (
         // Avoid infinite recursion
@@ -199,7 +199,7 @@ export default abstract class AuthController extends RenovationController {
     num: string,
     newPIN = false
   ): Promise<RequestResponse<SendOTPResponse>> {
-    console.warn(
+    renovationWarn(
       "LTS-Renovation-Core",
       "smsLoginGeneratePIN is deprecated, please use sendOTP instead"
     );
@@ -219,7 +219,7 @@ export default abstract class AuthController extends RenovationController {
     pin: string,
     loginToUser: boolean
   ): Promise<RequestResponse<VerifyOTPResponse>> {
-    console.warn(
+    renovationWarn(
       "LTS-Renovation-Core",
       "smsLoginVerifyPIN is deprecated, please use verifyOTP instead"
     );

@@ -1,4 +1,5 @@
 import RenovationController from "../renovation.controller";
+import { renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import IBindTargetInterface from "./bind.target.interface";
 
@@ -44,7 +45,11 @@ export default class UIController extends RenovationController {
     this.linkQueryOptions[key] = options;
   }
 
-  public getLinkQueryOptions(doctype: string, fieldname: string, parentfield?: string) {
+  public getLinkQueryOptions(
+    doctype: string,
+    fieldname: string,
+    parentfield?: string
+  ) {
     const key = `${doctype}:${fieldname}${
       parentfield ? `:${parentfield}` : ""
     }`;
@@ -67,7 +72,7 @@ export default class UIController extends RenovationController {
 
   public addUiObj(doctype, fieldname, obj: IBindTargetInterface) {
     if (!this._checkFieldRegistered(doctype, fieldname)) {
-      console.warn("Add UI Obj failed. Field isnt registered");
+      renovationWarn("Add UI Obj failed. Field isnt registered");
       return;
     }
 
@@ -85,7 +90,7 @@ export default class UIController extends RenovationController {
 
   public addFieldRefreshHook(doctype, fieldname, fn) {
     if (!this._checkFieldRegistered(doctype, fieldname)) {
-      console.warn("Refresh Hook registration failed. Field isnt registered");
+      renovationWarn("Refresh Hook registration failed. Field isnt registered");
       return;
     }
     const fieldObj = this.fieldsDict[doctype][fieldname];
@@ -101,7 +106,7 @@ export default class UIController extends RenovationController {
   public refreshField(doctype, field) {
     const fieldname = this._getFieldName(field);
     if (!this._checkFieldRegistered(doctype, field)) {
-      console.warn(`${doctype}:${fieldname} is not registered`);
+      renovationWarn(`${doctype}:${fieldname} is not registered`);
       return;
     }
     const fieldObj = this.fieldsDict[doctype][fieldname];
@@ -110,14 +115,14 @@ export default class UIController extends RenovationController {
         fn();
       }
     } else {
-      console.warn("No Refresh function attached to field");
+      renovationWarn("No Refresh function attached to field");
     }
   }
 
   public checkDisplayDependsOn(doctype, field) {
     const fieldname = this._getFieldName(field);
     if (!this._checkFieldRegistered(doctype, fieldname)) {
-      console.warn(`${doctype}:${fieldname} is not registered`);
+      renovationWarn(`${doctype}:${fieldname} is not registered`);
       return;
     }
 
@@ -146,7 +151,7 @@ export default class UIController extends RenovationController {
             visible = true;
           }
         } catch (e) {
-          console.warn(
+          renovationWarn(
             `Invalid Display depends on for ${doctype}:${fieldname}\n${script}`
           );
         }

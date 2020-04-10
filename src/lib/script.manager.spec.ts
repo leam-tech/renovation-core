@@ -91,7 +91,7 @@ describe("Script Manager", function() {
         doctype: docType,
         code:
           "(core) =>{  " +
-          "console.inf('IF YOU SEE THIS MESSAGE, TEST IS SUCCESSFUL');" +
+          "console.info('IF YOU SEE THIS MESSAGE, TEST IS SUCCESSFUL');" +
           "}",
 
         name: "Test Script"

@@ -1,5 +1,6 @@
 import axios from "axios";
 import RenovationController from "../renovation.controller";
+import { renovationError, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   getClientId,
@@ -48,7 +49,7 @@ export default class Frappe extends RenovationController {
    * @deprecated
    */
   public async waitForBootInfo(): Promise<null> {
-    console.error("LTS-Renovation-Core", "Bootinfo is deprecated.");
+    renovationError("LTS-Renovation-Core", "Bootinfo is deprecated.");
     return null;
   }
 
@@ -96,14 +97,14 @@ export default class Frappe extends RenovationController {
           // got a localStorage clientId
           // and network error happened
           // forget what we have
-          console.warn(
+          renovationWarn(
             "Renovation Core: Failed to update clientId from renovation_bench",
             "Removing client ids"
           );
           resetClientId();
           return RequestResponse.failed();
         } else if (r.data !== id) {
-          console.warn(
+          renovationWarn(
             "Renovation Core: localStorage and server clientId mismatch",
             "Resetting clientId: " + id
           );
@@ -116,7 +117,7 @@ export default class Frappe extends RenovationController {
           setClientId(fetchedId.data);
         } else {
           resetClientId();
-          console.error("Renovation Core: Failed fetching client id");
+          renovationError("Renovation Core: Failed fetching client id");
         }
         return fetchedId;
       }

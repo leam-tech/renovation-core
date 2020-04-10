@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { Renovation } from "../renovation";
 import { TestManager } from "../tests";
+import { renovationLog } from "../utils";
 import FrappeSocketIOUploader from "./frappe.socketiouploader";
 
 describe("Frappe SocketIOUploader", function() {
@@ -29,7 +30,7 @@ describe("Frappe SocketIOUploader", function() {
             default:
           }
         },
-        err => console.log(JSON.stringify(err)),
+        err => renovationLog(JSON.stringify(err)),
         () => done()
       );
       frappeSocketIO.upload({
@@ -53,7 +54,7 @@ describe("Frappe SocketIOUploader", function() {
             default:
           }
         },
-        err => console.log(JSON.stringify(err)),
+        err => renovationLog(JSON.stringify(err)),
         () => done()
       );
       frappeSocketIO.upload({

@@ -1,7 +1,7 @@
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
-import { getJSON } from "../utils";
-import { ErrorDetail, IErrorHandler } from "../utils/error";
+import { getJSON, renovationWarn } from "../utils";
+import { ErrorDetail } from "../utils/error";
 import {
   contentType,
   FrappeRequestOptions,
@@ -58,7 +58,7 @@ export default class FrappeDefaultsController extends DefaultsController {
     parent = "__default"
   ): Promise<RequestResponse<unknown>> {
     if (typeof getDefaultParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getDefault(key, parent) is deprecated, please use the interfaced approach instead"
       );
@@ -127,7 +127,7 @@ export default class FrappeDefaultsController extends DefaultsController {
     parent = "__default"
   ): Promise<RequestResponse<DefaultValueTypes>> {
     if (typeof setDefaultParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "setDefault(key, value, parent) is deprecated, please use the interfaced approach instead"
       );
