@@ -6,13 +6,13 @@ import {
   contentType,
   FrappeRequestOptions,
   httpMethod,
+  isNodeJS,
   onBrowser,
   RenovationError,
   Request,
   RequestResponse,
   SessionStatus,
-  SessionStatusInfo,
-  isNodeJS
+  SessionStatusInfo
 } from "../utils/request";
 import AuthController from "./auth.controller";
 import {

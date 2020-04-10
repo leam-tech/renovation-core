@@ -33,6 +33,24 @@ export default class FrappeMetaController extends MetaController {
     switch (errorId) {
       // As of now, they share the same possible errors
       case "get_doc_count":
+        let containsMissingTable: boolean;
+        if (
+          error.info &&
+          error.info.rawError &&
+          error.info.rawError.response &&
+          error.info.rawError.response.data &&
+          error.info.rawError.response.data.exc
+        ) {
+          containsMissingTable = (error.info.rawError.response.data
+            .exc as string).includes("TableMissingError");
+        }
+
+        if (error.info.httpCode === 404 || containsMissingTable) {
+          err = this.handleError("doctype_not_exist", error);
+        } else {
+          err = this.handleError(null, error);
+        }
+        break;
       case "get_doc_meta":
         if (error.info.httpCode === 404) {
           err = this.handleError("doctype_not_exist", error);

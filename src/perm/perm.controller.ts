@@ -256,7 +256,7 @@ export default abstract class PermissionController extends RenovationController 
       }
     ];
 
-    if (this.config.coreInstance.auth.getCurrentUser() === "<username>") {
+    if (this.config.coreInstance.auth.getCurrentUser() === "Administrator") {
       perm[0].read = true;
     }
 
