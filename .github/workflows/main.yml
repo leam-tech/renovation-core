@@ -1,4 +1,3 @@
-
 name: CI
 
 on:
@@ -38,3 +37,9 @@ jobs:
         CORE_TS_MOBILE_NUMBER: ${{ secrets.CORE_TS_MOBILE_NUMBER }}
         CORE_TS_PIN_NUMBER: ${{ secrets.CORE_TS_PIN_NUMBER }}
         CORE_TS_EXISTING_FOLDER: ${{ secrets.CORE_TS_EXISTING_FOLDER }}
+
+    - name: Upload Bundle
+      uses: actions/upload-artifact@v1
+      with:
+        name: report
+        path: mochawesome-report/
