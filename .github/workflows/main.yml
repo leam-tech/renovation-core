@@ -1,0 +1,40 @@
+
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.1
+      with:
+        node-version: '12.x'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm run test
+      env: 
+        CORE_TS_HOST_URL: ${{ secrets.CORE_TS_HOST_URL }}
+        CORE_TS_HOST_URL_SECONDARY: ${{ secrets.CORE_TS_HOST_URL_SECONDARY }}
+        CORE_TS_CLIENT_ID: ${{ secrets.CORE_TS_CLIENT_ID }}
+        CORE_TS_PRIMARY_USER: ${{ secrets.CORE_TS_PRIMARY_USER }}
+        CORE_TS_PRIMARY_USER_NAME: ${{ secrets.CORE_TS_PRIMARY_USER_NAME }}
+        CORE_TS_PRIMARY_USER_EMAIL: ${{ secrets.CORE_TS_PRIMARY_USER_EMAIL }}
+        CORE_TS_PRIMARY_USER_PWD: ${{ secrets.CORE_TS_PRIMARY_USER_PWD }}
+        CORE_TS_SECONDARY_USER: ${{ secrets.CORE_TS_SECONDARY_USER }}
+        CORE_TS_SECONDARY_USER_PWD: ${{ secrets.CORE_TS_SECONDARY_USER_PWD }}
+        CORE_TS_SECONDARY_USER_NAME: ${{ secrets.CORE_TS_SECONDARY_USER_NAME }}
+        CORE_TS_MOBILE_NUMBER: ${{ secrets.CORE_TS_MOBILE_NUMBER }}
+        CORE_TS_PIN_NUMBER: ${{ secrets.CORE_TS_PIN_NUMBER }}
+        CORE_TS_EXISTING_FOLDER: ${{ secrets.CORE_TS_EXISTING_FOLDER }}
