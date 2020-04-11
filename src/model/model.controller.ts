@@ -1,4 +1,4 @@
-import { GetListParams } from "..";
+import { GetListParams, renovationLog, renovationWarn } from "..";
 import { RequestResponse } from "..";
 import RenovationController from "../renovation.controller";
 import { deepCloneObject } from "../utils";
@@ -109,7 +109,7 @@ export default abstract class ModelController extends RenovationController {
   ): Promise<RenovationDocument> {
     let dt: string;
     if (typeof newDocParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "newDoc(doctype) is deprecated, please use the interfaced method instead"
       );
@@ -147,7 +147,7 @@ export default abstract class ModelController extends RenovationController {
     let dt;
     if (typeof getNewNameParams === "string") {
       dt = getNewNameParams;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getNewName(doctype) is deprecated, please use the interfaced method instead"
       );
@@ -186,7 +186,7 @@ export default abstract class ModelController extends RenovationController {
       d = doc.doc;
     } else {
       d = doc;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "copyDoc(doc) is deprecated, please use the interfaced approach instead"
       );
@@ -221,7 +221,7 @@ export default abstract class ModelController extends RenovationController {
     // @ts-ignore
     if (amendDocParams.doctype) {
       d = amendDocParams;
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "amendDoc(doc) is deprecated, please use the interfaced approach instead"
       );
@@ -263,7 +263,7 @@ export default abstract class ModelController extends RenovationController {
         doc: addChildDocParams,
         field
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "addChildDoc(doc,field) is deprecated, please use the interfaced approach instead"
       );
@@ -298,7 +298,7 @@ export default abstract class ModelController extends RenovationController {
     try {
       df = await getDf();
     } catch (e) {
-      console.log(e);
+      renovationLog(e);
     }
     if (!df) {
       throw new Error("Failed to get datafield");
@@ -374,7 +374,7 @@ export default abstract class ModelController extends RenovationController {
         doctype: getDocParams,
         docname
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getDoc(doctype,docname) is deprecated, please use the interfaced approach instead"
       );
@@ -557,7 +557,7 @@ export default abstract class ModelController extends RenovationController {
         docfield,
         value
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "setLocalValue(doctype,docname,docfield,value) is deprecated, please use the interfaced approach instead"
       );

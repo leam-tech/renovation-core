@@ -3,9 +3,10 @@ import fs from "fs";
 import path from "path";
 import { Renovation } from "../renovation";
 import { TestManager } from "../tests";
+import { renovationLog } from "../utils";
 import FrappeSocketIOUploader from "./frappe.socketiouploader";
 
-TestManager.getTestType(true)("Frappe SocketIOUploader", function() {
+describe("Frappe SocketIOUploader", function() {
   this.timeout(10000);
   let renovation: Renovation;
   let frappeSocketIO: FrappeSocketIOUploader;
@@ -29,7 +30,7 @@ TestManager.getTestType(true)("Frappe SocketIOUploader", function() {
             default:
           }
         },
-        err => console.log(JSON.stringify(err)),
+        err => renovationLog(JSON.stringify(err)),
         () => done()
       );
       frappeSocketIO.upload({
@@ -53,7 +54,7 @@ TestManager.getTestType(true)("Frappe SocketIOUploader", function() {
             default:
           }
         },
-        err => console.log(JSON.stringify(err)),
+        err => renovationLog(JSON.stringify(err)),
         () => done()
       );
       frappeSocketIO.upload({
@@ -61,9 +62,8 @@ TestManager.getTestType(true)("Frappe SocketIOUploader", function() {
       });
     });
     it("should throw failure for invalid upload args", async function() {
-      expect(
-        async () => await frappeSocketIO.upload({ filePath: null })
-      ).to.throw;
+      expect(async () => await frappeSocketIO.upload({ filePath: null })).to
+        .throw;
     });
   });
 });

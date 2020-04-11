@@ -1,11 +1,13 @@
 import { expect } from "chai";
-import { setupRecorder } from "nock-record";
 import { Renovation } from "../renovation";
 import { TestManager } from "../tests";
 
 describe("Script Manager", function() {
   this.timeout(10000);
   let renovation!: Renovation;
+
+  const validUser = TestManager.primaryUser;
+  const validPwd = TestManager.primaryUserPwd;
   before(async function() {
     renovation = await TestManager.init("frappe");
   });
@@ -19,49 +21,41 @@ describe("Script Manager", function() {
   });
 
   describe("loadScripts", function() {
+    before(
+      async () =>
+        await renovation.auth.login({
+          email: validUser,
+          password: validPwd
+        })
+    );
     /**
      * This will load a test script that will change the `disableSubmission` to be `true`
      */
     it("should load Test Script", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("loadScripts-success");
-
       const scriptLoaded = await renovation.scriptManager.loadScripts({
-        doctype: "Item Group"
+        doctype: "Broadcast Message"
       });
-      completeRecording();
 
       expect(scriptLoaded.success).to.be.true;
       expect(scriptLoaded.data).to.be.true;
     });
 
     it("should load Test Script [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("loadScripts-success");
-
       const scriptLoaded = await renovation.scriptManager.loadScripts(
-        "Item Group"
+        "Broadcast Message"
       );
-      completeRecording();
 
       expect(scriptLoaded.success).to.be.true;
       expect(scriptLoaded.data).to.be.true;
     });
 
     it("should return for existing script in events", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("loadScripts-success-exist-event");
-
       await renovation.scriptManager.loadScripts({
-        doctype: "Item Group"
+        doctype: "Broadcast Message"
       });
-      completeRecording();
 
       const scriptLoadedAfterLoaded = await renovation.scriptManager.loadScripts(
-        { doctype: "Item Group" }
+        { doctype: "Broadcast Message" }
       );
 
       expect(scriptLoadedAfterLoaded.success).to.be.true;
@@ -69,14 +63,10 @@ describe("Script Manager", function() {
     });
 
     it("should return for existing script in events [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("loadScripts-success-exist-event");
+      await renovation.scriptManager.loadScripts("Broadcast Message");
 
-      await renovation.scriptManager.loadScripts("Item Group");
-      completeRecording();
       const scriptLoadedAfterLoaded = await renovation.scriptManager.loadScripts(
-        "Item Group"
+        "Broadcast Message"
       );
 
       expect(scriptLoadedAfterLoaded.success).to.be.true;
@@ -87,7 +77,7 @@ describe("Script Manager", function() {
   describe("addScript", function() {
     it("should run a code", function() {
       renovation.scriptManager.addScript({
-        doctype: "TEST DOCTYPE",
+        doctype: docType,
         code:
           "(core) =>{  " +
           "console.info('IF YOU SEE THIS MESSAGE, TEST IS SUCCESSFUL');" +
@@ -98,10 +88,10 @@ describe("Script Manager", function() {
     });
     it("should print warning message", function() {
       renovation.scriptManager.addScript({
-        doctype: "TEST DOCTYPE",
+        doctype: docType,
         code:
           "(core) =>{  " +
-          "console.inf('IF YOU SEE THIS MESSAGE, TEST IS SUCCESSFUL');" +
+          "console.info('IF YOU SEE THIS MESSAGE, TEST IS SUCCESSFUL');" +
           "}",
 
         name: "Test Script"

@@ -1,4 +1,4 @@
-import { RequestResponse } from "..";
+import { renovationWarn, RequestResponse } from "..";
 import { RenovationConfig } from "../config";
 import RenovationDocument from "../model/document";
 import { Renovation } from "../renovation";
@@ -71,7 +71,7 @@ export default class ScriptManager extends RenovationController {
   ): Promise<RequestResponse<boolean>> {
     let args: ScriptManagerLoadScriptsParams;
     if (typeof scriptManagerLoadScriptsParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "loadScripts(doctype) is deprecated, please use the interfaced approach instead"
       );
@@ -121,7 +121,7 @@ export default class ScriptManager extends RenovationController {
       // tslint:disable-next-line:no-eval
       eval(scriptManagerAddScriptsParams.code)(this.getCore());
     } catch (e) {
-      console.warn(
+      renovationWarn(
         `Renovation Script Error: ${scriptManagerAddScriptsParams.doctype}: ${
           scriptManagerAddScriptsParams.name
         }`,
@@ -150,7 +150,7 @@ export default class ScriptManager extends RenovationController {
   ) {
     let args: ScriptManagerAddEventParams;
     if (typeof scriptManagerAddEventParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "addEvent(doctype,event,fn) is deprecated, please use the interfaced approach instead"
       );
@@ -197,7 +197,7 @@ export default class ScriptManager extends RenovationController {
   ) {
     let args: ScriptManagerAddEventsParams;
     if (typeof arg1 === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "addEvent(doctype,eventDict) is deprecated, please use the interfaced approach instead"
       );
@@ -244,7 +244,7 @@ export default class ScriptManager extends RenovationController {
   ) {
     let args: ScriptManagerTriggerEventParams;
     if (typeof scriptManagerTriggerEventParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "trigger(doctype,docname,event) is deprecated, please use the interfaced approach instead"
       );

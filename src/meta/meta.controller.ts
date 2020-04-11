@@ -1,4 +1,4 @@
-import { RequestResponse } from "..";
+import { renovationWarn, RequestResponse } from "..";
 import DocType from "../model/doctype";
 import RenovationController from "../renovation.controller";
 import { DBFilter } from "../utils/filters";
@@ -81,7 +81,7 @@ export default abstract class MetaController extends RenovationController {
    * Returns failed `RequestResponse` if doctype not in cache
    */
   public async loadDocType(doctype: string): Promise<RequestResponse<DocType>> {
-    console.warn(
+    renovationWarn(
       "LTS-Renovation-Core",
       "loadDocType(doctype) is deprecated. Use getDocMeta instead"
     );
@@ -174,7 +174,7 @@ export default abstract class MetaController extends RenovationController {
     }
 
     if (!docmetaR.success) {
-      console.warn("getFieldLabel: Failed to read docmeta");
+      renovationWarn("getFieldLabel: Failed to read docmeta");
     } else {
       const docmeta = docmetaR.data;
       let field = docmeta.fields.find(f => f.fieldname === args.fieldname);

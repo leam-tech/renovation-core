@@ -3,6 +3,7 @@ import { Renovation } from "../renovation";
 import { TestManager } from "../tests";
 
 describe("TranslationController", function() {
+  this.timeout(10000);
   let renovation: Renovation;
   before(async function() {
     renovation = await TestManager.init("frappe");

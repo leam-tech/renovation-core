@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import { setupRecorder } from "nock-record";
 import { Renovation } from "../renovation";
 import { TestManager } from "../tests";
 import DocField from "./docfield";
@@ -7,6 +6,10 @@ import DocField from "./docfield";
 describe("DocField", function() {
   this.timeout(10000);
   let renovation: Renovation;
+
+  const validUser = TestManager.primaryUser;
+  const validPwd = TestManager.primaryUserPwd;
+
   before(async function() {
     renovation = await TestManager.init("frappe");
   });
@@ -18,32 +21,19 @@ describe("DocField", function() {
     });
   });
   describe("fromFrappeDocField", function() {
-    it("should return parsed docfield", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getDocMeta-success");
-      const response = await renovation.call({
-        cmd: "renovation_core.utils.meta.get_bundle",
-        doctype: "Item"
-      });
-      completeRecording();
+    before(
+      async () =>
+        await renovation.auth.login({
+          email: validUser,
+          password: validPwd
+        })
+    );
 
-      const parsedField = DocField.fromFrappeDocField(
-        response.data.message.metas[0].fields[0]
-      );
-      expect(parsedField.readOnly).to.be.not.null;
-      expect(parsedField.readOnly).to.be.a("boolean");
-      expect(parsedField.readOnly).to.be.false;
-    });
-    it("should return parsed docfield [deprecated]", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("getDocMeta-success");
+    it("should return parsed docfield", async function() {
       const response = await renovation.call({
         cmd: "renovation_core.utils.meta.get_bundle",
-        doctype: "Item"
+        doctype: "User"
       });
-      completeRecording();
 
       const parsedField = DocField.fromFrappeDocField(
         response.data.message.metas[0].fields[0]

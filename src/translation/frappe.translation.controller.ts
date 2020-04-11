@@ -1,4 +1,5 @@
 import RenovationController from "../renovation.controller";
+import { renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   contentType,
@@ -46,7 +47,7 @@ export default class FrappeTranslationController extends TranslationController {
       args = {
         lang: loadTranslationsParams
       };
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "loadTranslations(lang) is deprecated, please use the interfaced approach instead"
       );

@@ -1,4 +1,4 @@
-import { isBrowser } from "..";
+import { isBrowser, renovationError } from "..";
 import { ReadFileResult } from "./storage.controller";
 
 /**
@@ -58,7 +58,7 @@ export async function getBase64FromFilePath(
       result.fileSize = (result.fileData.length * 6) / 8;
     } catch (e) {
       result = null;
-      console.error(e);
+      renovationError(e);
     }
     res(result);
   });
@@ -91,7 +91,7 @@ export async function getBase64FromBuffer(
       result.fileData = buffer.toString("base64");
       result.fileSize = (result.fileData.length * 6) / 8;
     } catch (e) {
-      console.error(e);
+      renovationError(e);
       result = null;
     }
     res(result);
@@ -152,7 +152,7 @@ export async function getBufferFromFilePath(
       result.fileData = Buffer.from(bitmap);
       result.fileSize = result.fileData.length;
     } catch (e) {
-      console.error(e);
+      renovationError(e);
       result = null;
     }
     res(result);

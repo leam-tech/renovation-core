@@ -1,6 +1,6 @@
 import RenovationController from "../renovation.controller";
 import { ErrorDetail } from "../utils/error";
-import { RequestResponse } from "../utils/request";
+import { RequestResponse } from "..";
 import {
   InvokeLoggerParams,
   LogManagerParams,

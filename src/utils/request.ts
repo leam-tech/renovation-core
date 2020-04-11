@@ -3,6 +3,7 @@ import qs from "qs";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { RenovationConfig } from "../config";
 import { ErrorDetail } from "./error";
+import { renovationError, renovationLog, renovationWarn } from "./index";
 import { getJSON } from "./json";
 
 // determine if browser or node
@@ -50,7 +51,7 @@ if (onBrowser) {
  */
 export function setClientId(id: string) {
   clientId = id;
-  console.log(`Client: ${id}`);
+  renovationLog(`Client: ${id}`);
   if (onBrowser) {
     localStorage.setItem("renovation_core_client_id", id);
   }
@@ -128,12 +129,12 @@ export type AxiosResponseType =
  *
  */
 // tslint:disable-next-line:variable-name
-export const SessionStatus: BehaviorSubject<
-  SessionStatusInfo
-> = new BehaviorSubject({
-  loggedIn: false,
-  timestamp: new Date().getTime() / 1000
-} as SessionStatusInfo);
+export const SessionStatus: BehaviorSubject<SessionStatusInfo> = new BehaviorSubject(
+  {
+    loggedIn: false,
+    timestamp: new Date().getTime() / 1000
+  } as SessionStatusInfo
+);
 
 /**
  * Wrapper for underlying HTTP Client used
@@ -247,7 +248,7 @@ export async function Request(
     errorChecker(r);
 
     if (!r.success) {
-      // console.log("Failed AXIOS Response", _response);
+      // renovationLog("Failed AXIOS Response", _response);
     }
     // tslint:disable-next-line:no-string-literal
     r._ = _response;
@@ -308,12 +309,12 @@ function errorChecker(r: RequestResponse<any>) {
     if (data && data.length > 0) {
       data = getJSON(data[0]);
       if (data.message === "Invalid Request") {
-        console.error("Invalid Request. Best to Relogin");
+        renovationError("Invalid Request. Best to Relogin");
         // tslint:disable-next-line: no-empty
         try {
           RenovationConfig.instance.coreInstance.auth.logout();
         } catch (e) {
-          console.warn(e);
+          renovationWarn(e);
         }
         SessionStatus.next({
           loggedIn: false,

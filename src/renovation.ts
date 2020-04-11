@@ -19,9 +19,18 @@ import FrappePermissionController from "./perm/frappe.perm.controller";
 import PermissionController from "./perm/perm.controller";
 import FrappeStorageController from "./storage/frappe.storage.controller";
 import StorageController from "./storage/storage.controller";
+import FrappeTranslationController from "./translation/frappe.translation.controller";
 import TranslationController from "./translation/translation.controller";
 import FrappeUIController from "./ui/frappe.ui.controller";
 import UIController from "./ui/ui.controller";
+import {
+  getJSON,
+  logger,
+  renovationLog,
+  RenovationUtils,
+  renovationWarn
+} from "./utils";
+import { extendCoreDateUtils } from "./utils/date";
 import {
   contentType,
   FrappeRequestOptions,
@@ -31,11 +40,6 @@ import {
   RequestResponse,
   setClientId
 } from "./utils/request";
-
-import FrappeTranslationController from "./translation/frappe.translation.controller";
-import { RenovationUtils } from "./utils";
-import { getJSON } from "./utils";
-import { extendCoreDateUtils } from "./utils/date";
 
 /**
  * Main class to access all functionality of Renovation
@@ -136,25 +140,32 @@ export class Renovation {
    * @param backend The backend `frappe` or `firebase`
    * @param hostUrl The URL of the backend (Site)
    * @param clientId The clientId required for HTTP
-   *
+   * @param disableLog Whether to disable all kinds of logging.
    * @returns {Promise<void>} Empty response to be awaited for complete initialization
    * @deprecated
    */
   public async init(
     backend: RenovationBackend,
     hostUrl: string,
-    clientId?: string
+    clientId?: string,
+    disableLog?: boolean
   );
   public async init(args: InitParams | RenovationBackend, ...args1) {
+    if ((args as InitParams).disableLog || (args1 || [])[2]) {
+      logger.disable();
+    } else {
+      logger.enable("renovation-core-*");
+    }
     if (args1.length) {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "init(backend,hostUrl,clientId) is deprecated, please use the interfaced approach instead"
       );
       args = {
         backend: args,
         hostURL: args1[0],
-        clientId: args1[1]
+        clientId: args1[1],
+        disableLog: args1[2]
       } as InitParams;
     }
 
@@ -183,9 +194,8 @@ export class Renovation {
     this.initCall();
     Object.defineProperty(this, "erpnext", {
       get: () => {
-        console.warn(
-          "LTS-Renovation",
-          "Please use core.frappe instead of core.erpnext"
+        renovationWarn(
+          "LTS-Renovation" + "Please use core.frappe instead of core.erpnext"
         );
         return this.frappe;
       }
@@ -194,9 +204,9 @@ export class Renovation {
     // @ts-ignore
     if (initParams.backend === "erpnext") {
       initParams.backend = "frappe";
-      console.warn(
-        "LTS-Renovation-Core",
-        "Please update backend type from erpnext->frappe"
+      renovationWarn(
+        "LTS-Renovation-Core" +
+          "Please update backend type from erpnext->frappe"
       );
     }
     if (initParams.backend === "frappe") {
@@ -222,7 +232,7 @@ export class Renovation {
         await this.frappe.updateClientId();
       }
     }
-    console.warn(
+    renovationLog(
       "Renovation Core",
       `Took ${Date.now() - startTime}ms to initialize`
     );
@@ -300,4 +310,5 @@ export interface InitParams {
   hostURL: string;
   backend?: RenovationBackend;
   clientId?: string;
+  disableLog?: boolean;
 }

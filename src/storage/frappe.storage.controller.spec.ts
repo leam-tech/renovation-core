@@ -1,21 +1,27 @@
 import { expect } from "chai";
 import { readFileSync } from "fs";
-import { setupRecorder } from "nock-record";
 import path from "path";
 import { RenovationConfig } from "../config";
 import { Renovation } from "../renovation";
-import { TestManager } from "../tests";
+import { ENV_VARIABLES, TestManager } from "../tests";
+import { renovationError, renovationLog } from "../utils";
 import { onBrowser } from "../utils/request";
-
-/**
- * Since socketIO can't be recorded when uploading, there will be no nock-records
- */
 
 describe("Frappe Storage Controller", function() {
   let renovation: Renovation;
   this.timeout(20000);
+
+  const validUser = TestManager.primaryUser;
+  const validPwd = TestManager.primaryUserPwd;
+
+  const existingFolder = TestManager.getVariables(ENV_VARIABLES.ExistingFolder);
+
   before(async function() {
     renovation = await TestManager.init("frappe");
+    await renovation.auth.login({
+      email: validUser,
+      password: validPwd
+    });
   });
   describe("getUrl", function() {
     it("should return null if the input is null", function() {
@@ -30,7 +36,7 @@ describe("Frappe Storage Controller", function() {
     });
   });
 
-  TestManager.getTestType(true)("uploadFile", function() {
+  describe("uploadFile", function() {
     describe("uploadFile - UploadFileParams", function() {
       describe("Buffer as input", function() {
         it("should upload successfully using socket.io", function(done) {
@@ -58,7 +64,7 @@ describe("Frappe Storage Controller", function() {
                   default:
                 }
               },
-              err => console.error(err),
+              err => renovationError(err),
               () => done()
             );
         });
@@ -127,7 +133,7 @@ describe("Frappe Storage Controller", function() {
                 default:
               }
             },
-            err => console.log(err),
+            err => renovationLog(err),
             () => done()
           );
       });
@@ -164,8 +170,8 @@ describe("Frappe Storage Controller", function() {
           .uploadFile(
             path.join(__dirname, "..", "tests", "sample.txt"),
             false,
-            "Item",
-            "Item A"
+            "User",
+            validUser
           )
           .subscribe(
             status => {
@@ -182,7 +188,7 @@ describe("Frappe Storage Controller", function() {
                 default:
               }
             },
-            err => console.log(err),
+            err => renovationLog(err),
             () => done()
           );
       });
@@ -191,9 +197,9 @@ describe("Frappe Storage Controller", function() {
           .uploadFile(
             path.join(__dirname, "..", "tests", "sample.txt"),
             false,
-            "Item",
-            "Item A",
-            "route"
+            "User",
+            validUser,
+            "image"
           )
           .subscribe(
             status => {
@@ -210,7 +216,7 @@ describe("Frappe Storage Controller", function() {
                 default:
               }
             },
-            err => console.log(err),
+            err => renovationLog(err),
             () => done()
           );
       });
@@ -228,41 +234,29 @@ describe("Frappe Storage Controller", function() {
     });
 
     it("should create folder successfully in backend with empty data", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("createFolder-success");
-      const createFolder = await renovation.storage.createFolder(
-        "test_folder_2"
-      );
-      completeRecording();
-      expect(createFolder.success).to.be.true;
-      expect(createFolder.data).to.be.deep.equal({});
-    });
+      const createFolder = await renovation.storage.createFolder("New Folder");
 
-    it("should create folder successfully in backend with parent folder", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("createFolder-success-parentFolder");
-      const createFolder = await renovation.storage.createFolder(
-        "test_folder",
-        "Home/test_folder"
-      );
-      completeRecording();
       expect(createFolder.success).to.be.true;
       expect(createFolder.data).to.be.deep.equal({});
     });
 
     it("should return failure for duplicate folder name", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("createFolder-fail-duplicate");
-      const createFolder = await renovation.storage.createFolder("test_folder");
-      completeRecording();
+      const createFolder = await renovation.storage.createFolder(
+        existingFolder
+      );
+
       expect(createFolder.success).to.be.false;
       expect(createFolder.httpCode).to.be.equal(409);
       expect(createFolder.error.title).to.be.equal(
         "Folder with same name exists"
       );
+    });
+    after(async () => {
+      await renovation.call({
+        cmd: "frappe.desk.reportview.delete_items",
+        doctype: "File",
+        items: JSON.stringify(["Home/New Folder"])
+      });
     });
   });
 
@@ -293,7 +287,7 @@ describe("Frappe Storage Controller", function() {
               default:
             }
           },
-          err => console.error(err),
+          err => renovationError(err),
           () => done()
         );
       // Force upload via HTTP
@@ -303,35 +297,20 @@ describe("Frappe Storage Controller", function() {
 
   describe("checkFolderExists", function() {
     it("should return success and true value for data for existing folder", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("checkFolderExists-success");
       const createFolder = await renovation.storage.checkFolderExists(
-        "Home/test_folder"
+        "Home/" + existingFolder
       );
-      completeRecording();
+
       expect(createFolder.success).to.be.true;
       expect(createFolder.data).to.be.equal(true);
     });
     it("should return success and false value for data for non-existing folder", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("checkFolderExists-non-existing");
       const createFolder = await renovation.storage.checkFolderExists(
         "Home/non-existing"
       );
-      completeRecording();
+
       expect(createFolder.success).to.be.true;
       expect(createFolder.data).to.be.equal(false);
-    });
-    it("should return failed for failed requests", async function() {
-      const { completeRecording } = await setupRecorder({
-        mode: TestManager.testMode
-      })("checkFolderExists-fail");
-      const createFolder = await renovation.storage.checkFolderExists("");
-      completeRecording();
-      expect(createFolder.success).to.be.false;
-      expect(createFolder.httpCode).to.be.equal(400);
     });
   });
 });

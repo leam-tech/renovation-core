@@ -1,4 +1,5 @@
 import { Subject } from "rxjs/Subject";
+import { renovationWarn } from "../utils";
 import { MessageBusGetSubjectParams, MessageBusPostParams } from "./interfaces";
 
 /**
@@ -28,7 +29,7 @@ export class MessageBus {
   ) {
     let args: MessageBusPostParams;
     if (typeof messageBusPostParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "post(id, data) is deprecated, please use the interfaced approach instead"
       );
@@ -67,7 +68,7 @@ export class MessageBus {
   ): Subject<unknown> {
     let args: MessageBusGetSubjectParams;
     if (typeof messageBusGetSubjectParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getSubject(id) is deprecated, please use the interfaced approach instead"
       );

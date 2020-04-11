@@ -1,13 +1,13 @@
 {
   "name": "@leam-tech/renovation-core",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A document handling library for the front end",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha -r ts-node/register ./src/**/*.spec.ts ./src/*.spec.ts --timeout 10000 --reporter mochawesome",
+    "test": "mocha -r ts-node/register ./src/**/*.spec.ts ./src/*.spec.ts --timeout 30000 --exit --reporter mochawesome",
     "test:dev": "mocha -r ts-node/register ./src/lib/log.manager.spec.ts --timeout 10000 --reporter mochawesome",
     "test:coverage": "tsc && nyc --harmony-async-await --reporter=text-summary --reporter=lcov mocha --reporter mochawesome ./src/**/**.spec.ts ./src/*.spec.ts",
     "test:coverage:dev": "tsc && nyc --harmony-async-await --reporter=text-summary --reporter=lcov mocha --reporter mochawesome ./src/utils/request.spec.ts",
@@ -59,15 +59,16 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@types/js-cookie": "^2.2.5",
     "axios": "^0.18.0",
     "date-fns": "^1.29.0",
+    "debug": "^4.1.1",
+    "js-cookie": "^2.2.1",
     "nock": "^10.0.6",
     "nock-record": "^0.3.3",
     "qs": "^6.5.2",
     "rxjs": "^6.3.2",
     "rxjs-compat": "^6.3.2",
-    "js-cookie": "^2.2.1",
-    "@types/js-cookie": "^2.2.5",
     "socket.io-client": "^2.2.0"
   },
   "nyc": {

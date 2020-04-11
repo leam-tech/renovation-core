@@ -1,4 +1,4 @@
-import { RequestResponse } from "..";
+import { renovationWarn, RequestResponse } from "..";
 import RenovationDocument from "../model/document";
 import RenovationController from "../renovation.controller";
 import {
@@ -79,7 +79,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: HasPermParams;
     if (typeof hasPermParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "hasPerm(doctype, ptype, permlevel, docname) is deprecated",
         "Please use the interfaced method instead"
@@ -159,7 +159,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: HasPermsParams;
     if (typeof hasPermParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "hasPerms(doctype, ptypes, docname) is deprecated",
         "Please use the interfaced method instead"
@@ -236,7 +236,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<RequestResponse<Array<Partial<Permission>>>> {
     let args: GetPermParams;
     if (typeof getPermParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "getPerm(doctype, doc) is deprecated",
         "Please use the interfaced method instead"
@@ -256,7 +256,7 @@ export default abstract class PermissionController extends RenovationController 
       }
     ];
 
-    if (this.config.coreInstance.auth.getCurrentUser() === "<username>") {
+    if (this.config.coreInstance.auth.getCurrentUser() === "Administrator") {
       perm[0].read = true;
     }
 
@@ -324,7 +324,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanCreateParams;
     if (typeof canCreateParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canCreate(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -357,7 +357,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanReadParams;
     if (typeof canReadParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canRead(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -390,7 +390,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanWriteParams;
     if (typeof canWriteParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canWrite(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -423,7 +423,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanCreateParams;
     if (typeof canCancelParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canCancel(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -456,7 +456,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanDeleteParams;
     if (typeof canDeleteParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canDelete(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -489,7 +489,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanImportParams;
     if (typeof canImportParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canImport(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -522,7 +522,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanExportParams;
     if (typeof canExportParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canExport(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -555,7 +555,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanPrintParams;
     if (typeof canPrintParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canPrint(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -588,7 +588,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanEmailParams;
     if (typeof canEmailParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canEmail(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -621,7 +621,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanSearchParams;
     if (typeof canSearchParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canSearch(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -656,7 +656,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanGetReportParams;
     if (typeof canGetReportParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canGetReport(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -691,7 +691,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanSetUserPermissionsParams;
     if (typeof canSetUserPermissionsParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canSetUserPermissions(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -727,7 +727,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanSubmitParams;
     if (typeof canSubmitParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canSubmit(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -743,7 +743,7 @@ export default abstract class PermissionController extends RenovationController 
     if (perms) {
       return perms[0].submit || false;
     }
-    console.warn(
+    renovationWarn(
       "Renovation Core",
       "Permissions",
       "Permission Cache not loaded to retrieve correct perm for canSubmit"
@@ -771,7 +771,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanCreateParams;
     if (typeof canAmendParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canAmend(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -787,7 +787,7 @@ export default abstract class PermissionController extends RenovationController 
     if (perms) {
       return perms[0].amend || false;
     }
-    console.warn(
+    renovationWarn(
       "Renovation Core",
       "Permissions",
       "Permission Cache not loaded to retrieve correct perm for canSubmit"
@@ -817,7 +817,7 @@ export default abstract class PermissionController extends RenovationController 
   ): Promise<boolean> {
     let args: CanRecursiveDeleteParams;
     if (typeof canRecursiveDeleteParams === "string") {
-      console.warn(
+      renovationWarn(
         "LTS-Renovation-Core",
         "canRecursiveDelete(doctype) is deprecated",
         "Please use the interfaced method instead"
@@ -832,7 +832,7 @@ export default abstract class PermissionController extends RenovationController 
     if (perms) {
       return perms[0].recursive_delete || false;
     }
-    console.warn(
+    renovationWarn(
       "Renovation Core",
       "Permissions",
       "Permission Cache not loaded to retrieve correct perm for canSubmit"
@@ -876,7 +876,7 @@ export default abstract class PermissionController extends RenovationController 
       this.basicPerms &&
       this.basicPerms._user !== this.getCore().auth.getCurrentUser()
     ) {
-      console.warn("LTS-Renovation-Core", "Basic Perm mismatch");
+      renovationWarn("LTS-Renovation-Core", "Basic Perm mismatch");
       this.basicPerms = null;
       return false;
     }

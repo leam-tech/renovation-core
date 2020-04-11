@@ -24,7 +24,7 @@ describe("String", function() {
       expect(titleCase).to.be.equal("Item Name");
     });
     it("should throw fail for null input", function() {
-      expect(() => toTitleCase(null)).to.throw();
+      expect(() => toTitleCase(null)).to.throw;
     });
   });
 
@@ -46,7 +46,7 @@ describe("String", function() {
     });
 
     it("should throw fail for null input", function() {
-      expect(() => underScoreToCamel(null)).to.throw();
+      expect(() => underScoreToCamel(null)).to.throw;
     });
   });
 
@@ -68,7 +68,7 @@ describe("String", function() {
     });
 
     it("should throw fail for null input", function() {
-      expect(() => underScoreToTitle(null)).to.throw();
+      expect(() => underScoreToTitle(null)).to.throw;
     });
   });
 });

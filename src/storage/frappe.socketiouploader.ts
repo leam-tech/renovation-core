@@ -1,5 +1,5 @@
 import { BehaviorSubject } from "rxjs";
-import { RequestResponse } from "..";
+import { renovationWarn, RequestResponse } from "..";
 import { Renovation } from "../renovation";
 import RenovationController from "../renovation.controller";
 import { asyncSleep } from "../utils";
@@ -144,7 +144,7 @@ export default class FrappeSocketIOUploader implements IErrorHandler {
 
     const r = await this.validateFileName();
     if (!r.success) {
-      console.warn(r);
+      renovationWarn(r);
       this.onError("name-error");
       return;
     }
@@ -260,7 +260,7 @@ export default class FrappeSocketIOUploader implements IErrorHandler {
       status: "error",
       error: event
     });
-    console.warn("LTS-Renovation-Core FrappeSocketIOUploader Error", event);
+    renovationWarn("LTS-Renovation-Core FrappeSocketIOUploader Error", event);
     this.destroy();
   }
 
