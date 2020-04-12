@@ -192,23 +192,7 @@ export class Renovation {
     this.loadUtils();
 
     this.initCall();
-    Object.defineProperty(this, "erpnext", {
-      get: () => {
-        renovationWarn(
-          "LTS-Renovation" + "Please use core.frappe instead of core.erpnext"
-        );
-        return this.frappe;
-      }
-    });
 
-    // @ts-ignore
-    if (initParams.backend === "erpnext") {
-      initParams.backend = "frappe";
-      renovationWarn(
-        "LTS-Renovation-Core" +
-          "Please update backend type from erpnext->frappe"
-      );
-    }
     if (initParams.backend === "frappe") {
       this.defaults = new FrappeDefaultsController(this.config);
       this.model = new FrappeModelController(this.config);

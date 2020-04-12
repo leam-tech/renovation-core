@@ -51,44 +51,6 @@ describe("Renovation", function() {
       expect(renovation.messages).to.be.instanceOf(Subject);
     });
 
-    it("should show a deprecation warning for using 'erpnext'", async function() {
-      // Reset Renovation object
-
-      TestManager.renovation = null;
-
-      // @ts-ignore
-      renovation = await TestManager.init("erpnext");
-
-      expect(renovation.auth).to.be.instanceOf(FrappeAuthController);
-      expect(renovation.defaults).to.be.instanceOf(FrappeDefaultsController);
-      expect(renovation.model).to.be.instanceOf(FrappeModelController);
-      expect(renovation.meta).to.be.instanceOf(FrappeMetaController);
-      expect(renovation.perm).to.be.instanceOf(FrappePermissionController);
-      expect(renovation.storage).to.be.instanceOf(FrappeStorageController);
-      expect(renovation.ui).to.be.instanceOf(FrappeUIController);
-      expect(renovation.scriptManager).to.be.instanceOf(ScriptManager);
-      expect(renovation.config).to.be.instanceOf(RenovationConfig);
-      expect(renovation.frappe).to.be.instanceOf(Frappe);
-      expect(renovation.translate).to.be.instanceOf(
-        FrappeTranslationController
-      );
-      expect(renovation.bus).to.be.instanceOf(MessageBus);
-
-      expect(renovation.utils).to.have.keys(["getJSON", "datetime"]);
-      // @ts-ignore
-      expect(renovation.utils.datetime).to.have.keys([
-        "getToday",
-        "addDays",
-        "addMonths",
-        "format",
-        "distanceInWordsToNow"
-      ]);
-
-      expect(renovation.messages).to.be.instanceOf(Subject);
-      // @ts-ignore
-      expect(renovation.erpnext).to.be.equal(renovation.frappe);
-    });
-
     it("should not initialize the method some controllers if the backend is not frappe", async function() {
       TestManager.renovation = null;
 
