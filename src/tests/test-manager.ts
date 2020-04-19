@@ -111,6 +111,6 @@ export class TestManager {
    * Get values from environment object
    */
   public static getVariables(variableName: ENV_VARIABLES): string {
-    return process.env[variableName];
+    return process ? process.env[variableName] : null;
   }
 }
