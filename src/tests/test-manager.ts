@@ -1,3 +1,4 @@
+import process from "process";
 import { RenovationBackend } from "../config";
 import { Renovation } from "../renovation";
 
