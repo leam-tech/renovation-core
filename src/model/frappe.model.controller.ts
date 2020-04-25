@@ -1542,33 +1542,20 @@ export default class FrappeModelController extends ModelController {
     } else {
       args = getTagParams;
     }
-    if (this.config.coreInstance.frappe.frappeVersion.major < 12) {
-      const r = await this.getCore().call({
-        cmd: "frappe.desk.tags.get_tags",
-        doctype: args.doctype,
-        txt: args.likeTag || "",
-        cat_tags: JSON.stringify([])
-      });
+    const r = await this.getCore().call({
+      cmd:
+        this.config.coreInstance.frappe.frappeVersion.major < 12
+          ? "frappe.desk.tags.get_tags"
+          : "frappe.desk.doctype.tag.tag.get_tags",
+      doctype: args.doctype,
+      txt: args.likeTag || "",
+      cat_tags: JSON.stringify([])
+    });
 
-      if (r.success) {
-        r.data = r.data.message;
-        return r;
-      } else {
-        return RequestResponse.fail(this.handleError("get_tags", r.error));
-      }
+    if (r.success) {
+      r.data = r.data.message;
+      return r;
     } else {
-      const r = await this.getList({
-        doctype: "Tag Link",
-        fields: ["tag"],
-        filters: {
-          document_type: ["LIKE", args.doctype],
-          tag: ["LIKE", `%${args.likeTag ? args.likeTag : ""}%`]
-        }
-      });
-      if (r.success) {
-        const tags = r.data.map(tagLink => tagLink.tag as string);
-        return RequestResponse.success(tags, 200, r._);
-      }
       return RequestResponse.fail(this.handleError("get_tags", r.error));
     }
   }
