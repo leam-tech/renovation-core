@@ -38,8 +38,9 @@ jobs:
         CORE_TS_PIN_NUMBER: ${{ secrets.CORE_TS_PIN_NUMBER }}
         CORE_TS_EXISTING_FOLDER: ${{ secrets.CORE_TS_EXISTING_FOLDER }}
 
-    - name: Upload Bundle
+    - name: Upload test report
       uses: actions/upload-artifact@v1
+      if: always()
       with:
         name: report
         path: mochawesome-report/
