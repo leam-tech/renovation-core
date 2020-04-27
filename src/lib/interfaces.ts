@@ -50,7 +50,7 @@ export interface SocketIOConnectParams {
   reconnectionAttempts?: number;
   /**
    * The time delay in milliseconds between reconnection attempts
-   * @default 4000
+   * @default 5000
    */
   reconnectionDelay?: number;
 }
