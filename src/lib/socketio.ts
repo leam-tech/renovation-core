@@ -112,7 +112,7 @@ export class SocketIOClient extends RenovationController {
       secure: args.url.split("/")[0] === "https:",
       path: args.path,
       reconnectionAttempts: args.reconnectionAttempts || 5,
-      reconnectionDelay: args.reconnectionAttempts || 5000,
+      reconnectionDelay: args.reconnectionDelay || 5000,
       transportOptions: {
         polling: {
           extraHeaders: headers
