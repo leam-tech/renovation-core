@@ -43,6 +43,16 @@ export interface ScriptManagerTriggerEventParams {
 export interface SocketIOConnectParams {
   url?: string;
   path?: string;
+  /**
+   * How many reconnection attempts should we try?
+   * @default 5
+   */
+  reconnectionAttempts?: number;
+  /**
+   * The time delay in milliseconds between reconnection attempts
+   * @default 4000
+   */
+  reconnectionDelay?: number;
 }
 
 export interface GetSocketParams {
