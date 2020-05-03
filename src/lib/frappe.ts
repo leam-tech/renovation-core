@@ -213,4 +213,17 @@ export default class Frappe extends RenovationController {
     }
     throw Error("Version empty or not in proper format");
   }
+
+  /**
+   * Silent method throwing an error if 'renovation_core' is not installed in the backend.
+   *
+   * To be used in controller's methods where the endpoints are defined in 'renovation_core'.
+   */
+  public checkRenovationCoreInstalled(): void {
+    if (!Object.keys(this._appVersions).includes("renovation_core")) {
+      throw new Error(
+        "The app renovation_core is not installed in the backend. Please install it and try again"
+      );
+    }
+  }
 }
