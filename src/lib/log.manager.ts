@@ -150,6 +150,7 @@ export default class LogManager extends RenovationController {
    * @param {InvokeLoggerParams} params
    */
   private async invokeLogger(params: InvokeLoggerParams) {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     if (params.tags && typeof params.tags === "object") {
       params.tags.push(...this._defaultTags);
       // frappe param bug

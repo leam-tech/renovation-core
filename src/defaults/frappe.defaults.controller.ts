@@ -57,6 +57,7 @@ export default class FrappeDefaultsController extends DefaultsController {
     getDefaultParams: string | GetDefaultParams,
     parent = "__default"
   ): Promise<RequestResponse<unknown>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     if (typeof getDefaultParams === "string") {
       renovationWarn(
         "LTS-Renovation-Core",

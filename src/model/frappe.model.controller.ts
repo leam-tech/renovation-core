@@ -249,6 +249,7 @@ export default class FrappeModelController extends ModelController {
     getDocParams: GetDocParams | string,
     docname?: string
   ): Promise<RequestResponse<RenovationDocument>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     let args: GetDocParams;
     if (typeof getDocParams === "string") {
       args = {
@@ -381,6 +382,7 @@ export default class FrappeModelController extends ModelController {
     limitPageLength?: number,
     parent?: string
   ): Promise<RequestResponse<[{ [x: string]: DBBasicValues | [{}] }]>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     if (typeof getListParams === "string" || arguments.length > 1) {
       renovationWarn(
         "LTS-Renovation-Core",
@@ -626,6 +628,7 @@ export default class FrappeModelController extends ModelController {
     filters = {},
     user = null
   ): Promise<RequestResponse<{ result; columns }>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     let args: GetReportParams;
     if (typeof getReportParams === "string") {
       renovationWarn(
@@ -817,6 +820,7 @@ export default class FrappeModelController extends ModelController {
   public async saveDoc(
     saveDocParams: SaveDocParams | RenovationDocument
   ): Promise<RequestResponse<RenovationDocument>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     let doc: RenovationDocument;
     // @ts-ignore
     if (saveDocParams.doc && !saveDocParams.doctype) {
@@ -977,6 +981,7 @@ export default class FrappeModelController extends ModelController {
   public async saveSubmitDoc(
     saveSubmitDocParams: SaveSubmitDocParams | RenovationDocument
   ): Promise<RequestResponse<RenovationDocument>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     let doc: RenovationDocument;
     // @ts-ignore
     if (saveSubmitDocParams.doc && !saveSubmitDocParams.doctype) {
@@ -1234,6 +1239,7 @@ export default class FrappeModelController extends ModelController {
   public async unAssignDoc(
     unAssignDocParams: UnAssignDocParams
   ): Promise<RequestResponse<any>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     const r = await this.getCore().call({
       cmd: "renovation_core.utils.assign_doc.unAssignDocFromUser",
       doctype: unAssignDocParams.doctype,
@@ -1256,6 +1262,7 @@ export default class FrappeModelController extends ModelController {
   public async getDocsAssignedToUser(
     getDocsAssignedToUserParams: GetDocsAssignedToUserParams
   ): Promise<RequestResponse<GetDocsAssignedToUserResponse[]>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     if (!getDocsAssignedToUserParams.assignedTo) {
       // ToDo isnt supposed to be set for Guests
       getDocsAssignedToUserParams.assignedTo = this.getCore().auth.getCurrentUser();

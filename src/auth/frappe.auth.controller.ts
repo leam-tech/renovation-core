@@ -254,6 +254,7 @@ export default class FrappeAuthController extends AuthController {
     user: string | PinLoginParams,
     pin?: string
   ): Promise<RequestResponse<SessionStatusInfo>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     if (typeof user === "string") {
       renovationWarn(
         "LTS-Renovation-Core",
@@ -287,6 +288,8 @@ export default class FrappeAuthController extends AuthController {
   public async sendOTP(
     sendOTPParams: SendOTPParams
   ): Promise<RequestResponse<SendOTPResponse>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
+
     const response = await Request(
       `${this.config.hostUrl}/api/method/renovation/auth.sms.generate`,
       httpMethod.POST,
@@ -317,6 +320,8 @@ export default class FrappeAuthController extends AuthController {
   public async verifyOTP(
     verifyOTPParams: VerifyOTPParams
   ): Promise<RequestResponse<VerifyOTPResponse>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
+
     const response = await Request(
       `${this.config.hostUrl}/api/method/renovation/auth.sms.verify`,
       httpMethod.POST,
@@ -365,6 +370,8 @@ export default class FrappeAuthController extends AuthController {
    * @returns {Promise<RequestResponse<string[]>>} The list of roles for the user. If a user is not signed-in, the Guest roles are fetched
    */
   public async getCurrentUserRoles(): Promise<RequestResponse<string[]>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
+
     if (
       this.currentUserRoles &&
       this.currentUserRoles.length &&

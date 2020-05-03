@@ -221,6 +221,7 @@ export default class FrappeMetaController extends MetaController {
   public async getDocMeta(
     getDocMetaParams: string | GetDocMetaParams
   ): Promise<RequestResponse<DocType>> {
+    await this.getCore().frappe.checkRenovationCoreInstalled();
     let doctype;
     if (typeof getDocMetaParams === "string") {
       doctype = getDocMetaParams;
