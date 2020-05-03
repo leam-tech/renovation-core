@@ -1,6 +1,6 @@
 import axios from "axios";
 import RenovationController from "../renovation.controller";
-import { renovationError, renovationWarn } from "../utils";
+import { asyncSleep, renovationError, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   getClientId,
@@ -42,6 +42,7 @@ export default class Frappe extends RenovationController {
     }
     return err;
   }
+
   /**
    * This returns a promise on which you could await so that
    * you could continue things after bootinfo is loaded
@@ -187,10 +188,11 @@ export default class Frappe extends RenovationController {
     });
     if (response.success) {
       const versions = response.data.message as { [x: string]: AppVersion };
-      if (versions)
-        for (let app in versions)
+      if (versions) {
+        for (let app in versions) {
           this._appVersions[app] = Frappe.parseAppVersion(versions[app]);
-
+        }
+      }
       return RequestResponse.success(true, 200, response._);
     }
     return RequestResponse.fail(
@@ -219,7 +221,10 @@ export default class Frappe extends RenovationController {
    *
    * To be used in controller's methods where the endpoints are defined in 'renovation_core'.
    */
-  public checkRenovationCoreInstalled(): void {
+  public async checkRenovationCoreInstalled(): Promise<void> {
+    while (Object.keys(this._appVersions).length === 0) {
+      await asyncSleep(100);
+    }
     if (!Object.keys(this._appVersions).includes("renovation_core")) {
       throw new Error(
         "The app renovation_core is not installed in the backend. Please install it and try again"
