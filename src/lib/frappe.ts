@@ -17,6 +17,8 @@ import { AppVersion } from "./interfaces";
 export default class Frappe extends RenovationController {
   private _appVersions: { [x: string]: AppVersion } = {};
 
+  private _versionsLoaded: boolean = false;
+
   public get appVersions() {
     return this._appVersions;
   }
@@ -186,6 +188,7 @@ export default class Frappe extends RenovationController {
     const response = await this.config.coreInstance.call({
       cmd: "renovation_core.utils.site.get_versions"
     });
+    this._versionsLoaded = true;
     if (response.success) {
       const versions = response.data.message as { [x: string]: AppVersion };
       if (versions) {
@@ -222,7 +225,7 @@ export default class Frappe extends RenovationController {
    * To be used in controller's methods where the endpoints are defined in 'renovation_core'.
    */
   public async checkRenovationCoreInstalled(): Promise<void> {
-    while (Object.keys(this._appVersions).length === 0) {
+    while (!this._versionsLoaded) {
       await asyncSleep(100);
     }
     if (!Object.keys(this._appVersions).includes("renovation_core")) {
