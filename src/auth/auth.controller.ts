@@ -31,12 +31,12 @@ export default abstract class AuthController extends RenovationController {
   /**
    * Set this to true to disable JWT
    */
-  public set disableJwt(value) {
+  public set enableJwt(value) {
     this.useJwt = value;
   }
 
-  public get disableJwt() {
-    return !this.useJwt;
+  public get enableJwt() {
+    return this.useJwt;
   }
 
   /**
@@ -51,7 +51,7 @@ export default abstract class AuthController extends RenovationController {
   /**
    * Enable jwt if this is true only
    */
-  protected useJwt: boolean = true;
+  protected useJwt: boolean = false;
   /**
    * The current user's roles
    *
