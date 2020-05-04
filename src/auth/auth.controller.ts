@@ -313,7 +313,8 @@ export default abstract class AuthController extends RenovationController {
         if (newStatus.lang) {
           this.getCore().translate.setCurrentLanguage({ lang: newStatus.lang });
         }
-        this.getCore().translate.loadTranslations({});
+        if (this.getCore().frappe.getAppVersion("renovation_core"))
+          this.getCore().translate.loadTranslations({});
         this.currentUser = newStatus.user;
       } else {
         this.clearAuthToken();
