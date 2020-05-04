@@ -32,6 +32,9 @@ export default abstract class AuthController extends RenovationController {
    * Set this to true to disable JWT
    */
   public set enableJwt(value) {
+    if (!this.getCore().frappe.getAppVersion("renovation_core") && value) {
+      this.getCore().frappe.checkAppInstalled(["Login using JWT"]);
+    }
     this.useJwt = value;
   }
 
