@@ -220,17 +220,26 @@ export default class Frappe extends RenovationController {
   }
 
   /**
-   * Silent method throwing an error if 'renovation_core' is not installed in the backend.
+   * Silent method throwing an error if an app is not installed in the backend
    *
-   * To be used in controller's methods where the endpoints are defined in 'renovation_core'.
+   * Defaults to checking 'renovation_core' and defaults to throw an error
+   *
+   * Awaits until the version is loaded through loadAppVersions
    */
-  public async checkRenovationCoreInstalled(): Promise<void> {
+  public async checkAppInstalled(
+    features: string[],
+    throwError: boolean = true,
+    appName: string = "renovation_core"
+  ): Promise<void> {
     while (!this._versionsLoaded) {
       await asyncSleep(100);
     }
-    if (!Object.keys(this._appVersions).includes("renovation_core")) {
-      throw new Error(
-        "The app renovation_core is not installed in the backend. Please install it and try again"
+    if (!Object.keys(this._appVersions).includes(appName) && throwError) {
+      throw Error(
+        `The app "${appName}" is not installed in the backend.\nPlease install it to be able to use the feature(s):\n\n${
+          features && features.length ? features.join("\n") : ""
+        }
+         `
       );
     }
   }

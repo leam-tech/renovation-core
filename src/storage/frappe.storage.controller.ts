@@ -308,7 +308,7 @@ export default class FrappeStorageController extends StorageController {
   private async uploadViaHTTP(
     uploadFileParams: UploadFileParams
   ): Promise<RequestResponse<UploadFileResponse>> {
-    await this.getCore().frappe.checkRenovationCoreInstalled();
+    await this.getCore().frappe.checkAppInstalled(["uploadViaHTTP"]);
     let readFilePromise = null;
     if (uploadFileParams.file) {
       readFilePromise = getBase64FromFileObject(uploadFileParams.file);
