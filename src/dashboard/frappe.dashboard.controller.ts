@@ -1,4 +1,10 @@
-import { deepCompare, renovationError, RenovationError, renovationLog, RequestResponse } from "..";
+import {
+  deepCompare,
+  renovationError,
+  RenovationError,
+  renovationLog,
+  RequestResponse
+} from "..";
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
 import { ErrorDetail } from "../utils/error";
@@ -53,6 +59,7 @@ export default class FrappeDashboardController extends DashboardController {
   public async getDashboardLayout(
     getDashboardLayoutParams?: GetDashboardLayoutParams
   ): Promise<RequestResponse<DashboardLayout>> {
+    await this.getCore().frappe.checkAppInstalled(["getDashboardLayout"]);
     const layout = getDashboardLayoutParams
       ? getDashboardLayoutParams.layout
       : undefined;
@@ -74,6 +81,7 @@ export default class FrappeDashboardController extends DashboardController {
   public async getAvailableLayouts(): Promise<
     RequestResponse<Array<{ title: string; name: string }>>
   > {
+    await this.getCore().frappe.checkAppInstalled(["getAvailableLayouts"]);
     const r = await this.getCore().call({
       cmd: "renovation_core.renovation_dashboard_def.get_user_dashboard_layouts"
     });
@@ -119,6 +127,8 @@ export default class FrappeDashboardController extends DashboardController {
   public async getAllDashboardsMeta(): Promise<
     RequestResponse<FrappeDashboard[]>
   > {
+    await this.getCore().frappe.checkAppInstalled(["getAllDashboardMeta"]);
+
     const cachedDashboards = this.getDashboardsFromCache();
     if (cachedDashboards) {
       this.fetchDashboards();
@@ -381,6 +391,7 @@ export default class FrappeDashboardController extends DashboardController {
     dashboard: FrappeDashboard,
     params?: FrappeDashboardParams[]
   ): Promise<RequestResponse<any>> {
+    await this.getCore().frappe.checkAppInstalled(["executeDefaultCMD"]);
     const dashboardParams = {};
 
     for (const param of params || []) {

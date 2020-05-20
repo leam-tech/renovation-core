@@ -1,6 +1,6 @@
 import axios from "axios";
 import RenovationController from "../renovation.controller";
-import { renovationError, renovationWarn } from "../utils";
+import { asyncSleep, renovationError, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   getClientId,
@@ -16,6 +16,8 @@ import { AppVersion } from "./interfaces";
  */
 export default class Frappe extends RenovationController {
   private _appVersions: { [x: string]: AppVersion } = {};
+
+  private _versionsLoaded: boolean = false;
 
   public get appVersions() {
     return this._appVersions;
@@ -42,6 +44,7 @@ export default class Frappe extends RenovationController {
     }
     return err;
   }
+
   /**
    * This returns a promise on which you could await so that
    * you could continue things after bootinfo is loaded
@@ -185,12 +188,14 @@ export default class Frappe extends RenovationController {
     const response = await this.config.coreInstance.call({
       cmd: "renovation_core.utils.site.get_versions"
     });
+    this._versionsLoaded = true;
     if (response.success) {
       const versions = response.data.message as { [x: string]: AppVersion };
-      if (versions)
-        for (let app in versions)
+      if (versions) {
+        for (let app in versions) {
           this._appVersions[app] = Frappe.parseAppVersion(versions[app]);
-
+        }
+      }
       return RequestResponse.success(true, 200, response._);
     }
     return RequestResponse.fail(
@@ -212,5 +217,30 @@ export default class Frappe extends RenovationController {
       return version;
     }
     throw Error("Version empty or not in proper format");
+  }
+
+  /**
+   * Silent method throwing an error if an app is not installed in the backend
+   *
+   * Defaults to checking 'renovation_core' and defaults to throw an error
+   *
+   * Awaits until the version is loaded through loadAppVersions
+   */
+  public async checkAppInstalled(
+    features: string[],
+    throwError: boolean = true,
+    appName: string = "renovation_core"
+  ): Promise<void> {
+    while (!this._versionsLoaded) {
+      await asyncSleep(100);
+    }
+    if (!Object.keys(this._appVersions).includes(appName) && throwError) {
+      throw Error(
+        `The app "${appName}" is not installed in the backend.\nPlease install it to be able to use the feature(s):\n\n${
+          features && features.length ? features.join("\n") : ""
+        }
+         `
+      );
+    }
   }
 }

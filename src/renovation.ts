@@ -194,6 +194,11 @@ export class Renovation {
     this.initCall();
 
     if (initParams.backend === "frappe") {
+      this.frappe = new Frappe(this.config);
+
+      // Load the apps' versions without awaiting
+      this.frappe.loadAppVersions();
+
       this.defaults = new FrappeDefaultsController(this.config);
       this.model = new FrappeModelController(this.config);
       this.meta = new FrappeMetaController(this.config);
@@ -201,11 +206,6 @@ export class Renovation {
       this.storage = new FrappeStorageController(this.config);
       this.ui = new FrappeUIController(this.config);
       this.translate = new FrappeTranslationController(this.config);
-
-      this.frappe = new Frappe(this.config);
-
-      // Load the apps' versions without awaiting
-      this.frappe.loadAppVersions();
 
       this.dashboard = new FrappeDashboardController(this.config);
       // define auth at last

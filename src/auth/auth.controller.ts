@@ -31,12 +31,15 @@ export default abstract class AuthController extends RenovationController {
   /**
    * Set this to true to disable JWT
    */
-  public set disableJwt(value) {
+  public set enableJwt(value) {
+    if (!this.getCore().frappe.getAppVersion("renovation_core") && value) {
+      this.getCore().frappe.checkAppInstalled(["Login using JWT"]);
+    }
     this.useJwt = value;
   }
 
-  public get disableJwt() {
-    return !this.useJwt;
+  public get enableJwt() {
+    return this.useJwt;
   }
 
   /**
@@ -51,7 +54,7 @@ export default abstract class AuthController extends RenovationController {
   /**
    * Enable jwt if this is true only
    */
-  protected useJwt: boolean = true;
+  protected useJwt: boolean = false;
   /**
    * The current user's roles
    *
@@ -313,7 +316,8 @@ export default abstract class AuthController extends RenovationController {
         if (newStatus.lang) {
           this.getCore().translate.setCurrentLanguage({ lang: newStatus.lang });
         }
-        this.getCore().translate.loadTranslations({});
+        if (this.getCore().frappe.getAppVersion("renovation_core"))
+          this.getCore().translate.loadTranslations({});
         this.currentUser = newStatus.user;
       } else {
         this.clearAuthToken();

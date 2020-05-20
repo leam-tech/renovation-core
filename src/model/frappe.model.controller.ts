@@ -56,9 +56,10 @@ export default class FrappeModelController extends ModelController {
       case "get_doc":
         if (
           error.info &&
-          error.info.data &&
-          error.info.data.exception &&
-          error.info.data.exception.includes("DoesNotExistError")
+          ((error.info.data &&
+            error.info.data.exception &&
+            error.info.data.exception.includes("DoesNotExistError")) ||
+            error.info.httpCode === 404)
         ) {
           err = this.handleError("non_existing_doc", error);
         } else if (error.info.httpCode === 412) {
@@ -249,6 +250,7 @@ export default class FrappeModelController extends ModelController {
     getDocParams: GetDocParams | string,
     docname?: string
   ): Promise<RequestResponse<RenovationDocument>> {
+    await this.getCore().frappe.checkAppInstalled(["getDoc"], false);
     let args: GetDocParams;
     if (typeof getDocParams === "string") {
       args = {
@@ -275,17 +277,29 @@ export default class FrappeModelController extends ModelController {
       ) {
         return super.getDoc(args); // Returns resolved RequestResponse with doc
       }
-      this.loadDocType(args.doctype);
-
+      let response;
       const config = RenovationConfig.instance;
-      const response = await Request(
-        `${config.hostUrl}/api/method/renovation/doc/` +
-          `${encodeURIComponent(args.doctype as string)}/${encodeURIComponent(
-            args.docname as string
-          )}`,
-        httpMethod.GET,
-        FrappeRequestOptions.headers
-      );
+      if (this.getCore().frappe.getAppVersion("renovation_core")) {
+        this.loadDocType(args.doctype);
+
+        response = await Request(
+          `${config.hostUrl}/api/method/renovation/doc/` +
+            `${encodeURIComponent(args.doctype as string)}/${encodeURIComponent(
+              args.docname as string
+            )}`,
+          httpMethod.GET,
+          FrappeRequestOptions.headers
+        );
+      } else {
+        response = await Request(
+          `${config.hostUrl}/api/resource/` +
+            `${encodeURIComponent(args.doctype as string)}/${encodeURIComponent(
+              args.docname as string
+            )}`,
+          httpMethod.GET,
+          FrappeRequestOptions.headers
+        );
+      }
       if (response.success) {
         const responseObj = getJSON(response.data);
         if (responseObj && responseObj.hasOwnProperty("data")) {
@@ -394,39 +408,77 @@ export default class FrappeModelController extends ModelController {
         limitPageStart: limitPageStart || 0,
         limitPageLength: limitPageLength || 99,
         parent,
-        tableFields: undefined
+        tableFields: undefined,
+        withLinkFields: undefined
       });
     }
+    await this.getCore().frappe.checkAppInstalled(["getList"], false);
 
     const args = getListParams as GetListParams;
     args.limitPageStart = args.limitPageStart || 0;
     args.limitPageLength = args.limitPageLength || 99;
     args.orderBy = args.orderBy || "modified desc";
     args.fields = args.fields || ["name"];
+
+    // Whether custom features are used
+    const isUsingCustomFeatures = !!args.withLinkFields || !!args.tableFields;
+
+    if (
+      !this.getCore().frappe.getAppVersion("renovation_core") &&
+      isUsingCustomFeatures
+    ) {
+      // Will throw an error
+      await this.getCore().frappe.checkAppInstalled([
+        "tableFields",
+        "withLinkFields"
+      ]);
+    }
     const config = RenovationConfig.instance;
-    const response = await Request(
-      `${config.hostUrl}`,
-      httpMethod.POST,
-      FrappeRequestOptions.headers,
-      {
-        contentType: contentType["query-string"],
-        data: {
-          cmd: "renovation_core.db.query.get_list_with_child",
-          doctype: args.doctype,
-          fields: args.fields.join(","),
-          filters: JSON.stringify(args.filters),
-          order_by: args.orderBy,
-          limit_start: args.limitPageStart,
-          limit_page_length: args.limitPageLength,
-          parent,
-          table_fields: args.tableFields,
-          with_link_fields:
-            args.withLinkFields != null
-              ? JSON.stringify(args.withLinkFields)
-              : null
+    let response;
+    if (this.getCore().frappe.getAppVersion("renovation_core")) {
+      response = await Request(
+        `${config.hostUrl}`,
+        httpMethod.POST,
+        FrappeRequestOptions.headers,
+        {
+          contentType: contentType["query-string"],
+          data: {
+            cmd: "renovation_core.db.query.get_list_with_child",
+            doctype: args.doctype,
+            fields: args.fields.join(","),
+            filters: JSON.stringify(args.filters),
+            order_by: args.orderBy,
+            limit_start: args.limitPageStart,
+            limit_page_length: args.limitPageLength,
+            parent,
+            table_fields: args.tableFields,
+            with_link_fields:
+              args.withLinkFields != null
+                ? JSON.stringify(args.withLinkFields)
+                : null
+          }
         }
-      }
-    );
+      );
+    } else {
+      response = await Request(
+        `${config.hostUrl}`,
+        httpMethod.POST,
+        FrappeRequestOptions.headers,
+        {
+          contentType: contentType["application/json"],
+          data: {
+            cmd: "frappe.client.get_list",
+            doctype: args.doctype,
+            fields: args.fields.join(","),
+            filters: JSON.stringify(args.filters),
+            order_by: args.orderBy,
+            limit_start: args.limitPageStart,
+            limit_page_length: args.limitPageLength,
+            parent
+          }
+        }
+      );
+    }
     if (response.success) {
       const responseObj = getJSON(response.data);
       if (args.fields.indexOf("*") !== -1) {
@@ -626,6 +678,9 @@ export default class FrappeModelController extends ModelController {
     filters = {},
     user = null
   ): Promise<RequestResponse<{ result; columns }>> {
+    await this.getCore().frappe.checkAppInstalled([
+      "getReport (Renovation Report)"
+    ]);
     let args: GetReportParams;
     if (typeof getReportParams === "string") {
       renovationWarn(
@@ -828,25 +883,45 @@ export default class FrappeModelController extends ModelController {
       );
       doc = saveDocParams;
     }
-    this.config.coreInstance.scriptManager.trigger({
-      doctype: doc.doctype,
-      docname: doc.name,
-      event: "validate"
-    });
 
+    await this.getCore().frappe.checkAppInstalled(["saveDoc"], false);
+
+    let response;
     const config = RenovationConfig.instance;
-    const response = await Request(
-      `${config.hostUrl}/api/method/renovation/doc/` +
-        `${encodeURIComponent(doc.doctype)}/${
-          doc.__islocal ? "" : `${encodeURIComponent(doc.name)}`
-        }`,
-      doc.__islocal ? httpMethod.POST : httpMethod.PUT,
-      FrappeRequestOptions.headers,
-      {
-        contentType: contentType["application/json"],
-        data: { doc }
-      }
-    );
+
+    if (this.getCore().frappe.getAppVersion("renovation_core")) {
+      this.config.coreInstance.scriptManager.trigger({
+        doctype: doc.doctype,
+        docname: doc.name,
+        event: "validate"
+      });
+
+      response = await Request(
+        `${config.hostUrl}/api/method/renovation/doc/` +
+          `${encodeURIComponent(doc.doctype)}/${
+            doc.__islocal ? "" : `${encodeURIComponent(doc.name)}`
+          }`,
+        doc.__islocal ? httpMethod.POST : httpMethod.PUT,
+        FrappeRequestOptions.headers,
+        {
+          contentType: contentType["application/json"],
+          data: { doc }
+        }
+      );
+    } else {
+      response = await Request(
+        `${config.hostUrl}/api/resource/` +
+          `${encodeURIComponent(doc.doctype)}/${
+            doc.__islocal ? "" : `${encodeURIComponent(doc.name)}`
+          }`,
+        doc.__islocal ? httpMethod.POST : httpMethod.PUT,
+        FrappeRequestOptions.headers,
+        {
+          contentType: contentType["application/json"],
+          data: { ...doc }
+        }
+      );
+    }
     if (response.success) {
       const responseObj = getJSON(response.data);
       if (responseObj && responseObj.status === "success") {
@@ -977,6 +1052,7 @@ export default class FrappeModelController extends ModelController {
   public async saveSubmitDoc(
     saveSubmitDocParams: SaveSubmitDocParams | RenovationDocument
   ): Promise<RequestResponse<RenovationDocument>> {
+    await this.getCore().frappe.checkAppInstalled(["saveSubmitDoc"]);
     let doc: RenovationDocument;
     // @ts-ignore
     if (saveSubmitDocParams.doc && !saveSubmitDocParams.doctype) {
@@ -1234,6 +1310,7 @@ export default class FrappeModelController extends ModelController {
   public async unAssignDoc(
     unAssignDocParams: UnAssignDocParams
   ): Promise<RequestResponse<any>> {
+    await this.getCore().frappe.checkAppInstalled(["unAssignDoc"]);
     const r = await this.getCore().call({
       cmd: "renovation_core.utils.assign_doc.unAssignDocFromUser",
       doctype: unAssignDocParams.doctype,
@@ -1256,6 +1333,7 @@ export default class FrappeModelController extends ModelController {
   public async getDocsAssignedToUser(
     getDocsAssignedToUserParams: GetDocsAssignedToUserParams
   ): Promise<RequestResponse<GetDocsAssignedToUserResponse[]>> {
+    await this.getCore().frappe.checkAppInstalled(["GetDocsAssignedToUser"]);
     if (!getDocsAssignedToUserParams.assignedTo) {
       // ToDo isnt supposed to be set for Guests
       getDocsAssignedToUserParams.assignedTo = this.getCore().auth.getCurrentUser();

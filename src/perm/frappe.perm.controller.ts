@@ -32,6 +32,7 @@ export default class FrappePermissionController extends PermissionController {
    * If a user isn't signed in, the Guest basic permissions is retrieved
    */
   public async loadBasicPerms() {
+    await this.getCore().frappe.checkAppInstalled(["loadBasicPerms"]);
     if (this.basicPerms) {
       if (this.basicPerms.isLoading) {
         await asyncSleep(50);

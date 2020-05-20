@@ -42,6 +42,7 @@ export default class FrappeTranslationController extends TranslationController {
   public async loadTranslations(
     loadTranslationsParams?: string | LoadTranslationsParams
   ) {
+    await this.getCore().frappe.checkAppInstalled(["loadTranslations"]);
     let args: LoadTranslationsParams = {};
     if (typeof loadTranslationsParams === "string") {
       args = {
