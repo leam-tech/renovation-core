@@ -28,8 +28,8 @@ import {
  * Frappe Authentication Controller containing methods and properties related to Frappe
  */
 export default class FrappeAuthController extends AuthController {
-  constructor(config: RenovationConfig) {
-    super(config);
+  constructor(config: RenovationConfig, useJWT: boolean) {
+    super(config, useJWT);
   }
 
   public handleError(errorId: string, error: ErrorDetail): ErrorDetail {

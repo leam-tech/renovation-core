@@ -61,8 +61,10 @@ export default abstract class AuthController extends RenovationController {
    */
   protected currentUserRoles: string[] = [];
 
-  protected constructor(config: RenovationConfig) {
+  protected constructor(config: RenovationConfig, useJWT: boolean) {
     super(config);
+
+    this.enableJwt = useJWT;
 
     /* observable for clearing localStorage
      * Will be called anytime the observables value is changed
@@ -316,8 +318,9 @@ export default abstract class AuthController extends RenovationController {
         if (newStatus.lang) {
           this.getCore().translate.setCurrentLanguage({ lang: newStatus.lang });
         }
-        if (this.getCore().frappe.getAppVersion("renovation_core"))
+        if (this.getCore().frappe.getAppVersion("renovation_core")) {
           this.getCore().translate.loadTranslations({});
+        }
         this.currentUser = newStatus.user;
       } else {
         this.clearAuthToken();
