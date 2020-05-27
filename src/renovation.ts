@@ -211,6 +211,7 @@ export class Renovation {
       // define auth at last
       // there are calls in auth.updateSession() that calls translate
       this.auth = new FrappeAuthController(this.config);
+      this.auth.enableJwt = !!initParams.useJWT;
 
       if (!initParams.clientId) {
         await this.frappe.updateClientId();
@@ -295,4 +296,5 @@ export interface InitParams {
   backend?: RenovationBackend;
   clientId?: string;
   disableLog?: boolean;
+  useJWT?: boolean;
 }
