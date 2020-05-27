@@ -210,8 +210,7 @@ export class Renovation {
       this.dashboard = new FrappeDashboardController(this.config);
       // define auth at last
       // there are calls in auth.updateSession() that calls translate
-      this.auth = new FrappeAuthController(this.config);
-      this.auth.enableJwt = !!initParams.useJWT;
+      this.auth = new FrappeAuthController(this.config, !!initParams.useJWT);
 
       if (!initParams.clientId) {
         await this.frappe.updateClientId();
