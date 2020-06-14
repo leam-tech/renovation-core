@@ -4,6 +4,7 @@ import RenovationController from "../renovation.controller";
 import { renovationError, renovationLog, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
+  applyClientId,
   applyCookieHeader,
   FrappeRequestOptions,
   isBrowser
@@ -107,6 +108,7 @@ export class SocketIOClient extends RenovationController {
       headers.Authorization = FrappeRequestOptions.headers.Authorization;
     }
     applyCookieHeader(headers);
+    applyClientId(headers);
 
     this.socket = IO.connect(args.url, {
       secure: args.url.split("/")[0] === "https:",

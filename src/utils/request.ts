@@ -77,6 +77,18 @@ export function resetClientId() {
   }
 }
 
+/**
+ * Sets X-Client-Id header value
+ * @param headers The header dict
+ */
+export function applyClientId(headers: { [x: string]: any }) {
+  const id = getClientId();
+  if (!id) {
+    return;
+  }
+  headers["X-Client-Site"] = id;
+}
+
 // Errors
 export enum RenovationError {
   AuthenticationError,
@@ -202,9 +214,9 @@ export async function Request(
   } else {
     headers["content-type"] = ""; // mandatory
   }
-  if (clientId) {
-    headers["X-Client-Site"] = clientId;
-  }
+
+  applyClientId(headers);
+
   // tslint:disable-next-line:variable-name
   let _response;
   let r: RequestResponse<any>;
