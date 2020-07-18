@@ -3,4 +3,10 @@ export { RenovationBackend } from "./config";
 export * from "./utils";
 export * from "./tests";
 export * from "./model/interfaces";
-export * from "./utils/request";
+export {
+  RenovationError,
+  SessionStatus,
+  RequestResponse,
+  isBrowser,
+  isNodeJS
+} from "./utils/request";
