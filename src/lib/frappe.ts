@@ -208,13 +208,18 @@ export default class Frappe extends RenovationController {
   }
 
   private static parseAppVersion(version: AppVersion): AppVersion {
-    const segments = version.version.split(".");
+    if (version.version && version.version != "") {
+      let _version = version.version.match(/\d+(\.\d+){2,}/);
+      if (_version && _version.length > 0) {
+        const segments = _version[0].split(".");
 
-    if (segments && segments.length === 3) {
-      version.major = parseInt(segments[0]);
-      version.minor = parseInt(segments[1]);
-      version.patch = parseInt(segments[2]);
-      return version;
+        if (segments && segments.length === 3) {
+          version.major = parseInt(segments[0]);
+          version.minor = parseInt(segments[1]);
+          version.patch = parseInt(segments[2]);
+          return version;
+        }
+      }
     }
     throw Error("Version empty or not in proper format");
   }
