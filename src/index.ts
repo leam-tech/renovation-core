@@ -8,5 +8,6 @@ export {
   SessionStatus,
   RequestResponse,
   isBrowser,
-  isNodeJS
+  isNodeJS,
+  axiosInstance
 } from "./utils/request";
