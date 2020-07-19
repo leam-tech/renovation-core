@@ -148,6 +148,8 @@ export const SessionStatus: BehaviorSubject<SessionStatusInfo> = new BehaviorSub
   } as SessionStatusInfo
 );
 
+export const axiosInstance = axios.create();
+
 /**
  * Wrapper for underlying HTTP Client used
  * @param url The URL of the endpoint
@@ -221,7 +223,7 @@ export async function Request(
   let _response;
   let r: RequestResponse<any>;
   try {
-    const response = await axios({
+    const response = await axiosInstance({
       method: _method,
       withCredentials: true,
       url,

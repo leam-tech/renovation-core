@@ -1,12 +1,13 @@
-export { Renovation } from "./renovation";
+export { Renovation, InitParams } from "./renovation";
 export { RenovationBackend } from "./config";
 export * from "./utils";
 export * from "./tests";
-export { GetListParams } from "./model/interfaces";
+export * from "./model/interfaces";
 export {
   RenovationError,
   SessionStatus,
   RequestResponse,
   isBrowser,
-  isNodeJS
+  isNodeJS,
+  axiosInstance
 } from "./utils/request";

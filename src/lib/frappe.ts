@@ -1,8 +1,8 @@
-import axios from "axios";
 import RenovationController from "../renovation.controller";
 import { asyncSleep, renovationError, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
+  axiosInstance,
   getClientId,
   onBrowser,
   RequestResponse,
@@ -145,7 +145,7 @@ export default class Frappe extends RenovationController {
    */
   private async fetchId(): Promise<RequestResponse<any>> {
     try {
-      const response = await axios({
+      const response = await axiosInstance({
         // plain request, we dont want to send x-client-site here
         method: "POST",
         url: this.config.hostUrl,
