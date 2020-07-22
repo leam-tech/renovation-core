@@ -277,7 +277,7 @@ export async function Request(
  * @param r The response object as `RequestResponse`
  */
 function messageChecker(r: RequestResponse<any>) {
-  if (r.data._server_messages) {
+  if (r.data?._server_messages) {
     r.data._server_messages = getJSON(r.data._server_messages);
     for (let messg of r.data._server_messages) {
       messg = getJSON(messg);
@@ -298,10 +298,10 @@ function errorChecker(r: RequestResponse<any>) {
   // r.data.exc will have frappe exc
   if (!r.success) {
     const excContains = (sx: string) => {
-      return r.data.exc ? r.data.exc.indexOf(sx) >= 0 : false;
+      return r.data?.exc ? r.data.exc.indexOf(sx) >= 0 : false;
     };
 
-    if (r.data.session_expired) {
+    if (r.data?.session_expired) {
       SessionStatus.next({
         loggedIn: false,
         timestamp: new Date().getTime() / 1000,
@@ -319,7 +319,7 @@ function errorChecker(r: RequestResponse<any>) {
     }
 
     // {"_server_messages":"[\"{\\\"message\\\": \\\"Invalid Request\\\", \\\"indicator\\\": \\\"red\\\"}\"]"}
-    let data = getJSON(r.data._server_messages);
+    let data = getJSON(r.data?._server_messages);
     if (data && data.length > 0) {
       data = getJSON(data[0]);
       if (data.message === "Invalid Request") {
