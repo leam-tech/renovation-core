@@ -164,7 +164,7 @@ export default class FrappeSocketIOUploader implements IErrorHandler {
   }
 
   public handleError(errorId: string, error: ErrorDetail): ErrorDetail {
-    let err = {} as ErrorDetail;
+    let err: ErrorDetail;
 
     switch (errorId) {
       case "on_complete":
@@ -300,6 +300,7 @@ export default class FrappeSocketIOUploader implements IErrorHandler {
       r = RequestResponse.success(data);
     } else {
       r = RequestResponse.fail(this.handleError("on_complete", r.error));
+      r.data = {};
       r.data.file_url = frappeUploadEnd.file_url;
     }
     this.uploadStatus.next({
