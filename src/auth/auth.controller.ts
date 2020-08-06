@@ -89,15 +89,8 @@ export default abstract class AuthController extends RenovationController {
         });
       }
     });
-    const session = this.getSessionFromLocalStorage();
-    this.updateSession({
-      data: session,
-      loggedIn: !!session && !!session.loggedIn,
-      // its mandatory not to update timestamp on loading from local storage
-      // this causes checkLogin() to verify with backend
-      // otherwise, it will return logged in
-      useTimestamp: !!session && session.timestamp
-    });
+    this.updateSessionFromLocalStorage();
+    this.observerLocalStorageSession();
   }
 
   /**
@@ -401,6 +394,36 @@ export default abstract class AuthController extends RenovationController {
         secure: isSecure
       });
     }
+  }
+
+  /**
+   * Loads the Session details from LocalStorage and updates current Session
+   */
+  private updateSessionFromLocalStorage() {
+    const session = this.getSessionFromLocalStorage();
+    this.updateSession({
+      data: session,
+      loggedIn: !!session && !!session.loggedIn,
+      // its mandatory not to update timestamp on loading from local storage
+      // this causes checkLogin() to verify with backend
+      // otherwise, it will return logged in
+      useTimestamp: !!session && session.timestamp
+    });
+  }
+
+  /**
+   * Adds EventListener for LocalStorage changes
+   * This helps in catching SessionUpdates in different browser Tabs
+   */
+  private observerLocalStorageSession() {
+    if (!isBrowser()) {
+      return;
+    }
+    window.addEventListener("storage", e => {
+      if (e.key == renovationSessionKey) {
+        this.updateSessionFromLocalStorage();
+      }
+    });
   }
 
   /**
