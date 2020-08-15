@@ -36,3 +36,8 @@ export interface VerifyOTPResponse extends Partial<SessionStatusInfo> {
     | "user_not_found";
   mobile: string;
 }
+
+export interface ChangePasswordParams {
+  oldPassword: string;
+  newPassword: string;
+}

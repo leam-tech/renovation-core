@@ -12,6 +12,7 @@ import {
   SessionStatusInfo
 } from "../utils/request";
 import {
+  ChangePasswordParams,
   LoginParams,
   PinLoginParams,
   SendOTPParams,
@@ -432,4 +433,14 @@ export default abstract class AuthController extends RenovationController {
    * @param lang The language to be set.
    **/
   public abstract async setUserLanguage(lang: string): Promise<boolean>;
+
+  /**
+   * Changes the password of the currently logged in user.
+   *
+   * Validates the old (current) password before changing it.
+   * @param args The old and new password
+   */
+  public abstract async changePassword(
+    args: ChangePasswordParams
+  ): Promise<RequestResponse<boolean>>;
 }

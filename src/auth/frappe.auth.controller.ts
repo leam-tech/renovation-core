@@ -1,12 +1,11 @@
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
-import { asyncSleep, getJSON, renovationWarn } from "../utils";
+import { asyncSleep, getJSON, renovationError, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   contentType,
   FrappeRequestOptions,
   httpMethod,
-  isNodeJS,
   onBrowser,
   RenovationError,
   Request,
@@ -16,6 +15,7 @@ import {
 } from "../utils/request";
 import AuthController from "./auth.controller";
 import {
+  ChangePasswordParams,
   LoginParams,
   PinLoginParams,
   SendOTPParams,
@@ -120,6 +120,36 @@ export default class FrappeAuthController extends AuthController {
             suggestion: "Create the new user or enable it if disabled"
           }
         };
+        break;
+
+      case "change_pwd":
+        if (error.type === RenovationError.AuthenticationError) {
+          err = {
+            ...error,
+            title: "Invalid Password",
+            info: {
+              ...error.info,
+              cause: "Wrong old password",
+              suggestion:
+                "Check that the current password is correct, or reset the password"
+            }
+          };
+        } else if (
+          error.info.httpCode === 417 &&
+          error.info.data._server_messages.length &&
+          error.info.data._server_messages[0].includes("Invalid Password")
+        ) {
+          err = {
+            ...error,
+            title: "Weak Password",
+            info: {
+              ...error.info,
+              cause: "Password does not pass the policy",
+              suggestion:
+                "Use stronger password, including uppercase, digits and special characters"
+            }
+          };
+        }
         break;
       // No specific errors
       case "get_current_user_roles":
@@ -494,14 +524,16 @@ export default class FrappeAuthController extends AuthController {
    * @param lang The language to be set for the user in the backend.
    */
   public async setUserLanguage(lang: string): Promise<boolean> {
-    if (lang == null || lang.trim() == "")
+    if (lang == null || lang.trim() == "") {
       throw new Error("Language cannot be null or an empty string");
+    }
     const currentSession = SessionStatus.value;
 
-    if (!currentSession || !currentSession.loggedIn)
+    if (!currentSession || !currentSession.loggedIn) {
       throw new Error(
         "No user logged in. This operation requires a logged in user"
       );
+    }
 
     const response = await this.getCore().model.setValue({
       doctype: "User",
@@ -514,5 +546,55 @@ export default class FrappeAuthController extends AuthController {
       this.updateSession({ loggedIn: true, data: currentSession });
     }
     return response.success;
+  }
+
+  /**
+   * Changes the password of the currently logged in user.
+   *
+   * Validates the old (current) password before changing it.
+   *
+   * Validates for compliance with the Password Policy (zxcvbn).
+   * @param args The old and new password
+   */
+  public async changePassword(
+    args: ChangePasswordParams
+  ): Promise<RequestResponse<boolean>> {
+    await this.getCore().frappe.checkAppInstalled(["changePassword"]);
+
+    if (
+      !args ||
+      !args.oldPassword ||
+      !args.newPassword ||
+      args.oldPassword === "" ||
+      args.newPassword === ""
+    ) {
+      renovationError("Passwords must be specified");
+      return;
+    }
+
+    if (!this.currentUser || this.currentUser == "Guest") {
+      renovationError("Need to be signed in to change password");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.auth.change_password",
+      old_password: args.oldPassword,
+      new_password: args.newPassword
+    });
+
+    if (response.success) {
+      return RequestResponse.success(
+        response.success,
+        response.httpCode,
+        response._
+      );
+    } else {
+      const err = RequestResponse.fail(
+        this.handleError("change_pwd", response.error)
+      );
+      err.data = false;
+      return err;
+    }
   }
 }
