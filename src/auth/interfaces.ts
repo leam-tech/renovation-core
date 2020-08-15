@@ -62,20 +62,30 @@ export interface GenerateResetOTPParams extends PasswordResetInfoParams {
   medium_type: OTP_MEDIUM;
   medium_id: string;
 }
-
-export interface GenerateResetOTPResponse {
-  sent: number;
+export interface ResetOTPResponse {
   reason: string;
+}
+
+export interface GenerateResetOTPResponse extends ResetOTPResponse {
+  sent: number;
 }
 
 export interface VerifyResetOTPParams extends GenerateResetOTPParams {
   otp: string;
 }
 
-export interface VerifyResetOTPResponse {
+export interface VerifyResetOTPResponse extends ResetOTPResponse {
   verified: number;
   reset_token: string;
-  reason: string;
+}
+
+export interface UpdatePasswordParams {
+  reset_token: string;
+  new_password: string;
+}
+
+export interface UpdatePasswordResponse extends ResetOTPResponse {
+  updated: number;
 }
 
 enum ID_TYPE {

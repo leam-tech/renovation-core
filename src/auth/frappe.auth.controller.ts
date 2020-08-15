@@ -24,6 +24,8 @@ import {
   ResetPasswordInfo,
   SendOTPParams,
   SendOTPResponse,
+  UpdatePasswordParams,
+  UpdatePasswordResponse,
   VerifyOTPParams,
   VerifyOTPResponse,
   VerifyResetOTPParams,
@@ -752,6 +754,53 @@ export default class FrappeAuthController extends AuthController {
           info: { httpCode: 400 }
         });
         failResponse.data = otpResponse;
+        return failResponse;
+      }
+    }
+    return RequestResponse.fail(response.error);
+  }
+
+  /**
+   * Updates (resets) the password to the chosen password by passing the reset_token.
+   *
+   * This is the final step for resetting a forgotten password.
+   * @param args The new password and the reset token.
+   */
+  public async updatePasswordWithToken(
+    args: UpdatePasswordParams
+  ): Promise<RequestResponse<UpdatePasswordResponse>> {
+    await this.getCore().frappe.checkAppInstalled(["updatePasswordWithToken"]);
+    if (!args || !args.reset_token) {
+      renovationError("Reset Token can't be empty");
+      return;
+    }
+    if (!args.new_password || args.new_password === "") {
+      renovationError("Password can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.update_password",
+      reset_token: args.reset_token,
+      new_password: args.new_password
+    });
+
+    if (response.success) {
+      const updatePasswordResponse = response.data
+        .message as UpdatePasswordResponse;
+
+      if (updatePasswordResponse.updated) {
+        return RequestResponse.success(
+          updatePasswordResponse,
+          response.httpCode,
+          response._
+        );
+      } else {
+        const failResponse = RequestResponse.fail({
+          title: updatePasswordResponse.reason,
+          info: { httpCode: 400 }
+        });
+        failResponse.data = updatePasswordResponse;
         return failResponse;
       }
     }

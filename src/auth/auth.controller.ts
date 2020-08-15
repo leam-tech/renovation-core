@@ -21,6 +21,8 @@ import {
   ResetPasswordInfo,
   SendOTPParams,
   SendOTPResponse,
+  UpdatePasswordParams,
+  UpdatePasswordResponse,
   VerifyOTPParams,
   VerifyOTPResponse,
   VerifyResetOTPParams,
@@ -478,4 +480,14 @@ export default abstract class AuthController extends RenovationController {
   public abstract async verifyPasswordResetOTP(
     args: VerifyResetOTPParams
   ): Promise<RequestResponse<VerifyResetOTPResponse>>;
+
+  /**
+   * Updates (resets) the password to the chosen password by passing the reset_token.
+   *
+   * This is the final step for resetting a forgotten password.
+   * @param args The new password and the reset token.
+   */
+  public abstract async updatePasswordWithToken(
+    args: UpdatePasswordParams
+  ): Promise<RequestResponse<UpdatePasswordResponse>>;
 }
