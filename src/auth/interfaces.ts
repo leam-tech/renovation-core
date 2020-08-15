@@ -68,6 +68,16 @@ export interface GenerateResetOTPResponse {
   reason: string;
 }
 
+export interface VerifyResetOTPParams extends GenerateResetOTPParams {
+  otp: string;
+}
+
+export interface VerifyResetOTPResponse {
+  verified: number;
+  reset_token: string;
+  reason: string;
+}
+
 enum ID_TYPE {
   mobile = "mobile",
   email = "email"

@@ -22,7 +22,9 @@ import {
   SendOTPParams,
   SendOTPResponse,
   VerifyOTPParams,
-  VerifyOTPResponse
+  VerifyOTPResponse,
+  VerifyResetOTPParams,
+  VerifyResetOTPResponse
 } from "./interfaces";
 
 /**
@@ -466,4 +468,14 @@ export default abstract class AuthController extends RenovationController {
   public abstract async generatePasswordResetOTP(
     args: GenerateResetOTPParams
   ): Promise<RequestResponse<GenerateResetOTPResponse>>;
+
+  /**
+   * Verifies the OTP sent through `generatePasswordResetOTP`.
+   *
+   * This is the second step for resetting a forgotten password.
+   * @param args The otp received along with the user's id and the medium.
+   */
+  public abstract async verifyPasswordResetOTP(
+    args: VerifyResetOTPParams
+  ): Promise<RequestResponse<VerifyResetOTPResponse>>;
 }

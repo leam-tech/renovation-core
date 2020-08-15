@@ -25,7 +25,9 @@ import {
   SendOTPParams,
   SendOTPResponse,
   VerifyOTPParams,
-  VerifyOTPResponse
+  VerifyOTPResponse,
+  VerifyResetOTPParams,
+  VerifyResetOTPResponse
 } from "./interfaces";
 
 /**
@@ -678,6 +680,67 @@ export default class FrappeAuthController extends AuthController {
       const otpResponse = response.data.message as GenerateResetOTPResponse;
 
       if (otpResponse.sent) {
+        return RequestResponse.success(
+          otpResponse,
+          response.httpCode,
+          response._
+        );
+      } else {
+        const failResponse = RequestResponse.fail({
+          title: otpResponse.reason,
+          info: { httpCode: 400 }
+        });
+        failResponse.data = otpResponse;
+        return failResponse;
+      }
+    }
+    return RequestResponse.fail(response.error);
+  }
+
+  /**
+   * Verifies the OTP sent through `generatePasswordResetOTP`.
+   *
+   * This is the second step for resetting a forgotten password.
+   * @param args The otp received along with the user's id and the medium.
+   */
+  public async verifyPasswordResetOTP(
+    args: VerifyResetOTPParams
+  ): Promise<RequestResponse<VerifyResetOTPResponse>> {
+    await this.getCore().frappe.checkAppInstalled(["verifyPasswordResetOTP"]);
+    if (!args || !args.type) {
+      renovationError("ID type can't be empty");
+      return;
+    }
+    if (!args.id || args.id === "") {
+      renovationError("ID can't be empty");
+      return;
+    }
+    if (!args.medium_type) {
+      renovationError("Medium type can't be empty");
+      return;
+    }
+    if (!args.medium_type || args.medium_id === "") {
+      renovationError("Medium ID can't be empty");
+      return;
+    }
+    if (!args.otp || args.otp === "") {
+      renovationError("OTP can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.verify_otp",
+      id_type: args.type,
+      id: args.id,
+      medium: args.medium_type,
+      medium_id: args.medium_id,
+      otp: args.otp
+    });
+
+    if (response.success) {
+      const otpResponse = response.data.message as VerifyResetOTPResponse;
+
+      if (otpResponse.verified) {
         return RequestResponse.success(
           otpResponse,
           response.httpCode,
