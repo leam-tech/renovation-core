@@ -13,6 +13,8 @@ import {
 } from "../utils/request";
 import {
   ChangePasswordParams,
+  GenerateResetOTPParams,
+  GenerateResetOTPResponse,
   LoginParams,
   PasswordResetInfoParams,
   PinLoginParams,
@@ -454,4 +456,14 @@ export default abstract class AuthController extends RenovationController {
   public abstract async getPasswordResetInfo(
     args: PasswordResetInfoParams
   ): Promise<RequestResponse<ResetPasswordInfo>>;
+
+  /**
+   * Generates the OTP and sends it through the chosen medium.
+   *
+   * This is the first step for resetting a forgotten password.
+   * @param args The user's id and the medium on which to receive the OTP
+   */
+  public abstract async generatePasswordResetOTP(
+    args: GenerateResetOTPParams
+  ): Promise<RequestResponse<GenerateResetOTPResponse>>;
 }

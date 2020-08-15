@@ -38,8 +38,8 @@ export interface VerifyOTPResponse extends Partial<SessionStatusInfo> {
 }
 
 export interface ChangePasswordParams {
-  oldPassword: string;
-  newPassword: string;
+  old_password: string;
+  new_password: string;
 }
 
 export interface PasswordResetInfoParams {
@@ -58,7 +58,22 @@ export interface ResetInfoHint {
   sms: string;
 }
 
+export interface GenerateResetOTPParams extends PasswordResetInfoParams {
+  medium_type: OTP_MEDIUM;
+  medium_id: string;
+}
+
+export interface GenerateResetOTPResponse {
+  sent: number;
+  reason: string;
+}
+
 enum ID_TYPE {
   mobile = "mobile",
   email = "email"
+}
+
+enum OTP_MEDIUM {
+  email = "email",
+  sms = "sms"
 }

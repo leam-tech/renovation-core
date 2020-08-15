@@ -16,6 +16,8 @@ import {
 import AuthController from "./auth.controller";
 import {
   ChangePasswordParams,
+  GenerateResetOTPParams,
+  GenerateResetOTPResponse,
   LoginParams,
   PasswordResetInfoParams,
   PinLoginParams,
@@ -565,10 +567,10 @@ export default class FrappeAuthController extends AuthController {
 
     if (
       !args ||
-      !args.oldPassword ||
-      !args.newPassword ||
-      args.oldPassword === "" ||
-      args.newPassword === ""
+      !args.old_password ||
+      !args.new_password ||
+      args.old_password === "" ||
+      args.new_password === ""
     ) {
       renovationError("Passwords must be specified");
       return;
@@ -581,8 +583,8 @@ export default class FrappeAuthController extends AuthController {
 
     const response = await this.config.coreInstance.call({
       cmd: "renovation_core.utils.auth.change_password",
-      old_password: args.oldPassword,
-      new_password: args.newPassword
+      old_password: args.old_password,
+      new_password: args.new_password
     });
 
     if (response.success) {
@@ -632,6 +634,62 @@ export default class FrappeAuthController extends AuthController {
           response.httpCode,
           response._
         );
+      }
+    }
+    return RequestResponse.fail(response.error);
+  }
+
+  /**
+   * Generates the OTP and sends it through the chosen medium.
+   *
+   * This is the first step for resetting a forgotten password.
+   * @param args The user's id and the medium on which to receive the OTP
+   */
+  public async generatePasswordResetOTP(
+    args: GenerateResetOTPParams
+  ): Promise<RequestResponse<GenerateResetOTPResponse>> {
+    await this.getCore().frappe.checkAppInstalled(["generatePasswordResetOTP"]);
+    if (!args || !args.type) {
+      renovationError("ID type can't be empty");
+      return;
+    }
+    if (!args.id || args.id === "") {
+      renovationError("ID can't be empty");
+      return;
+    }
+    if (!args.medium_type) {
+      renovationError("Medium type can't be empty");
+      return;
+    }
+    if (!args.medium_type || args.medium_id === "") {
+      renovationError("Medium ID can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.generate_otp",
+      id_type: args.type,
+      id: args.id,
+      medium: args.medium_type,
+      medium_id: args.medium_id
+    });
+
+    if (response.success) {
+      const otpResponse = response.data.message as GenerateResetOTPResponse;
+
+      if (otpResponse.sent) {
+        return RequestResponse.success(
+          otpResponse,
+          response.httpCode,
+          response._
+        );
+      } else {
+        const failResponse = RequestResponse.fail({
+          title: otpResponse.reason,
+          info: { httpCode: 400 }
+        });
+        failResponse.data = otpResponse;
+        return failResponse;
       }
     }
     return RequestResponse.fail(response.error);
