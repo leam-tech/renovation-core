@@ -14,7 +14,9 @@ import {
 import {
   ChangePasswordParams,
   LoginParams,
+  PasswordResetInfoParams,
   PinLoginParams,
+  ResetPasswordInfo,
   SendOTPParams,
   SendOTPResponse,
   VerifyOTPParams,
@@ -443,4 +445,13 @@ export default abstract class AuthController extends RenovationController {
   public abstract async changePassword(
     args: ChangePasswordParams
   ): Promise<RequestResponse<boolean>>;
+
+  /**
+   * Gets the password possible reset methods & hints about these methods.
+   *
+   * @param args The type (email or sms) of the user id and the id itself
+   */
+  public abstract async getPasswordResetInfo(
+    args: PasswordResetInfoParams
+  ): Promise<RequestResponse<ResetPasswordInfo>>;
 }

@@ -17,7 +17,9 @@ import AuthController from "./auth.controller";
 import {
   ChangePasswordParams,
   LoginParams,
+  PasswordResetInfoParams,
   PinLoginParams,
+  ResetPasswordInfo,
   SendOTPParams,
   SendOTPResponse,
   VerifyOTPParams,
@@ -596,5 +598,42 @@ export default class FrappeAuthController extends AuthController {
       err.data = false;
       return err;
     }
+  }
+
+  /**
+   * Gets the password possible reset methods & hints about these methods.
+   *
+   * @param args The type (email or sms) of the user id and the id itself
+   */
+  public async getPasswordResetInfo(
+    args: PasswordResetInfoParams
+  ): Promise<RequestResponse<ResetPasswordInfo>> {
+    await this.getCore().frappe.checkAppInstalled(["getPasswordResetInfo"]);
+
+    if (!args || !args.type) {
+      renovationError("ID type can't be empty");
+      return;
+    }
+    if (!args.id || args.id === "") {
+      renovationError("ID can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.get_reset_info",
+      id_type: args.type,
+      id: args.id
+    });
+
+    if (response.success) {
+      if (response.data.message != null) {
+        return RequestResponse.success(
+          response.data.message,
+          response.httpCode,
+          response._
+        );
+      }
+    }
+    return RequestResponse.fail(response.error);
   }
 }
