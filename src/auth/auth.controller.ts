@@ -13,6 +13,7 @@ import {
 } from "../utils/request";
 import {
   ChangePasswordParams,
+  EstimatePasswordParams,
   GenerateResetOTPParams,
   GenerateResetOTPResponse,
   LoginParams,
@@ -490,4 +491,25 @@ export default abstract class AuthController extends RenovationController {
   public abstract async updatePasswordWithToken(
     args: UpdatePasswordParams
   ): Promise<RequestResponse<UpdatePasswordResponse>>;
+
+  /**
+   * Estimate the password's strength from 0-4.
+   *
+   * Optionally can specify other inputs like email, first name, etc..
+   *
+   * ZXCVBNResult.score : Integer from 0-4 (useful for implementing a strength bar)
+   *  0 # too guessable: risky password. (guesses < 10^3)
+   *  1 # very guessable: protection from throttled online attacks. (guesses < 10^6)
+   *  2 # somewhat guessable: protection from unthrottled online attacks. (guesses < 10^8)
+   *  3 # safely unguessable: moderate protection from offline slow-hash scenario. (guesses < 10^10)
+   *  4 # very unguessable: strong protection from offline slow-hash scenario. (guesses >= 10^10)
+   *
+   * ZXCVBNResult.feedback : verbal feedback to help choose better passwords. set when score <= 2.
+   *
+   * ZXCVBNResult.calcTime : how long it took to calculate an answer in milliseconds.
+   * @param args The arguments including password (mandatory) and other user inputs.
+   */
+  public abstract estimatePassword(
+    args: EstimatePasswordParams
+  ): zxcvbn.ZXCVBNResult;
 }

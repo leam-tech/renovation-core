@@ -339,4 +339,73 @@ describe("Frappe Auth Controller", function() {
 
     after(() => renovation.auth.logout());
   });
+
+  describe("estimatePassword", function() {
+    describe("Estimate password only", function() {
+      it("with score 0", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "1qaz2wsx3edc"
+        });
+        expect(result.score === 0);
+      });
+      it("with score 1", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "temppass22"
+        });
+        expect(result.score === 1);
+      });
+      it("with score 2", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "qwER43@!"
+        });
+        expect(result.score === 2);
+      });
+      it("with score 3", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "ryanhunter2000"
+        });
+        expect(result.score === 3);
+      });
+      it("with score 4", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "erlineVANDERMARK"
+        });
+        expect(result.score === 4);
+      });
+    });
+
+    describe("Estimate password with custom inputs", function() {
+      it("With first name parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "temppass22",
+          user_inputs: { firstName: "temp" }
+        });
+        expect(result.score === 1);
+      });
+
+      it("With email parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "qwER43@!",
+          user_inputs: { email: "er43@gmail.com" }
+        });
+        expect(result.score === 2);
+      });
+
+      it("With last name parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "ryanhunter2000",
+          user_inputs: { firstName: "ryanhunter" }
+        });
+        expect(result.score === 1);
+      });
+
+      it("With first name parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "verlineVANDERMARK",
+          user_inputs: { otherInputs: ["VANDERMARK"] }
+        });
+        expect(result.score === 1);
+      });
+    });
+  });
 });
