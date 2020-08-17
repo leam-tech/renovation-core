@@ -36,3 +36,64 @@ export interface VerifyOTPResponse extends Partial<SessionStatusInfo> {
     | "user_not_found";
   mobile: string;
 }
+
+export interface ChangePasswordParams {
+  old_password: string;
+  new_password: string;
+}
+
+export interface PasswordResetInfoParams {
+  type: ID_TYPE;
+  id: string;
+}
+
+export interface ResetPasswordInfo {
+  has_medium: number;
+  medium: string[];
+  hints: ResetInfoHint;
+}
+
+export interface ResetInfoHint {
+  email: string;
+  sms: string;
+}
+
+export interface GenerateResetOTPParams extends PasswordResetInfoParams {
+  medium_type: OTP_MEDIUM;
+  medium_id: string;
+}
+export interface ResetOTPResponse {
+  reason: string;
+}
+
+export interface GenerateResetOTPResponse extends ResetOTPResponse {
+  sent: number;
+}
+
+export interface VerifyResetOTPParams extends GenerateResetOTPParams {
+  otp: string;
+}
+
+export interface VerifyResetOTPResponse extends ResetOTPResponse {
+  verified: number;
+  reset_token: string;
+}
+
+export interface UpdatePasswordParams {
+  reset_token: string;
+  new_password: string;
+}
+
+export interface UpdatePasswordResponse extends ResetOTPResponse {
+  updated: number;
+}
+
+enum ID_TYPE {
+  mobile = "mobile",
+  email = "email"
+}
+
+enum OTP_MEDIUM {
+  email = "email",
+  sms = "sms"
+}

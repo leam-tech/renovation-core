@@ -1,12 +1,11 @@
 import { RenovationConfig } from "../config";
 import RenovationController from "../renovation.controller";
-import { asyncSleep, getJSON, renovationWarn } from "../utils";
+import { asyncSleep, getJSON, renovationError, renovationWarn } from "../utils";
 import { ErrorDetail } from "../utils/error";
 import {
   contentType,
   FrappeRequestOptions,
   httpMethod,
-  isNodeJS,
   onBrowser,
   RenovationError,
   Request,
@@ -16,12 +15,21 @@ import {
 } from "../utils/request";
 import AuthController from "./auth.controller";
 import {
+  ChangePasswordParams,
+  GenerateResetOTPParams,
+  GenerateResetOTPResponse,
   LoginParams,
+  PasswordResetInfoParams,
   PinLoginParams,
+  ResetPasswordInfo,
   SendOTPParams,
   SendOTPResponse,
+  UpdatePasswordParams,
+  UpdatePasswordResponse,
   VerifyOTPParams,
-  VerifyOTPResponse
+  VerifyOTPResponse,
+  VerifyResetOTPParams,
+  VerifyResetOTPResponse
 } from "./interfaces";
 
 /**
@@ -120,6 +128,36 @@ export default class FrappeAuthController extends AuthController {
             suggestion: "Create the new user or enable it if disabled"
           }
         };
+        break;
+
+      case "change_pwd":
+        if (error.type === RenovationError.AuthenticationError) {
+          err = {
+            ...error,
+            title: "Invalid Password",
+            info: {
+              ...error.info,
+              cause: "Wrong old password",
+              suggestion:
+                "Check that the current password is correct, or reset the password"
+            }
+          };
+        } else if (
+          error.info.httpCode === 417 &&
+          error.info.data._server_messages.length &&
+          error.info.data._server_messages[0].includes("Invalid Password")
+        ) {
+          err = {
+            ...error,
+            title: "Weak Password",
+            info: {
+              ...error.info,
+              cause: "Password does not pass the policy",
+              suggestion:
+                "Use stronger password, including uppercase, digits and special characters"
+            }
+          };
+        }
         break;
       // No specific errors
       case "get_current_user_roles":
@@ -494,14 +532,16 @@ export default class FrappeAuthController extends AuthController {
    * @param lang The language to be set for the user in the backend.
    */
   public async setUserLanguage(lang: string): Promise<boolean> {
-    if (lang == null || lang.trim() == "")
+    if (lang == null || lang.trim() == "") {
       throw new Error("Language cannot be null or an empty string");
+    }
     const currentSession = SessionStatus.value;
 
-    if (!currentSession || !currentSession.loggedIn)
+    if (!currentSession || !currentSession.loggedIn) {
       throw new Error(
         "No user logged in. This operation requires a logged in user"
       );
+    }
 
     const response = await this.getCore().model.setValue({
       doctype: "User",
@@ -514,5 +554,256 @@ export default class FrappeAuthController extends AuthController {
       this.updateSession({ loggedIn: true, data: currentSession });
     }
     return response.success;
+  }
+
+  /**
+   * Changes the password of the currently logged in user.
+   *
+   * Validates the old (current) password before changing it.
+   *
+   * Validates for compliance with the Password Policy (zxcvbn).
+   * @param args The old and new password
+   */
+  public async changePassword(
+    args: ChangePasswordParams
+  ): Promise<RequestResponse<boolean>> {
+    await this.getCore().frappe.checkAppInstalled(["changePassword"]);
+
+    if (
+      !args ||
+      !args.old_password ||
+      !args.new_password ||
+      args.old_password === "" ||
+      args.new_password === ""
+    ) {
+      renovationError("Passwords must be specified");
+      return;
+    }
+
+    if (!this.currentUser || this.currentUser == "Guest") {
+      renovationError("Need to be signed in to change password");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.auth.change_password",
+      old_password: args.old_password,
+      new_password: args.new_password
+    });
+
+    if (response.success) {
+      return RequestResponse.success(
+        response.success,
+        response.httpCode,
+        response._
+      );
+    } else {
+      const err = RequestResponse.fail(
+        this.handleError("change_pwd", response.error)
+      );
+      err.data = false;
+      return err;
+    }
+  }
+
+  /**
+   * Gets the password possible reset methods & hints about these methods.
+   *
+   * @param args The type (email or sms) of the user id and the id itself
+   */
+  public async getPasswordResetInfo(
+    args: PasswordResetInfoParams
+  ): Promise<RequestResponse<ResetPasswordInfo>> {
+    await this.getCore().frappe.checkAppInstalled(["getPasswordResetInfo"]);
+
+    if (!args || !args.type) {
+      renovationError("ID type can't be empty");
+      return;
+    }
+    if (!args.id || args.id === "") {
+      renovationError("ID can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.get_reset_info",
+      id_type: args.type,
+      id: args.id
+    });
+
+    if (response.success) {
+      if (response.data.message != null) {
+        return RequestResponse.success(
+          response.data.message,
+          response.httpCode,
+          response._
+        );
+      }
+    }
+    return RequestResponse.fail(response.error);
+  }
+
+  /**
+   * Generates the OTP and sends it through the chosen medium.
+   *
+   * This is the first step for resetting a forgotten password.
+   * @param args The user's id and the medium on which to receive the OTP
+   */
+  public async generatePasswordResetOTP(
+    args: GenerateResetOTPParams
+  ): Promise<RequestResponse<GenerateResetOTPResponse>> {
+    await this.getCore().frappe.checkAppInstalled(["generatePasswordResetOTP"]);
+    if (!args || !args.type) {
+      renovationError("ID type can't be empty");
+      return;
+    }
+    if (!args.id || args.id === "") {
+      renovationError("ID can't be empty");
+      return;
+    }
+    if (!args.medium_type) {
+      renovationError("Medium type can't be empty");
+      return;
+    }
+    if (!args.medium_type || args.medium_id === "") {
+      renovationError("Medium ID can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.generate_otp",
+      id_type: args.type,
+      id: args.id,
+      medium: args.medium_type,
+      medium_id: args.medium_id
+    });
+
+    if (response.success) {
+      const otpResponse = response.data.message as GenerateResetOTPResponse;
+
+      if (otpResponse.sent) {
+        return RequestResponse.success(
+          otpResponse,
+          response.httpCode,
+          response._
+        );
+      } else {
+        const failResponse = RequestResponse.fail({
+          title: otpResponse.reason,
+          info: { httpCode: 400 }
+        });
+        failResponse.data = otpResponse;
+        return failResponse;
+      }
+    }
+    return RequestResponse.fail(response.error);
+  }
+
+  /**
+   * Verifies the OTP sent through `generatePasswordResetOTP`.
+   *
+   * This is the second step for resetting a forgotten password.
+   * @param args The otp received along with the user's id and the medium.
+   */
+  public async verifyPasswordResetOTP(
+    args: VerifyResetOTPParams
+  ): Promise<RequestResponse<VerifyResetOTPResponse>> {
+    await this.getCore().frappe.checkAppInstalled(["verifyPasswordResetOTP"]);
+    if (!args || !args.type) {
+      renovationError("ID type can't be empty");
+      return;
+    }
+    if (!args.id || args.id === "") {
+      renovationError("ID can't be empty");
+      return;
+    }
+    if (!args.medium_type) {
+      renovationError("Medium type can't be empty");
+      return;
+    }
+    if (!args.medium_type || args.medium_id === "") {
+      renovationError("Medium ID can't be empty");
+      return;
+    }
+    if (!args.otp || args.otp === "") {
+      renovationError("OTP can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.verify_otp",
+      id_type: args.type,
+      id: args.id,
+      medium: args.medium_type,
+      medium_id: args.medium_id,
+      otp: args.otp
+    });
+
+    if (response.success) {
+      const otpResponse = response.data.message as VerifyResetOTPResponse;
+
+      if (otpResponse.verified) {
+        return RequestResponse.success(
+          otpResponse,
+          response.httpCode,
+          response._
+        );
+      } else {
+        const failResponse = RequestResponse.fail({
+          title: otpResponse.reason,
+          info: { httpCode: 400 }
+        });
+        failResponse.data = otpResponse;
+        return failResponse;
+      }
+    }
+    return RequestResponse.fail(response.error);
+  }
+
+  /**
+   * Updates (resets) the password to the chosen password by passing the reset_token.
+   *
+   * This is the final step for resetting a forgotten password.
+   * @param args The new password and the reset token.
+   */
+  public async updatePasswordWithToken(
+    args: UpdatePasswordParams
+  ): Promise<RequestResponse<UpdatePasswordResponse>> {
+    await this.getCore().frappe.checkAppInstalled(["updatePasswordWithToken"]);
+    if (!args || !args.reset_token) {
+      renovationError("Reset Token can't be empty");
+      return;
+    }
+    if (!args.new_password || args.new_password === "") {
+      renovationError("Password can't be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.utils.forgot_pwd.update_password",
+      reset_token: args.reset_token,
+      new_password: args.new_password
+    });
+
+    if (response.success) {
+      const updatePasswordResponse = response.data
+        .message as UpdatePasswordResponse;
+
+      if (updatePasswordResponse.updated) {
+        return RequestResponse.success(
+          updatePasswordResponse,
+          response.httpCode,
+          response._
+        );
+      } else {
+        const failResponse = RequestResponse.fail({
+          title: updatePasswordResponse.reason,
+          info: { httpCode: 400 }
+        });
+        failResponse.data = updatePasswordResponse;
+        return failResponse;
+      }
+    }
+    return RequestResponse.fail(response.error);
   }
 }

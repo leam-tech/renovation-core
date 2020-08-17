@@ -12,12 +12,21 @@ import {
   SessionStatusInfo
 } from "../utils/request";
 import {
+  ChangePasswordParams,
+  GenerateResetOTPParams,
+  GenerateResetOTPResponse,
   LoginParams,
+  PasswordResetInfoParams,
   PinLoginParams,
+  ResetPasswordInfo,
   SendOTPParams,
   SendOTPResponse,
+  UpdatePasswordParams,
+  UpdatePasswordResponse,
   VerifyOTPParams,
-  VerifyOTPResponse
+  VerifyOTPResponse,
+  VerifyResetOTPParams,
+  VerifyResetOTPResponse
 } from "./interfaces";
 
 /**
@@ -432,4 +441,53 @@ export default abstract class AuthController extends RenovationController {
    * @param lang The language to be set.
    **/
   public abstract async setUserLanguage(lang: string): Promise<boolean>;
+
+  /**
+   * Changes the password of the currently logged in user.
+   *
+   * Validates the old (current) password before changing it.
+   * @param args The old and new password
+   */
+  public abstract async changePassword(
+    args: ChangePasswordParams
+  ): Promise<RequestResponse<boolean>>;
+
+  /**
+   * Gets the password possible reset methods & hints about these methods.
+   *
+   * @param args The type (email or sms) of the user id and the id itself
+   */
+  public abstract async getPasswordResetInfo(
+    args: PasswordResetInfoParams
+  ): Promise<RequestResponse<ResetPasswordInfo>>;
+
+  /**
+   * Generates the OTP and sends it through the chosen medium.
+   *
+   * This is the first step for resetting a forgotten password.
+   * @param args The user's id and the medium on which to receive the OTP
+   */
+  public abstract async generatePasswordResetOTP(
+    args: GenerateResetOTPParams
+  ): Promise<RequestResponse<GenerateResetOTPResponse>>;
+
+  /**
+   * Verifies the OTP sent through `generatePasswordResetOTP`.
+   *
+   * This is the second step for resetting a forgotten password.
+   * @param args The otp received along with the user's id and the medium.
+   */
+  public abstract async verifyPasswordResetOTP(
+    args: VerifyResetOTPParams
+  ): Promise<RequestResponse<VerifyResetOTPResponse>>;
+
+  /**
+   * Updates (resets) the password to the chosen password by passing the reset_token.
+   *
+   * This is the final step for resetting a forgotten password.
+   * @param args The new password and the reset token.
+   */
+  public abstract async updatePasswordWithToken(
+    args: UpdatePasswordParams
+  ): Promise<RequestResponse<UpdatePasswordResponse>>;
 }
