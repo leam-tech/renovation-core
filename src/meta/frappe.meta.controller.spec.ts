@@ -11,7 +11,7 @@ describe("Frappe Meta Controller", function() {
   const validUser = TestManager.primaryUser;
   const validPwd = TestManager.primaryUserPwd;
 
-  const testDoctype = "Renovation Review";
+  const testDoctype = "Renovation Dashboard";
 
   this.timeout(10000);
 
