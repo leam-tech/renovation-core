@@ -11,7 +11,7 @@ describe("ModelController", function() {
   const validUser = TestManager.primaryUser;
   const validPwd = TestManager.primaryUserPwd;
 
-  const testDoctype = "Renovation User Agreement";
+  const testDoctype = "Blogger";
 
   before(async function() {
     renovation = await TestManager.init("frappe");
@@ -30,7 +30,7 @@ describe("ModelController", function() {
   describe("newDoc", function() {
     it("should create a new RenovationDocument", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Renovation User Agreement"
+        doctype: testDoctype
       });
       expect(newDoc.doctype).to.be.equal(testDoctype);
       expect(newDoc.name).to.be.equal(`New ${testDoctype} 1`);
@@ -43,7 +43,7 @@ describe("ModelController", function() {
     });
 
     it("should create a new RenovationDocument [deprecated]", async function() {
-      const newDoc = await renovation.model.newDoc("Renovation User Agreement");
+      const newDoc = await renovation.model.newDoc(testDoctype);
       expect(newDoc.doctype).to.be.equal(testDoctype);
       expect(newDoc.name).to.be.equal(`New ${testDoctype} 1`);
       expect(newDoc.docstatus).to.be.equal(0);
@@ -158,93 +158,93 @@ describe("ModelController", function() {
     });
     it("should successfully get child doc when it's not defined in the input RenovationDocument", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review"
+        doctype: "User"
       });
 
       const childDoc = await renovation.model.addChildDoc({
         doc: newDoc,
-        field: "reviews"
+        field: "roles"
       });
 
-      expect(childDoc.parent).to.be.equal("New Renovation Review 1");
-      expect(childDoc.parenttype).to.be.equal("Renovation Review");
+      expect(childDoc.parent).to.be.equal("New User 1");
+      expect(childDoc.parenttype).to.be.equal("User");
       expect(childDoc.idx).to.be.equal(1);
-      expect(newDoc.reviews).to.be.a("Array");
-      expect(newDoc.reviews.length).to.be.equal(1);
-      expect(newDoc.reviews[0].name).to.be.equal(
-        "New Renovation Review Item 1"
+      expect(newDoc.roles).to.be.a("Array");
+      expect(newDoc.roles.length).to.be.equal(1);
+      expect(newDoc.roles[0].name).to.be.equal(
+        "New Has Role 1"
       );
     });
 
     it("should successfully get child doc when the field is predefined in the input RenovationDocument", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review"
+        doctype: "User"
       });
       const predefinedChildDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review Item"
+        doctype: "Has Role"
       });
-      newDoc.reviews = [predefinedChildDoc];
+      newDoc.roles = [predefinedChildDoc];
 
       const childDoc = await renovation.model.addChildDoc({
         doc: newDoc,
-        field: "reviews"
+        field: "roles"
       });
 
-      expect(childDoc.parent).to.be.equal("New Renovation Review 1");
-      expect(childDoc.parenttype).to.be.equal("Renovation Review");
+      expect(childDoc.parent).to.be.equal("New User 1");
+      expect(childDoc.parenttype).to.be.equal("User");
       expect(childDoc.idx).to.be.equal(2);
-      expect(newDoc.reviews).to.be.a("Array");
-      expect(newDoc.reviews.length).to.be.equal(2);
-      expect(newDoc.reviews[0].name).to.be.equal(
-        "New Renovation Review Item 1"
+      expect(newDoc.roles).to.be.a("Array");
+      expect(newDoc.roles.length).to.be.equal(2);
+      expect(newDoc.roles[0].name).to.be.equal(
+        "New Has Role 1"
       );
     });
 
     it("should successfully get child doc when the field is predefined in the input RenovationDocument [deprecated]", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review"
+        doctype: "User"
       });
       const predefinedChildDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review Item"
+        doctype: "Has Role"
       });
-      newDoc.reviews = [predefinedChildDoc];
+      newDoc.roles = [predefinedChildDoc];
 
-      const childDoc = await renovation.model.addChildDoc(newDoc, "reviews");
+      const childDoc = await renovation.model.addChildDoc(newDoc, "roles");
 
-      expect(childDoc.parent).to.be.equal("New Renovation Review 1");
-      expect(childDoc.parenttype).to.be.equal("Renovation Review");
+      expect(childDoc.parent).to.be.equal("New User 1");
+      expect(childDoc.parenttype).to.be.equal("User");
       expect(childDoc.idx).to.be.equal(2);
-      expect(newDoc.reviews).to.be.a("Array");
-      expect(newDoc.reviews.length).to.be.equal(2);
-      expect(newDoc.reviews[0].name).to.be.equal(
-        "New Renovation Review Item 1"
+      expect(newDoc.roles).to.be.a("Array");
+      expect(newDoc.roles.length).to.be.equal(2);
+      expect(newDoc.roles[0].name).to.be.equal(
+        "New Has Role 1"
       );
     });
 
     it("should return a childDoc with DocField as input for field", async function() {
       const newDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review"
+        doctype: "User"
       });
       const docMeta = await renovation.meta.getDocMeta({
-        doctype: "Renovation Review"
+        doctype: "User"
       });
 
-      const reviewsField = docMeta.data.fields.find(
-        field => field.fieldname === "reviews"
+      const rolesField = docMeta.data.fields.find(
+        field => field.fieldname === "roles"
       );
 
       const childDoc = await renovation.model.addChildDoc({
         doc: newDoc,
-        field: reviewsField
+        field: rolesField
       });
 
-      expect(childDoc.parent).to.be.equal("New Renovation Review 1");
-      expect(childDoc.parenttype).to.be.equal("Renovation Review");
+      expect(childDoc.parent).to.be.equal("New User 1");
+      expect(childDoc.parenttype).to.be.equal("User");
       expect(childDoc.idx).to.be.equal(1);
-      expect(newDoc.reviews).to.be.a("Array");
-      expect(newDoc.reviews.length).to.be.equal(1);
-      expect(newDoc.reviews[0].name).to.be.equal(
-        "New Renovation Review Item 1"
+      expect(newDoc.roles).to.be.a("Array");
+      expect(newDoc.roles.length).to.be.equal(1);
+      expect(newDoc.roles[0].name).to.be.equal(
+        "New Has Role 1"
       );
     });
   });
@@ -301,7 +301,7 @@ describe("ModelController", function() {
         renovation.model.setLocalValue({
           doctype: testDoctype,
           docname: "TEST SET LOCAL VALUE",
-          docfield: "reviewed_by",
+          docfield: "short_name",
           value: "test"
         })
       ).to.throw(`Cache doc not found: ${testDoctype}:TEST SET LOCAL VALUE`);
@@ -312,7 +312,7 @@ describe("ModelController", function() {
         renovation.model.setLocalValue({
           doctype: testDoctype,
           docname: "TEST SET LOCAL VALUE",
-          docfield: "reviewed_by",
+          docfield: "short_name",
           value: "test"
         })
       ).to.throw(`Cache doc not found: ${testDoctype}:TEST SET LOCAL VALUE`);
@@ -322,12 +322,12 @@ describe("ModelController", function() {
       renovation.model.setLocalValue({
         doctype: testDoctype,
         docname: `New ${testDoctype} 1`,
-        docfield: "reviewed_by",
+        docfield: "short_name",
         value: "test"
       });
 
       expect(
-        renovation.model.locals[testDoctype][`New ${testDoctype} 1`].reviewed_by
+        renovation.model.locals[testDoctype][`New ${testDoctype} 1`].short_name
       ).to.be.equal("test");
     });
     it("should set the value for the local document [deprecated]", async function() {
@@ -335,12 +335,12 @@ describe("ModelController", function() {
       renovation.model.setLocalValue(
         testDoctype,
         `New ${testDoctype} 1`,
-        "reviewed_by",
+        "short_name",
         "test"
       );
 
       expect(
-        renovation.model.locals[testDoctype][`New ${testDoctype} 1`].reviewed_by
+        renovation.model.locals[testDoctype][`New ${testDoctype} 1`].short_name
       ).to.be.equal("test");
     });
   });
@@ -389,20 +389,20 @@ describe("ModelController", function() {
     it("should add child docs to cache", async function() {
       renovation.model.locals = {};
       const newDoc = await renovation.model.newDoc({
-        doctype: "Renovation Review"
+        doctype: "User"
       });
 
-      const childDoc = await renovation.model.addChildDoc(newDoc, "reviews");
+      const childDoc = await renovation.model.addChildDoc(newDoc, "roles");
 
       renovation.model.addToLocals({ doc: newDoc });
 
       expect(
-        renovation.model.locals["Renovation Review"]["New Renovation Review 1"]
+        renovation.model.locals["User"]["New User 1"]
       ).to.be.not.undefined;
 
       expect(
-        renovation.model.locals["Renovation Review Item"][
-          "New Renovation Review Item 1"
+        renovation.model.locals["Has Role"][
+          "New Has Role 1"
         ]
       ).to.be.not.undefined;
     });
