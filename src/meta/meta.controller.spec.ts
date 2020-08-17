@@ -13,7 +13,7 @@ describe("Meta Controller", function() {
   const validUser = TestManager.primaryUser;
   const validPwd = TestManager.primaryUserPwd;
 
-  const testDoctype = "Renovation Review";
+  const testDoctype = "Blogger";
 
   before(async function() {
     this.timeout(10000);
@@ -40,16 +40,16 @@ describe("Meta Controller", function() {
         })
     );
 
-    it("should get the field label of reviewed_by of doctype Renovation Review", async function() {
+    it(`should get the field label of short_name of doctype ${testDoctype}`, async function() {
       const fieldLabel = await renovation.meta.getFieldLabel({
         doctype: testDoctype,
-        fieldname: "reviewed_by"
+        fieldname: "short_name"
       });
 
-      expect(fieldLabel).to.be.equal("Reviewed By");
+      expect(fieldLabel).to.be.equal("Short Name");
     });
 
-    it("should get the standard field for doctype Renovation Review", async function() {
+    it(`should get the standard field for doctype ${testDoctype}`, async function() {
       const fieldLabel = await renovation.meta.getFieldLabel({
         doctype: testDoctype,
         fieldname: "name"
