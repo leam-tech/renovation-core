@@ -80,15 +80,29 @@ export default class FrappeAuthController extends AuthController {
         break;
 
       case "pin_login":
-        err = {
-          ...error,
-          title: "Incorrect Pin",
-          info: {
-            ...error.info,
-            cause: "Wrong PIN is entered",
-            suggestion: "Re-enter the PIN correctly"
-          }
-        };
+        switch (error.info.data.message) {
+          case "Quick Login PIN time expired":
+            err = {
+              ...error,
+              title: "Quick Login PIN Usage Window Expired",
+              info: {
+                ...error.info,
+                cause: "Quick PIN Usage window expired",
+                suggestion: "Login with full credentials"
+              }
+            };
+            break;
+          default:
+            err = {
+              ...error,
+              title: "Incorrect Pin",
+              info: {
+                ...error.info,
+                cause: "Wrong PIN is entered",
+                suggestion: "Re-enter the PIN correctly"
+              }
+            };
+        }
         break;
 
       case "login":
