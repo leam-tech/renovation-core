@@ -255,6 +255,10 @@ describe("Frappe Auth Controller", function() {
   //   });
   // });
   describe("pinLogin", async function() {
+    before(async () => await renovation.auth.login({
+      email: validUser,
+      password: validPwd
+    }));
     it("should login successfully", async function() {
       const login = await renovation.auth.pinLogin({
         user: validUser,
@@ -279,11 +283,24 @@ describe("Frappe Auth Controller", function() {
 
       expect(login.success).to.be.false;
       expect(login.httpCode).to.be.equal(401);
-      expect(login.data.message).to.be.equal("Incorrect password");
       expect(login.error.type).to.be.equal(RenovationError.AuthenticationError);
       expect(login.error.title).to.be.equal("Incorrect Pin");
     });
 
+    it("should say that the QuickLogin window expired when logged out", async function() {
+      // logging in will enable quick login
+      await renovation.auth.login({
+        email: validUser,
+        password: validPwd
+      })
+      // logging out will disable quick login
+      await renovation.auth.logout();
+      const login = await renovation.auth.pinLogin(validUser, validPin);
+      expect(login.success).to.be.false;
+      expect(login.error.title).to.be.equal(
+        "Quick Login PIN Usage Window Expired"
+      );
+    });
     after(() => renovation.auth.logout());
   });
 
