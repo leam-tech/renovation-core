@@ -947,4 +947,37 @@ export default class FrappeAuthController extends AuthController {
         : RequestResponse.fail(response.error);
     }
   }
+
+  /**
+   * Sets the session locally obtained externally.
+   *
+   * Verifies the session with the backend.
+   *
+   * @param sessionStatusInfo The session that's obtained externally
+   */
+  public async setExternalSession(
+    sessionStatusInfo: SessionStatusInfo
+  ): Promise<RequestResponse<SessionStatusInfo>> {
+    if (!sessionStatusInfo) {
+      renovationError("Session can't be undefined");
+      return;
+    }
+
+    if (!sessionStatusInfo.user) {
+      renovationError(
+        "Only a valid session can be set.\nUse .logout() if you want to clear the session"
+      );
+      return;
+    }
+
+    if (this.enableJwt && !sessionStatusInfo.token) {
+      renovationError("Token missing in the session");
+      return;
+    }
+
+    if (this.enableJwt) {
+      this.setAuthToken({ token: sessionStatusInfo.token });
+    }
+    return await this.verifySessionWithBackend(false, sessionStatusInfo);
+  }
 }

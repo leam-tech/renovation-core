@@ -358,7 +358,7 @@ export default abstract class AuthController extends RenovationController {
    * Sets http header `Authorization` with the obtained token
    * @param setAuthTokenArgs { token: string }
    */
-  private setAuthToken(setAuthTokenArgs: { token: string }) {
+  protected setAuthToken(setAuthTokenArgs: { token: string }) {
     if (!this.useJwt) {
       this.clearAuthToken();
       return;
@@ -535,5 +535,13 @@ export default abstract class AuthController extends RenovationController {
    */
   public abstract async loginViaApple(
     args: LoginViaAppleParams
+  ): Promise<RequestResponse<SessionStatusInfo>>;
+
+  /**
+   * Sets the session locally obtained externally.
+   * @param sessionStatusInfo The session that's obtained externally
+   */
+  public abstract async setExternalSession(
+    sessionStatusInfo: SessionStatusInfo
   ): Promise<RequestResponse<SessionStatusInfo>>;
 }
