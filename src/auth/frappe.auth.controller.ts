@@ -21,6 +21,7 @@ import {
   GenerateResetOTPParams,
   GenerateResetOTPResponse,
   LoginParams,
+  LoginViaGoogleParams,
   PasswordResetInfoParams,
   PinLoginParams,
   ResetPasswordInfo,
@@ -866,5 +867,40 @@ export default class FrappeAuthController extends AuthController {
       }
     }
     return zxcvbn(args.password, userInputs);
+  }
+
+  /**
+   * Logs in using Google Auth code.
+   *
+   * Optionally can pass `state` which is usually a JWT or base64 encoded data
+   * @param args: Contains the auth_code and optionally a state.
+   */
+  public async loginViaGoogle(
+    args: LoginViaGoogleParams
+  ): Promise<RequestResponse<SessionStatusInfo>> {
+    await this.getCore().frappe.checkAppInstalled(["loginViaGoogle"]);
+
+    if (!args?.code || args.code === "") {
+      renovationError("Auth Code cannot be empty");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.oauth.login_via_google",
+      code: args.code,
+      state: args.state,
+      use_jwt: this.enableJwt
+    });
+
+    if (response.success) {
+      await this.updateSession({
+        loggedIn: response.success,
+        data: response.data
+      }); // updates localStorage
+
+      return response.success
+        ? RequestResponse.success(SessionStatus.getValue())
+        : RequestResponse.fail(response.error);
+    }
   }
 }

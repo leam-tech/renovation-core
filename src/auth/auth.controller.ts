@@ -17,6 +17,7 @@ import {
   GenerateResetOTPParams,
   GenerateResetOTPResponse,
   LoginParams,
+  LoginViaGoogleParams,
   PasswordResetInfoParams,
   PinLoginParams,
   ResetPasswordInfo,
@@ -512,4 +513,14 @@ export default abstract class AuthController extends RenovationController {
   public abstract estimatePassword(
     args: EstimatePasswordParams
   ): zxcvbn.ZXCVBNResult;
+
+  /**
+   * Logs in using Google Auth code.
+   *
+   * Optionally can pass `state` which is usually a JWT or base64 encoded data
+   * @param args: Contains the auth_code and optionally a state.
+   */
+  public abstract async loginViaGoogle(
+    args: LoginViaGoogleParams
+  ): Promise<RequestResponse<SessionStatusInfo>>;
 }

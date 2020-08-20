@@ -101,6 +101,11 @@ export interface EstimatePasswordParams {
   };
 }
 
+export interface LoginViaGoogleParams {
+  code: string;
+  state?: string;
+}
+
 enum ID_TYPE {
   mobile = "mobile",
   email = "email"
