@@ -1442,7 +1442,7 @@ export default class FrappeModelController extends ModelController {
 
     const r = await this.getCore().call({
       cmd:
-        this.config.coreInstance.frappe.frappeVersion.major === 12
+        this.config.coreInstance.frappe.frappeVersion.major >= 12
           ? "frappe.desk.doctype.tag.tag.add_tag"
           : "frappe.desk.tags.add_tag",
       dt: args.doctype,
@@ -1504,7 +1504,7 @@ export default class FrappeModelController extends ModelController {
 
     const response = await this.getCore().call({
       cmd:
-        this.config.coreInstance.frappe.frappeVersion.major === 12
+        this.config.coreInstance.frappe.frappeVersion.major >= 12
           ? "frappe.desk.doctype.tag.tag.remove_tag"
           : "frappe.desk.tags.remove_tag",
       dt: args.doctype,
@@ -1566,7 +1566,7 @@ export default class FrappeModelController extends ModelController {
 
     const r = await this.getCore().call({
       cmd:
-        this.config.coreInstance.frappe.frappeVersion.major === 12
+        this.config.coreInstance.frappe.frappeVersion.major >= 12
           ? "frappe.desk.doctype.tag.tag.get_tagged_docs"
           : "frappe.desk.tags.get_tagged_docs",
       doctype: args.doctype,
