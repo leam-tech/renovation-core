@@ -17,6 +17,7 @@ import {
   GenerateResetOTPParams,
   GenerateResetOTPResponse,
   LoginParams,
+  LoginViaAppleParams,
   LoginViaGoogleParams,
   PasswordResetInfoParams,
   PinLoginParams,
@@ -522,5 +523,17 @@ export default abstract class AuthController extends RenovationController {
    */
   public abstract async loginViaGoogle(
     args: LoginViaGoogleParams
+  ): Promise<RequestResponse<SessionStatusInfo>>;
+
+  /**
+   * Logs in using Apple Auth code.
+   *
+   * In addition need to specify the option (native | android | web)
+   *
+   * Optionally can pass `state` which is usually a JWT or base64 encoded data
+   * @param args: Contains the auth_code, the option and optionally a state.
+   */
+  public abstract async loginViaApple(
+    args: LoginViaAppleParams
   ): Promise<RequestResponse<SessionStatusInfo>>;
 }

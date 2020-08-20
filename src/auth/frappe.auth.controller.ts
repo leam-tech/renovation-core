@@ -21,6 +21,7 @@ import {
   GenerateResetOTPParams,
   GenerateResetOTPResponse,
   LoginParams,
+  LoginViaAppleParams,
   LoginViaGoogleParams,
   PasswordResetInfoParams,
   PinLoginParams,
@@ -889,6 +890,49 @@ export default class FrappeAuthController extends AuthController {
       cmd: "renovation_core.oauth.login_via_google",
       code: args.code,
       state: args.state,
+      use_jwt: this.enableJwt
+    });
+
+    if (response.success) {
+      await this.updateSession({
+        loggedIn: response.success,
+        data: response.data
+      }); // updates localStorage
+
+      return response.success
+        ? RequestResponse.success(SessionStatus.getValue())
+        : RequestResponse.fail(response.error);
+    }
+  }
+
+  /**
+   * Logs in using Apple Auth code.
+   *
+   * In addition need to specify the option (native | android | web)
+   *
+   * Optionally can pass `state` which is usually a JWT or base64 encoded data
+   * @param args: Contains the auth_code, the option and optionally a state.
+   */
+  public async loginViaApple(
+    args: LoginViaAppleParams
+  ): Promise<RequestResponse<SessionStatusInfo>> {
+    await this.getCore().frappe.checkAppInstalled(["loginViaApple"]);
+
+    if (!args?.code || args.code === "") {
+      renovationError("Auth Code cannot be empty");
+      return;
+    }
+
+    if (!args.option) {
+      renovationError("Apple option must be specified");
+      return;
+    }
+
+    const response = await this.config.coreInstance.call({
+      cmd: "renovation_core.oauth.login_via_apple",
+      code: args.code,
+      state: args.state,
+      option: args.option,
       use_jwt: this.enableJwt
     });
 
