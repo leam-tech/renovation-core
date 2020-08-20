@@ -900,7 +900,11 @@ export default class FrappeAuthController extends AuthController {
       }); // updates localStorage
 
       return response.success
-        ? RequestResponse.success(SessionStatus.getValue())
+        ? RequestResponse.success(
+            SessionStatus.getValue(),
+            response.httpCode,
+            response._
+          )
         : RequestResponse.fail(response.error);
     }
   }
@@ -943,7 +947,11 @@ export default class FrappeAuthController extends AuthController {
       }); // updates localStorage
 
       return response.success
-        ? RequestResponse.success(SessionStatus.getValue())
+        ? RequestResponse.success(
+            SessionStatus.getValue(),
+            response.httpCode,
+            response._
+          )
         : RequestResponse.fail(response.error);
     }
   }
