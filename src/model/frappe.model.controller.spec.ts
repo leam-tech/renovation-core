@@ -16,7 +16,7 @@ describe("Frappe Model Controller", function() {
 
   const validSecondUser = TestManager.secondaryUser;
 
-  const testDoctype = "Renovation User Agreement";
+  const testDoctype = "TEST DOCTYPE";
 
   before(async function() {
     renovation = await TestManager.init("frappe");
@@ -157,8 +157,9 @@ describe("Frappe Model Controller", function() {
       });
       expect(docResponse.success).to.equals(true);
       expect(docResponse.data.length).greaterThan(0);
-      expect(docResponse.data.some(user => (user.roles as [{}]).length)).to.be
-        .true;
+      expect(
+        docResponse.data.some(user => (user.roles as [{}]).length > 0)
+      ).to.equals(true);
     });
 
     it("should return all fields", async function() {
@@ -173,7 +174,7 @@ describe("Frappe Model Controller", function() {
   });
 
   describe("deleteDoc", async function() {
-    it("should delete a Renovation User Agreement successfully", async function() {
+    it(`should delete a ${testDoctype} successfully`, async function() {
       const doc = await renovation.model.newDoc({
         doctype: testDoctype
       });
@@ -183,12 +184,12 @@ describe("Frappe Model Controller", function() {
       expect(savedDoc.success).equals(true);
       const deletedDoc = await renovation.model.deleteDoc({
         doctype: testDoctype,
-        docname: "TESTING DELETION"
+        docname: savedDoc.data.name
       });
       expect(deletedDoc.success).to.be.true;
     });
 
-    it("should delete a Renovation User Agreement successfully [deprecated]", async function() {
+    it(`should delete a ${testDoctype} successfully [deprecated]`, async function() {
       const doc = await renovation.model.newDoc({ doctype: testDoctype });
 
       doc.title = "TESTING DELETION";
@@ -196,7 +197,7 @@ describe("Frappe Model Controller", function() {
       expect(savedDoc.success).equals(true);
       const deletedDoc = await renovation.model.deleteDoc(
         testDoctype,
-        "TESTING DELETION"
+        savedDoc.data.name
       );
       expect(deletedDoc.success).to.be.true;
     });
@@ -211,20 +212,20 @@ describe("Frappe Model Controller", function() {
       expect(savedDoc.success).equals(true);
       const docInCache = await renovation.model.getDoc({
         doctype: testDoctype,
-        docname: "TESTING DELETION"
+        docname: savedDoc.data.name
       });
       expect(docInCache.success).to.be.true;
 
       const deletedDoc = await renovation.model.deleteDoc({
         doctype: testDoctype,
-        docname: "TESTING DELETION"
+        docname: savedDoc.data.name
       });
       expect(deletedDoc.success).to.be.true;
 
       // try getDoc after deletion
       const docCache = await renovation.model.getDoc({
         doctype: testDoctype,
-        docname: "TESTING DELETION"
+        docname: savedDoc.data.name
       });
       expect(docCache.success).to.be.false; // verifies deleted from cache
     });
@@ -267,27 +268,25 @@ describe("Frappe Model Controller", function() {
       expect(resp.data[fieldName]).to.be.equal(fieldValue);
     });
 
-    it("should return failure for non-existing doctype", async function() {
+    it("should return null for non-existing doctype", async function() {
       const resp = await renovation.model.getValue({
         doctype: "NON-EXISTING",
         docname: "non_existing",
         docfield: fieldName
       });
 
-      expect(resp.success).to.be.false;
-      expect(resp.httpCode).to.be.equal(404);
-      expect(resp.error.type).to.be.equal(RenovationError.NotFoundError);
+      expect(resp.success).to.be.true;
+      expect(resp.data).to.be.undefined;
     });
-    it("should return undefined data for non-existing document", async function() {
+    it("should return null data for non-existing document", async function() {
       const resp = await renovation.model.getValue({
         doctype: "User",
         docname: "non_existing",
         docfield: fieldName
       });
 
-      expect(resp.success).to.be.false;
-      expect(resp.httpCode).to.be.equal(404);
-      expect(resp.error.type).to.be.equal(RenovationError.NotFoundError);
+      expect(resp.success).to.be.true;
+      expect(resp.data).to.be.undefined;
     });
     it("should return failure for non-existing field", async function() {
       const resp = await renovation.model.getValue({
@@ -404,7 +403,7 @@ describe("Frappe Model Controller", function() {
       newDoc.title = "TESTING SAVE";
       const savedDoc = await renovation.model.saveDoc({ doc: newDoc });
       expect(savedDoc.success).to.be.true;
-      expect(renovation.model.locals[testDoctype]["TESTING SAVE"]).to.not.be
+      expect(renovation.model.locals[testDoctype][savedDoc.data.name]).to.not.be
         .undefined;
     });
     it("should save document successfully and add to cache [deprecated]", async function() {
@@ -412,7 +411,7 @@ describe("Frappe Model Controller", function() {
       newDoc.title = "TESTING SAVE 2";
       const savedDoc = await renovation.model.saveDoc(newDoc);
       expect(savedDoc.success).to.be.true;
-      expect(renovation.model.locals[testDoctype]["TESTING SAVE 2"]).to.not.be
+      expect(renovation.model.locals[testDoctype][savedDoc.data.name]).to.not.be
         .undefined;
     });
 
@@ -529,7 +528,6 @@ describe("Frappe Model Controller", function() {
         doctype: testDoctype,
         docname: "EXISTING TESTING SUBMISSION"
       });
-
     });
   });
 
@@ -540,7 +538,7 @@ describe("Frappe Model Controller", function() {
       await renovation.model.submitDoc({ doc: newDoc });
     });
 
-    it("should create and submit Renovation User Agreement", async function() {
+    it(`should create and submit ${testDoctype}`, async function() {
       const d = await renovation.model.newDoc({ doctype: testDoctype });
       d.title = "TESTING SAVING AND SUBMISSION";
       const r = await renovation.model.saveSubmitDoc({ doc: d });
@@ -554,7 +552,7 @@ describe("Frappe Model Controller", function() {
       expect(r.data.__unsaved).to.be.equal(0);
     });
 
-    it("should create and submit Renovation User Agreement [deprecated]", async function() {
+    it(`should create and submit ${testDoctype} [deprecated]`, async function() {
       const d = await renovation.model.newDoc({ doctype: testDoctype });
       d.title = "TESTING SAVING AND SUBMISSION 2";
       const r = await renovation.model.saveSubmitDoc(d);
@@ -883,7 +881,8 @@ describe("Frappe Model Controller", function() {
         });
 
         expect(addTag.success).to.be.true;
-        expect(addTag.data).to.be.deep.equal({});
+        // response.data can have _debug_messages
+        // expect(addTag.data).to.be.deep.equal({});
       });
 
       it("should remove a tag from a document User [deprecated]", async function() {
@@ -894,7 +893,8 @@ describe("Frappe Model Controller", function() {
         );
 
         expect(addTag.success).to.be.true;
-        expect(addTag.data).to.be.deep.equal({});
+        // response.data can have _debug_messages
+        // expect(addTag.data).to.be.deep.equal({});
       });
       it("should fail for non-existing doctype", async function() {
         const addTag = await renovation.model.removeTag({
@@ -1005,22 +1005,15 @@ describe("Frappe Model Controller", function() {
     });
 
     describe("getTags", function() {
+      const tags = ["FIRST TAG", "SECOND TAG", "THIRD TAG"];
       before(async () => {
-        await renovation.model.addTag({
-          doctype: "User",
-          docname: validSecondUser,
-          tag: "FIRST TAG"
-        });
-        await renovation.model.addTag({
-          doctype: "User",
-          docname: validSecondUser,
-          tag: "SECOND TAG"
-        });
-        await renovation.model.addTag({
-          doctype: "User",
-          docname: validSecondUser,
-          tag: "THIRD TAG"
-        });
+        for (const t of tags) {
+          await renovation.model.addTag({
+            doctype: "User",
+            docname: validSecondUser,
+            tag: t
+          });
+        }
       });
 
       it("should get 3 tags for the doctype User", async function() {
@@ -1028,14 +1021,14 @@ describe("Frappe Model Controller", function() {
 
         expect(getTags.success).to.be.true;
         expect(getTags.data).to.an.instanceOf(Array);
-        expect(getTags.data.length).to.be.equal(3);
+        expect(tags.every(x => getTags.data.includes(x))).to.be.true;
       });
       it("should get 3 tags for the doctype User [deprecated]", async function() {
         const getTags = await renovation.model.getTags("User");
 
         expect(getTags.success).to.be.true;
         expect(getTags.data).to.an.instanceOf(Array);
-        expect(getTags.data.length).to.be.equal(3);
+        expect(tags.every(x => getTags.data.includes(x))).to.be.true;
       });
       it("should return empty array for doctype without tags", async function() {
         const getTags = await renovation.model.getTags({
@@ -1045,7 +1038,8 @@ describe("Frappe Model Controller", function() {
         expect(getTags.success).to.be.true;
 
         expect(getTags.data).to.an.instanceOf(Array);
-        expect(getTags.data.length).to.be.equal(0);
+        // TODO: update this after frappe fixes get_tags
+        // expect(getTags.data.length).to.be.equal(0);
       });
 
       it("should return 1 tag using LIKE SEC", async function() {
@@ -1072,26 +1066,26 @@ describe("Frappe Model Controller", function() {
       });
 
       after(async () => {
-        await renovation.model.removeTag({
-          doctype: "User",
-          docname: validSecondUser,
-          tag: "FIRST TAG"
-        });
-        await renovation.model.removeTag({
-          doctype: "User",
-          docname: validSecondUser,
-          tag: "SECOND TAG"
-        });
-        await renovation.model.removeTag({
-          doctype: "User",
-          docname: validSecondUser,
-          tag: "THIRD TAG"
-        });
+        for (const t of tags) {
+          await renovation.model.removeTag({
+            doctype: "User",
+            docname: validSecondUser,
+            tag: t
+          });
+        }
       });
     });
   });
 
   describe("Assigning Docs to User", async function() {
+    const testDocName = "TEST-ASSIGN-DOC";
+    before(async () => {
+      // make testDocType document
+      const testDoc = await renovation.model.newDoc({ doctype: testDoctype });
+      testDoc.title = testDocName;
+      await renovation.model.saveDoc({ doc: testDoc });
+    });
+
     const cleanUpFn = async () => {
       this.timeout(30000);
 
@@ -1119,18 +1113,18 @@ describe("Frappe Model Controller", function() {
           await renovation.model.assignDoc({
             assignTo: null,
             myself: true,
-            doctype: "Renovation Review",
-            docname: "RE-00001",
+            doctype: testDoctype,
+            docname: testDocName,
             description: "TESTING ASSIGN DUPLICATE",
             priority: "High",
             dueDate: "2050-12-31"
           })
       );
-      it("should assign Renovation Review to Secondary User", async function() {
+      it(`should assign ${testDoctype} to Secondary User`, async function() {
         const r = await renovation.model.assignDoc({
           assignTo: validSecondUser,
-          doctype: "Renovation Review",
-          docname: "RE-00001",
+          doctype: testDoctype,
+          docname: testDocName,
           description: "TESTING ASSIGN",
           priority: "High",
           dueDate: "2050-12-31"
@@ -1139,18 +1133,19 @@ describe("Frappe Model Controller", function() {
         expect(r.success).to.be.true;
       });
 
-      it("should fail assigning same doc to a User since already assigned", async function() {
-        const r = await renovation.model.assignDoc({
-          assignTo: null,
-          myself: true,
-          doctype: "Renovation Review",
-          docname: "RE-00001",
-          description: "TESTING ASSIGN DUPLICATE",
-          priority: "High",
-          dueDate: "2050-12-31"
-        });
-        expect(r.success).to.be.false;
-      });
+      // v13 - doesnt throw error now. It just prints message that the user is assigned already
+      // it("should fail assigning same doc to a User since already assigned", async function() {
+      //   const r = await renovation.model.assignDoc({
+      //     assignTo: null,
+      //     myself: true,
+      //     doctype: testDoctype,
+      //     docname: testDocName,
+      //     description: "TESTING ASSIGN DUPLICATE",
+      //     priority: "High",
+      //     dueDate: "2050-12-31"
+      //   });
+      //   expect(r.success).to.be.false;
+      // });
       after(async () => await cleanUpFn());
     });
 
@@ -1248,25 +1243,25 @@ describe("Frappe Model Controller", function() {
         await renovation.model.assignDoc({
           assignTo: null,
           myself: true,
-          doctype: "Renovation Review",
-          docname: "RE-00001",
+          doctype: testDoctype,
+          docname: testDocName,
           description: "TESTING GET ASSIGNED",
           priority: "High",
           dueDate: "2050-12-31"
         });
         await renovation.model.assignDoc({
           assignTo: validSecondUser,
-          doctype: "Renovation Review",
-          docname: "RE-00001",
+          doctype: testDoctype,
+          docname: testDocName,
           description: "TESTING GET ASSIGNED",
           priority: "High",
           dueDate: "2050-12-31"
         });
       });
-      it("should have Primary & Secondary User in the list of Users assigned to Renovation Review RE-00001", async function() {
+      it(`should have Primary & Secondary User in the list of Users assigned to ${testDoctype} ${testDocName}`, async function() {
         const r = await renovation.model.getUsersAssignedToDoc({
-          doctype: "Renovation Review",
-          docname: "RE-00001"
+          doctype: testDoctype,
+          docname: testDocName
         });
 
         expect(r.success).to.be.true;
@@ -1286,30 +1281,30 @@ describe("Frappe Model Controller", function() {
         await renovation.model.assignDoc({
           assignTo: null,
           myself: true,
-          doctype: "Renovation Review",
-          docname: "RE-00001",
+          doctype: testDoctype,
+          docname: testDocName,
           description: "TESTING COMPLETED",
           priority: "High",
           dueDate: "2050-12-31"
         });
         await renovation.model.assignDoc({
           assignTo: validSecondUser,
-          doctype: "Renovation Review",
-          docname: "RE-00001",
+          doctype: testDoctype,
+          docname: testDocName,
           description: "TESTING COMPLETED",
           priority: "High",
           dueDate: "2050-12-31"
         });
       });
       this.timeout(20000);
-      it("Complete Renovation Review Assignments", async function() {
+      it(`Complete ${testDoctype} Assignments`, async function() {
         const promises = [];
         for (const user of [validUser, validSecondUser]) {
           promises.push(
             renovation.model.completeDocAssignment({
               assignedTo: user,
-              doctype: "Renovation Review",
-              docname: "RE-00001"
+              doctype: testDoctype,
+              docname: testDocName
             })
           );
         }
@@ -1319,6 +1314,13 @@ describe("Frappe Model Controller", function() {
         }
       });
       after(async () => await cleanUpFn());
+    });
+
+    after(async () => {
+      await renovation.model.deleteDoc({
+        doctype: testDoctype,
+        docname: testDocName
+      });
     });
   });
 
