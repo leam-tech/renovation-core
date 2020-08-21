@@ -1260,7 +1260,7 @@ export default class FrappeModelController extends ModelController {
     let assignTo = assignDocParams.assignTo;
     if (this.config.coreInstance.frappe.frappeVersion.major > 12) {
       if (typeof assignDocParams.assignTo === "string") {
-        assignDocParams.assignTo = [assignDocParams.assignTo];
+        assignTo = [assignDocParams.assignTo];
       }
       assignTo = JSON.stringify(assignDocParams.assignTo);
     }
