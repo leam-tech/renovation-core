@@ -1262,7 +1262,7 @@ export default class FrappeModelController extends ModelController {
       if (typeof assignDocParams.assignTo === "string") {
         assignTo = [assignDocParams.assignTo];
       }
-      assignTo = JSON.stringify(assignDocParams.assignTo);
+      assignTo = JSON.stringify(assignTo);
     }
     const r = await this.getCore().call({
       cmd,
