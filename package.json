@@ -40,6 +40,7 @@
     "@types/nock": "^10.0.2",
     "@types/node": "^11.13.5",
     "@types/socket.io-client": "^1.4.32",
+    "@types/zxcvbn": "^4.4.0",
     "chai": "^4.2.0",
     "istanbul": "^0.4.5",
     "lodash": "^4.17.11",
@@ -69,7 +70,8 @@
     "qs": "^6.5.2",
     "rxjs": "^6.3.2",
     "rxjs-compat": "^6.3.2",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "zxcvbn": "^4.4.2"
   },
   "nyc": {
     "extension": [

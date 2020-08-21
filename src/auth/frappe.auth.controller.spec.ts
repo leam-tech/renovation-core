@@ -255,6 +255,10 @@ describe("Frappe Auth Controller", function() {
   //   });
   // });
   describe("pinLogin", async function() {
+    before(async () => await renovation.auth.login({
+      email: validUser,
+      password: validPwd
+    }));
     it("should login successfully", async function() {
       const login = await renovation.auth.pinLogin({
         user: validUser,
@@ -279,11 +283,24 @@ describe("Frappe Auth Controller", function() {
 
       expect(login.success).to.be.false;
       expect(login.httpCode).to.be.equal(401);
-      expect(login.data.message).to.be.equal("Incorrect password");
       expect(login.error.type).to.be.equal(RenovationError.AuthenticationError);
       expect(login.error.title).to.be.equal("Incorrect Pin");
     });
 
+    it("should say that the QuickLogin window expired when logged out", async function() {
+      // logging in will enable quick login
+      await renovation.auth.login({
+        email: validUser,
+        password: validPwd
+      })
+      // logging out will disable quick login
+      await renovation.auth.logout();
+      const login = await renovation.auth.pinLogin(validUser, validPin);
+      expect(login.success).to.be.false;
+      expect(login.error.title).to.be.equal(
+        "Quick Login PIN Usage Window Expired"
+      );
+    });
     after(() => renovation.auth.logout());
   });
 
@@ -338,5 +355,74 @@ describe("Frappe Auth Controller", function() {
     });
 
     after(() => renovation.auth.logout());
+  });
+
+  describe("estimatePassword", function() {
+    describe("Estimate password only", function() {
+      it("with score 0", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "1qaz2wsx3edc"
+        });
+        expect(result.score === 0);
+      });
+      it("with score 1", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "temppass22"
+        });
+        expect(result.score === 1);
+      });
+      it("with score 2", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "qwER43@!"
+        });
+        expect(result.score === 2);
+      });
+      it("with score 3", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "ryanhunter2000"
+        });
+        expect(result.score === 3);
+      });
+      it("with score 4", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "erlineVANDERMARK"
+        });
+        expect(result.score === 4);
+      });
+    });
+
+    describe("Estimate password with custom inputs", function() {
+      it("With first name parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "temppass22",
+          user_inputs: { firstName: "temp" }
+        });
+        expect(result.score === 1);
+      });
+
+      it("With email parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "qwER43@!",
+          user_inputs: { email: "er43@gmail.com" }
+        });
+        expect(result.score === 2);
+      });
+
+      it("With last name parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "ryanhunter2000",
+          user_inputs: { firstName: "ryanhunter" }
+        });
+        expect(result.score === 1);
+      });
+
+      it("With first name parameter", function() {
+        let result = renovation.auth.estimatePassword({
+          password: "verlineVANDERMARK",
+          user_inputs: { otherInputs: ["VANDERMARK"] }
+        });
+        expect(result.score === 1);
+      });
+    });
   });
 });

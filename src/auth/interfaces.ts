@@ -62,6 +62,7 @@ export interface GenerateResetOTPParams extends PasswordResetInfoParams {
   medium_type: OTP_MEDIUM;
   medium_id: string;
 }
+
 export interface ResetOTPResponse {
   reason: string;
 }
@@ -86,6 +87,18 @@ export interface UpdatePasswordParams {
 
 export interface UpdatePasswordResponse extends ResetOTPResponse {
   updated: number;
+}
+
+export interface EstimatePasswordParams {
+  password: string;
+  user_inputs?: {
+    firstName?: string;
+    lastName?: string;
+    middleName?: string;
+    email?: string;
+    dateOfBirth?: string;
+    otherInputs?: string[];
+  };
 }
 
 enum ID_TYPE {
