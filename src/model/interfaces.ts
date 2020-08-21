@@ -131,7 +131,7 @@ export interface SearchLinkResponse {
 }
 
 export interface AssignDocParams {
-  assignTo: string;
+  assignTo: string | string[];
   myself?: boolean;
   description?: string;
   dueDate?: string;
