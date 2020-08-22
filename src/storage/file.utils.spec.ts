@@ -34,7 +34,8 @@ describe("File Utils", function() {
       path.join(__dirname, "..", "tests", "sample.txt")
     );
     expect(fileResult.fileName).to.be.equal("sample.txt");
-    expect(fileResult.fileSize).to.be.equal(27);
+    expect(fileResult.fileSize).to.be.gte(24);
+    expect(fileResult.fileSize).to.be.lte(28);
   });
 
   describe("getBase64FromBuffer", function() {
@@ -59,7 +60,8 @@ describe("File Utils", function() {
       const fileResult = await getBase64FromBuffer(buffer, "sample.txt");
 
       expect(fileResult.fileName).to.be.equal("sample.txt");
-      expect(fileResult.fileSize).to.be.equal(27);
+      expect(fileResult.fileSize).to.be.gte(24);
+      expect(fileResult.fileSize).to.be.lte(28);
     });
   });
 
@@ -87,7 +89,8 @@ describe("File Utils", function() {
       );
 
       expect(fileResult.fileName).to.be.equal("sample.txt");
-      expect(fileResult.fileSize).to.be.equal(25);
+      expect(fileResult.fileSize).to.be.gte(24);
+      expect(fileResult.fileSize).to.be.lte(28);
     });
   });
 });
