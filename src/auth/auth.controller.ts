@@ -17,6 +17,8 @@ import {
   GenerateResetOTPParams,
   GenerateResetOTPResponse,
   LoginParams,
+  LoginViaAppleParams,
+  LoginViaGoogleParams,
   PasswordResetInfoParams,
   PinLoginParams,
   ResetPasswordInfo,
@@ -356,7 +358,7 @@ export default abstract class AuthController extends RenovationController {
    * Sets http header `Authorization` with the obtained token
    * @param setAuthTokenArgs { token: string }
    */
-  private setAuthToken(setAuthTokenArgs: { token: string }) {
+  protected setAuthToken(setAuthTokenArgs: { token: string }) {
     if (!this.useJwt) {
       this.clearAuthToken();
       return;
@@ -512,4 +514,34 @@ export default abstract class AuthController extends RenovationController {
   public abstract estimatePassword(
     args: EstimatePasswordParams
   ): zxcvbn.ZXCVBNResult;
+
+  /**
+   * Logs in using Google Auth code.
+   *
+   * Optionally can pass `state` which is usually a JWT or base64 encoded data
+   * @param args: Contains the auth_code and optionally a state.
+   */
+  public abstract async loginViaGoogle(
+    args: LoginViaGoogleParams
+  ): Promise<RequestResponse<SessionStatusInfo>>;
+
+  /**
+   * Logs in using Apple Auth code.
+   *
+   * In addition need to specify the option (native | android | web)
+   *
+   * Optionally can pass `state` which is usually a JWT or base64 encoded data
+   * @param args: Contains the auth_code, the option and optionally a state.
+   */
+  public abstract async loginViaApple(
+    args: LoginViaAppleParams
+  ): Promise<RequestResponse<SessionStatusInfo>>;
+
+  /**
+   * Sets the session locally obtained externally.
+   * @param sessionStatusInfo The session that's obtained externally
+   */
+  public abstract async setExternalSession(
+    sessionStatusInfo: SessionStatusInfo
+  ): Promise<RequestResponse<SessionStatusInfo>>;
 }

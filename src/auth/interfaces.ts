@@ -101,6 +101,26 @@ export interface EstimatePasswordParams {
   };
 }
 
+export interface LoginViaGoogleParams {
+  code: string;
+  state?: string;
+}
+
+export interface LoginViaAppleParams {
+  code: string;
+  option: APPLE_OPTION;
+  state?: string;
+}
+
+enum APPLE_OPTION {
+  /// When the login is from iOS or macOS native application
+  native = "native",
+  /// When the login is through web platform
+  web = "web",
+  /// When the login is through Android platform.
+  android = "android"
+}
+
 enum ID_TYPE {
   mobile = "mobile",
   email = "email"
