@@ -230,22 +230,20 @@ describe("FrappePermController", function() {
     describe("canCancel", function() {
       it("should return true for a System Manager user", async function() {
         const canCancel = await renovation.perm.canCancel({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canCancel).to.be.true;
       });
       it("should return true for a System Manager user [deprecated]", async function() {
-        const canCancel = await renovation.perm.canCancel(
-          "Renovation User Agreement"
-        );
+        const canCancel = await renovation.perm.canCancel("TEST DOCTYPE");
 
         expect(canCancel).to.be.true;
       });
       it("should return false for a non System Manager user", async function() {
         await loginSecondary();
         const canCancel = await renovation.perm.canCancel({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canCancel).to.be.false;
@@ -293,22 +291,20 @@ describe("FrappePermController", function() {
     describe("canExport", function() {
       it("should return true for a System Manager user", async function() {
         const canExport = await renovation.perm.canExport({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canExport).to.be.true;
       });
       it("should return true for a System Manager user [deprecated]", async function() {
-        const canExport = await renovation.perm.canExport(
-          "Renovation User Agreement"
-        );
+        const canExport = await renovation.perm.canExport("TEST DOCTYPE");
 
         expect(canExport).to.be.true;
       });
       it("should return false for a non System Manager user", async function() {
         await loginSecondary();
         const canExport = await renovation.perm.canExport({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canExport).to.be.false;
@@ -318,22 +314,20 @@ describe("FrappePermController", function() {
     describe("canPrint", function() {
       it("should return true for a System Manager user", async function() {
         const canPrint = await renovation.perm.canPrint({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canPrint).to.be.true;
       });
       it("should return true for a System Manager user [deprecated]", async function() {
-        const canPrint = await renovation.perm.canPrint(
-          "Renovation User Agreement"
-        );
+        const canPrint = await renovation.perm.canPrint("TEST DOCTYPE");
 
         expect(canPrint).to.be.true;
       });
       it("should return false for a non System Manager user", async function() {
         await loginSecondary();
         const canPrint = await renovation.perm.canPrint({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canPrint).to.be.false;
@@ -362,20 +356,20 @@ describe("FrappePermController", function() {
     describe("canSearch", function() {
       it("should return true for a System Manager user", async function() {
         const canSearch = await renovation.perm.canSearch({
-          doctype: "Bank"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canSearch).to.be.true;
       });
       it("should return true for a System Manager user [deprecated]", async function() {
-        const canSearch = await renovation.perm.canSearch("Bank");
+        const canSearch = await renovation.perm.canSearch("TEST DOCTYPE");
 
         expect(canSearch).to.be.true;
       });
       it("should return false for a non System Manager user", async function() {
         await loginSecondary();
         const canSearch = await renovation.perm.canSearch({
-          doctype: "Bank"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canSearch).to.be.false;
@@ -385,22 +379,20 @@ describe("FrappePermController", function() {
     describe("canGetReport", function() {
       it("should return true for a System Manager user", async function() {
         const canGetReport = await renovation.perm.canGetReport({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canGetReport).to.be.true;
       });
       it("should return true for a System Manager user [deprecated]", async function() {
-        const canGetReport = await renovation.perm.canGetReport(
-          "Renovation User Agreement"
-        );
+        const canGetReport = await renovation.perm.canGetReport("TEST DOCTYPE");
 
         expect(canGetReport).to.be.true;
       });
       it("should return false for a non System Manager user", async function() {
         await loginSecondary();
         const canGetReport = await renovation.perm.canGetReport({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canGetReport).to.be.false;
@@ -427,22 +419,20 @@ describe("FrappePermController", function() {
     describe("canSubmit", function() {
       it("should return false for a System Manager user", async function() {
         const canSubmit = await renovation.perm.canSubmit({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canSubmit).to.be.false;
       });
       it("should return false for a System Manager user [deprecated]", async function() {
-        const canSubmit = await renovation.perm.canSubmit(
-          "Renovation User Agreement"
-        );
+        const canSubmit = await renovation.perm.canSubmit("TEST DOCTYPE");
 
         expect(canSubmit).to.be.false;
       });
       it("should return false for logged out user", async function() {
         await renovation.auth.logout();
         const canSubmit = await renovation.perm.canSubmit({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canSubmit).to.be.false;
@@ -452,23 +442,21 @@ describe("FrappePermController", function() {
     describe("canAmend", function() {
       it("should return false for a System Manager user", async function() {
         const canAmend = await renovation.perm.canAmend({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canAmend).to.be.false;
       });
 
       it("should return false for a System Manager user [deprecated]", async function() {
-        const canAmend = await renovation.perm.canAmend(
-          "Renovation User Agreement"
-        );
+        const canAmend = await renovation.perm.canAmend("TEST DOCTYPE");
 
         expect(canAmend).to.be.false;
       });
       it("should return false for logged out user", async function() {
         await renovation.auth.logout();
         const canAmend = await renovation.perm.canAmend({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canAmend).to.be.false;
@@ -478,7 +466,7 @@ describe("FrappePermController", function() {
     describe("canRecursiveDelete", function() {
       it("should return false for a System Manager user", async function() {
         const canRecursiveDelete = await renovation.perm.canRecursiveDelete({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canRecursiveDelete).to.be.false;
@@ -486,7 +474,7 @@ describe("FrappePermController", function() {
 
       it("should return false for a System Manager user [deprecated]", async function() {
         const canRecursiveDelete = await renovation.perm.canRecursiveDelete(
-          "Renovation User Agreement"
+          "TEST DOCTYPE"
         );
 
         expect(canRecursiveDelete).to.be.false;
@@ -494,7 +482,7 @@ describe("FrappePermController", function() {
       it("should return false for logged out user", async function() {
         await renovation.auth.logout();
         const canRecursiveDelete = await renovation.perm.canRecursiveDelete({
-          doctype: "Renovation User Agreement"
+          doctype: "TEST DOCTYPE"
         });
 
         expect(canRecursiveDelete).to.be.false;
