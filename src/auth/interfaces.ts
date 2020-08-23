@@ -112,7 +112,7 @@ export interface LoginViaAppleParams {
   state?: string;
 }
 
-enum APPLE_OPTION {
+export enum APPLE_OPTION {
   /// When the login is from iOS or macOS native application
   native = "native",
   /// When the login is through web platform
@@ -121,12 +121,12 @@ enum APPLE_OPTION {
   android = "android"
 }
 
-enum ID_TYPE {
+export enum ID_TYPE {
   mobile = "mobile",
   email = "email"
 }
 
-enum OTP_MEDIUM {
+export enum OTP_MEDIUM {
   email = "email",
   sms = "sms"
 }
