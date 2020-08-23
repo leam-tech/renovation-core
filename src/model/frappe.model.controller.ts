@@ -1256,6 +1256,14 @@ export default class FrappeModelController extends ModelController {
     if (assignDocParams.myself) {
       assignDocParams.assignTo = this.getCore().auth.getCurrentUser();
     }
+    // in v13, assign_to accepts a json array
+    let assignTo = assignDocParams.assignTo;
+    if (this.config.coreInstance.frappe.frappeVersion.major > 12) {
+      if (typeof assignDocParams.assignTo === "string") {
+        assignTo = [assignDocParams.assignTo];
+      }
+      assignTo = JSON.stringify(assignTo);
+    }
     const r = await this.getCore().call({
       cmd,
       doctype: assignDocParams.doctype,
@@ -1264,7 +1272,7 @@ export default class FrappeModelController extends ModelController {
         : assignDocParams.docname,
       description: assignDocParams.description,
 
-      assign_to: assignDocParams.assignTo,
+      assign_to: assignTo,
       myself: !!assignDocParams.myself ? 1 : 0,
 
       priority: assignDocParams.priority,
