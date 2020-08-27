@@ -59,7 +59,7 @@ export default class FrappeTranslationController extends TranslationController {
 
     const r = await Request(
       `${this.getHostUrl()}/api/method/renovation_core.utils.client.get_lang_dict`,
-      httpMethod.GET,
+      httpMethod.POST,
       FrappeRequestOptions.headers,
       {
         contentType: contentType["application/x-www-form-urlencoded"],
