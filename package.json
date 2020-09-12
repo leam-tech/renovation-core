@@ -1,6 +1,6 @@
 {
   "name": "@leam-tech/renovation-core",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A document handling library for the front end",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
