@@ -70,7 +70,7 @@ export default class FrappeTranslationController extends TranslationController {
     );
     if (r.success && r.data) {
       r.data = r.data.message;
-      this.setMessagesDict({ dict: r.data });
+      this.setMessagesDict({ dict: r.data, lang: args.lang });
       return r;
     } else {
       return RequestResponse.fail(this.handleError("loadtranslation", r.error));
