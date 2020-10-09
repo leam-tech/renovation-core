@@ -23,6 +23,10 @@ export default class Frappe extends RenovationController {
     return this._appVersions;
   }
 
+  public get versionsLoaded() {
+    return this._versionsLoaded;
+  }
+
   public get frappeVersion() {
     return this._appVersions["frappe"];
   }

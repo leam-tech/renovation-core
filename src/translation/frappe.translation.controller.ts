@@ -15,8 +15,13 @@ import TranslationController from "./translation.controller";
  * Class handling the translation of Frappe
  */
 export default class FrappeTranslationController extends TranslationController {
+  private _translationsLoaded: boolean = false;
+
+  get translationsLoaded() {
+    return this._translationsLoaded;
+  }
   public handleError(errorId: string, error: ErrorDetail): ErrorDetail {
-    let err = {} as ErrorDetail;
+    let err: ErrorDetail;
     switch (errorId) {
       case "loadtranslation":
       default:
@@ -68,6 +73,7 @@ export default class FrappeTranslationController extends TranslationController {
         }
       }
     );
+    this._translationsLoaded = true;
     if (r.success && r.data) {
       r.data = r.data.message;
       this.setMessagesDict({ dict: r.data, lang: args.lang });
