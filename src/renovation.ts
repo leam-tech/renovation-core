@@ -20,7 +20,6 @@ import PermissionController from "./perm/perm.controller";
 import FrappeStorageController from "./storage/frappe.storage.controller";
 import StorageController from "./storage/storage.controller";
 import FrappeTranslationController from "./translation/frappe.translation.controller";
-import TranslationController from "./translation/translation.controller";
 import FrappeUIController from "./ui/frappe.ui.controller";
 import UIController from "./ui/ui.controller";
 import {
@@ -98,7 +97,7 @@ export class Renovation {
   /**
    * The `TranslationController` instance
    */
-  public translate!: TranslationController;
+  public translate!: FrappeTranslationController;
   /**
    * The `SocketIOClient` instance
    */
