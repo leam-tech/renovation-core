@@ -68,8 +68,8 @@
     "nock": "^10.0.6",
     "nock-record": "^0.3.3",
     "qs": "^6.5.2",
-    "rxjs": "^6.3.2",
-    "rxjs-compat": "^6.3.2",
+    "rxjs": "^6.6.3",
+    "rxjs-compat": "^6.6.3",
     "socket.io-client": "^2.2.0",
     "zxcvbn": "^4.4.2"
   },
