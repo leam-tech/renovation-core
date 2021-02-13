@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import qs from "qs";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from "rxjs";
 import { RenovationConfig } from "../config";
 import { ErrorDetail } from "./error";
 import { renovationError, renovationLog, renovationWarn } from "./index";
