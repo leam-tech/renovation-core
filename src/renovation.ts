@@ -1,4 +1,4 @@
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import AuthController from "./auth/auth.controller";
 import FrappeAuthController from "./auth/frappe.auth.controller";
 import { RenovationBackend, RenovationConfig } from "./config";
