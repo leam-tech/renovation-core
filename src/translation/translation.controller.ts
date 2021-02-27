@@ -62,11 +62,7 @@ export default abstract class TranslationController extends RenovationController
   public getMessage(txt: string);
   public getMessage(getMessageParams: GetMessageParams | string) {
     let args: GetMessageParams;
-    if (
-      !getMessageParams ||
-      typeof getMessageParams !== "object" ||
-      !getMessageParams.txt
-    ) {
+    if (!getMessageParams || typeof getMessageParams !== "object") {
       renovationWarn(
         "LTS-Renovation-Core",
         "getMessage(txt) is deprecated, please use the interfaced approach instead"
