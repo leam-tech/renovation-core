@@ -11,7 +11,7 @@ describe("Frappe Meta Controller", function() {
   const validUser = TestManager.primaryUser;
   const validPwd = TestManager.primaryUserPwd;
 
-  const testDoctype = "Renovation Review";
+  const testDoctype = "Renovation Dashboard";
 
   this.timeout(10000);
 
@@ -77,7 +77,7 @@ describe("Frappe Meta Controller", function() {
   });
 
   describe("getDocMeta", function() {
-    it("should return DocType Obj for Renovation Review", async function() {
+    it(`should return DocType Obj for ${testDoctype}`, async function() {
       const docResponse = await renovation.meta.getDocMeta({
         doctype: testDoctype
       });
@@ -86,14 +86,14 @@ describe("Frappe Meta Controller", function() {
       expect(docResponse.data.fields).length.gte(0);
     });
 
-    it("should return DocType Obj for Renovation Review [deprecated]", async function() {
+    it(`should return DocType Obj for ${testDoctype} [deprecated]`, async function() {
       const docResponse = await renovation.meta.getDocMeta(testDoctype);
 
       expect(docResponse.data.doctype).equals(testDoctype);
       expect(docResponse.data.fields).length.gte(0);
     });
 
-    it("should return DocType Obj for Renovation Review [deprecated]", async function() {
+    it(`should return DocType Obj for ${testDoctype} [deprecated]`, async function() {
       const docResponse = await renovation.meta.loadDocType(testDoctype);
 
       expect(docResponse.data.doctype).equals(testDoctype);
