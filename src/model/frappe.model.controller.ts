@@ -752,7 +752,8 @@ export default class FrappeModelController extends ModelController {
           file_format_type: exportReportParams.fileFormatType,
           filters: JSON.stringify(exportReportParams.filters),
           visible_idx: JSON.stringify(exportReportParams.visibleIDX),
-          include_indentation: exportReportParams.includeIndentation
+          include_indentation: exportReportParams.includeIndentation,
+          custom_columns: JSON.stringify([])
         }
       },
       "blob"
